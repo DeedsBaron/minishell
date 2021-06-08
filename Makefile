@@ -24,7 +24,7 @@ DIR_O = ./obj
 
 CC = gcc
 
-SOURCES = main1.c parser.c utils.c error.c
+SOURCES = main1.c parser.c utils.c error.c check_tokens.c
 
 SRCS = $(addprefix $(DIR_S)/,${SOURCES})
 

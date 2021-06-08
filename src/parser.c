@@ -68,7 +68,8 @@ int	count_spaces(char *s)
 		else if(*s == '|' || *s == ';')
 		{
 			counter++;
-			if(*(s + 1) != ' ' && (*(s + 1) != '|' && (*(s + 1) != ';')))
+			if(*(s + 1) != ' ' && *(s + 1) != '\0' &&(*(s + 1)
+				!= '|' && (*(s + 1) != ';')))
 				counter++;
 		}
 		else if (*s == ' '  && (*(s + 1) != '|' && (*(s + 1) != ';')))
@@ -146,6 +147,7 @@ char	*make_token(char **s)
 
 	i = 0;
 	sq_p = NULL;
+	token = NULL;
 	while ((*s)[i] != '\0')
 	{
 		if (((*s)[i] == '\'' && check_back_slash(*s + 1+ i, '\'')) || ((*s)[i] == '\"' && check_back_slash(*s + 1+ i, '\"')))
@@ -192,8 +194,14 @@ char	*make_token(char **s)
 		}
 		i++;
 	}
-	token = ft_substr((*s), 0, i);
-	return (token);
+	if ((*s)[0] != '\0')
+	{
+		token = ft_substr((*s), 0, i);
+		tmp = ft_substr((*s), i + 1, ft_strlen(*s) - i);
+		free(*s);
+		(*s) = tmp;
+	}
+	return(token);
 }
 
 char	**make_tokens_massive(char *s)
@@ -209,15 +217,14 @@ char	**make_tokens_massive(char *s)
 	mas = (char **)malloc(sizeof(char *) * (c_str + 2));
 	if (mas == NULL)
 		return (NULL);
-	while (i < c_str + 2)
+	while (i < c_str + 1)
 	{
 		mas[i] = make_token(&s);
 		i++;
 		// if (s[0] == '\0')
 		// 	break;
 	}
-	mas[i - 1] = NULL;
-	printmas(mas);
 	free(s);
+	mas[i] = NULL;
 	return (mas);
 }

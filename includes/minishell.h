@@ -16,6 +16,8 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include "../libs/libft/libft.h"
+#include "errors.h"
+
 typedef struct s_calc
 {
 	struct s_calc *left;
@@ -28,6 +30,9 @@ char		**make_tokens_massive(char *s);
 void		deletespaces(char *src);
 //utils
 void		printmas(char **mas);
+void 		free_mas(char **mas);
 //error
 void		print_error(char *str);
+//check_tokens
+void	check_tokens(char **mas);
 #endif

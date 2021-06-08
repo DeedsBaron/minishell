@@ -111,15 +111,17 @@
 
 int		main(int argc, char *argv[])
 {
-//	char *str = ft_strdup(argv[1]);
-//	char **mas= make_tokens_massive(str);
-//	while(1);
-	char *str;
+	char *str = NULL;
 	char **mas;
 	while (get_next_line(0, &str))
 	{
 		printf("str = |%s|\n", str);
+		mas = NULL;
 		mas = make_tokens_massive(str);
+		check_tokens(mas);
+		printmas(mas);
+		free_mas(mas);
 	}
+	free(str);
 	return 1;
 }

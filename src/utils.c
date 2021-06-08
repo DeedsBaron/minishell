@@ -23,3 +23,20 @@ void		printmas(char **mas)
 		i++;
 	}
 }
+
+void	free_mas(char **mas)
+{
+	int	i;
+
+	i = 0;
+	if (mas)
+	{
+		while(mas[i])
+		{
+			if (mas[i])
+				free(mas[i]);
+			i++;
+		}
+		free(mas);
+	}
+}
