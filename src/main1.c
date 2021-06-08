@@ -6,7 +6,7 @@
 /*   By: dbaron <dbaron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/03 16:54:40 by dbaron            #+#    #+#             */
-/*   Updated: 2021/06/05 17:51:50 by dbaron           ###   ########.fr       */
+/*   Updated: 2021/06/08 16:21:02 by dbaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,14 +111,15 @@
 
 int		main(int argc, char *argv[])
 {
-	// t_calc *zero_node;
-	// if (argc == 2)
-	// 	zero_node = make_tree(argv[1]);
-	// else
-	// 	printf("areguments");
-	// print_tree(zero_node, 0);
+//	char *str = ft_strdup(argv[1]);
+//	char **mas= make_tokens_massive(str);
+//	while(1);
 	char *str;
-	str = ft_strdup(argv[1]);
-	char **mas = make_tokens_massive(str);
+	char **mas;
+	while (get_next_line(0, &str))
+	{
+		printf("str = |%s|\n", str);
+		mas = make_tokens_massive(str);
+	}
 	return 1;
 }

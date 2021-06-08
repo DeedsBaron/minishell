@@ -6,7 +6,7 @@
 /*   By: dbaron <dbaron@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/03 16:56:54 by dbaron            #+#    #+#             */
-/*   Updated: 2021/06/05 17:55:25 by dbaron           ###   ########.fr       */
+/*   Updated: 2021/06/08 15:14:26 by dbaron           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,4 +28,6 @@ char		**make_tokens_massive(char *s);
 void		deletespaces(char *src);
 //utils
 void		printmas(char **mas);
+//error
+void		print_error(char *str);
 #endif

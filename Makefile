@@ -6,7 +6,7 @@
 #    By: dbaron <dbaron@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/03/29 15:52:28 by dbaron            #+#    #+#              #
-#    Updated: 2021/06/05 17:55:33 by dbaron           ###   ########.fr        #
+#    Updated: 2021/06/08 15:15:24 by dbaron           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ DIR_O = ./obj
 
 CC = gcc
 
-SOURCES = main1.c parser.c utils.c
+SOURCES = main1.c parser.c utils.c error.c
 
 SRCS = $(addprefix $(DIR_S)/,${SOURCES})
 
