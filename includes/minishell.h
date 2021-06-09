@@ -34,5 +34,5 @@ void 		free_mas(char **mas);
 //error
 void		print_error(char *str);
 //check_tokens
-void	check_tokens(char **mas);
+int	check_tokens(char **mas);
 #endif

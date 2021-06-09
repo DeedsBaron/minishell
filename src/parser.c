@@ -65,21 +65,23 @@ int	count_spaces(char *s)
 			s = s + (check_back_slash(s + 1, '\'') - s);
 		else if (*s == '\"' && check_back_slash(s + 1, '\"'))
 			s = s + (check_back_slash(s + 1, '\"') - s);
-		else if(*s == '|' || *s == ';')
+		else if(*s == '|')
 		{
 			counter++;
 			if(*(s + 1) != ' ' && *(s + 1) != '\0' &&(*(s + 1)
-				!= '|' && (*(s + 1) != ';')))
+				!= '|'))
 				counter++;
 		}
-		else if (*s == ' '  && (*(s + 1) != '|' && (*(s + 1) != ';')))
+		else if (*s == ' '  && *(s + 1) != '|')
 			counter++;
-		else if((*s == '>'  && *(s + 1) == '>') && *(s + 2) != ' ')
+		else if (((*s == '>'  && *(s + 1) == '>') || (*s == '<'  && *(s + 1) ==
+		'<')) && *(s + 2) != ' ')
 		{
 			counter++;
 			s++;
 		}
-		else if((*s == '<' || *s == '>') && (*(s + 1) != ' '))
+		else if((*s == '<' || *s == '>') && (*(s + 1) != ' ')  && (*(s + 1)
+		!= '<' && *(s + 1) != '>'))
 			counter++;
 		s++;
 	}
@@ -105,10 +107,17 @@ char *sq_case(char **s, int i, char *sq_p)
 	int end;
 	char	*token;
 	char	*tmp;
+	int		s_qoute;
 
 	end = sq_p - *s;
 	while((*s)[end] != ' ' && (*s)[end] != '\0')
+	{
 		end++;
+//		if ((*s)[end] != '\'')
+//			sq_case(s, end, (ft_strchr(*s + end + 1, '\'')));
+//		if ((*s)[end] != '\"')
+//			sq_case(s, end, (ft_strchr(*s + end + 1, '\"')));
+	}
 	token = ft_substr(*s, 0, end);
 	if ((*s)[end] != '\0')
 	{
@@ -150,8 +159,9 @@ char	*make_token(char **s)
 	token = NULL;
 	while ((*s)[i] != '\0')
 	{
-		if (((*s)[i] == '\'' && check_back_slash(*s + 1+ i, '\'')) || ((*s)[i] == '\"' && check_back_slash(*s + 1+ i, '\"')))
-			return (sq_case(s, i, check_back_slash(*s + 1+ i, (*s)[i])));
+		if (((*s)[i] == '\'' && ft_strchr(*s + 1+ i, '\'')) || ((*s)[i] ==
+		'\"' && ft_strchr(*s + 1+ i, '\"')))
+			return (sq_case(s, i, ft_strchr(*s + 1+ i, (*s)[i])));
 		if ((*s)[i] == ' ')
 		{
 			token = ft_substr((*s), 0, i);
@@ -160,7 +170,7 @@ char	*make_token(char **s)
 			(*s) = tmp;
 			return (token);
 		}
-		if (((*s)[i] == '|' || (*s)[i] == ';') && i != 0)
+		if (((*s)[i] == '|') && i != 0)
 		{
 			token = ft_substr((*s), 0, i);
 			tmp = ft_substr((*s), i, ft_strlen(*s) - i + 1);
@@ -176,7 +186,8 @@ char	*make_token(char **s)
 			(*s) = tmp;
 			return (token);
 		}
-		if ((*s)[i] == '>'  && (*s)[i + 1] == '>'  && (*s)[i + 2] != ' ')
+		if ((((*s)[i] == '>'  && (*s)[i + 1] == '>') || ((*s)[i] == '<'  &&
+		(*s)[i + 1] == '<')) && (*s)[i + 2] != ' ')
 		{
 			token = ft_substr((*s), 0, i + 2);
 			tmp = ft_substr((*s), i + 2, ft_strlen(*s) - i - 1);
@@ -184,7 +195,8 @@ char	*make_token(char **s)
 			(*s) = tmp;
 			return (token);
 		}
-		if (((*s)[i] == '<'  || (*s)[i] == '>')&& (*s)[i + 1] != ' ')
+		if (((*s)[i] == '<'  || (*s)[i] == '>') && (*s)[i + 1] != ' ' && (*s)
+		[i + 1] != '>' && (*s)[i + 1] != '<')
 		{
 			token = ft_substr((*s), 0, i + 1);
 			tmp = ft_substr((*s), i + 1, ft_strlen(*s) - i);

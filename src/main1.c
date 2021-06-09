@@ -118,6 +118,8 @@ int		main(int argc, char *argv[])
 		printf("str = |%s|\n", str);
 		mas = NULL;
 		mas = make_tokens_massive(str);
+		printmas(mas);
+		printf("::::::::::::::::::::::::::::\n");
 		check_tokens(mas);
 		printmas(mas);
 		free_mas(mas);
