@@ -54,7 +54,7 @@ char	*dollar(char *str, int *dolla)
 	i = (*dolla) + 1;
 	env = NULL;
 	while (str[i] != '\0' && str[i] != '\'' && str[i] != '\"' && str[i] != '$'
-	&& str[i] != '\\')
+	&& str[i] != ' ')
 		i++;
 	name = ft_substr(str + (*dolla), 1, i - (*dolla) - 1);
 	env = getenv(name);
@@ -81,6 +81,7 @@ char	*dollar(char *str, int *dolla)
 		res[i] = '\0';
 		free(str);
 		str = res;
+
 	}
 	free(name);
 	return (str);
@@ -145,7 +146,7 @@ int double_quote(char **str, int *j)
 		else
 			start++;
 	}
-
+	*j = end - 1;
 	return (0);
 }
 
@@ -178,6 +179,7 @@ int	check_tokens(char **mas)
 			{
 				if (single_quote(mas[i], &j) == -1)
 					return (-1);
+				j--;
 			}
 			else if(mas[i][j] == '\"')
 			{
@@ -196,7 +198,7 @@ int	check_tokens(char **mas)
 		//printf("new str = |%s|\n", mas[i]);
 		i++;
 	}
-	return (0);
+	return (1);
 }
 
 //int check_dollar_pos(char *str, int i)

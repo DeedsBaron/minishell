@@ -18,21 +18,29 @@
 #include "../libs/libft/libft.h"
 #include "errors.h"
 
-typedef struct s_calc
+typedef struct s_tree
 {
-	struct s_calc *left;
-	struct s_calc *right;
-	char	*type;
-	char    *token;
-}				t_calc;
+	struct s_tree *left;
+	struct s_tree *right;
+	char 	*command;
+	char 	*flags;
+	char 	*arguments;
+	char    type;
+}				t_tree;
 //parser
 char		**make_tokens_massive(char *s);
 void		deletespaces(char *src);
 //utils
-void		printmas(char **mas);
+void		printmas(char **mas, int level);
 void 		free_mas(char **mas);
+void 		free_tree(t_tree *node);
 //error
 void		print_error(char *str);
 //check_tokens
 int	check_tokens(char **mas);
+//tree
+void *make_tree(char **mas);
+//main
+void	insert_tabs(int level);
+
 #endif

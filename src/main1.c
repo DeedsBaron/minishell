@@ -65,36 +65,45 @@
 // 	return(zero_node);
 // }
 
-// void	insert_tabs(int level)
-// {
-// 	int i = 0;
-// 	while (i < level)
-// 	{
-// 		printf("\t");
-// 		i++;
-// 	}
-// }
+ void	insert_tabs(int level)
+ {
+ 	int i = 0;
+ 	while (i < level)
+ 	{
+ 		printf("\t");
+ 		i++;
+ 	}
+ }
 
-// void	print_tree(t_calc *zero_node, int level)
-// {
-// 	if (zero_node == NULL)
-// 	{	
-// 		insert_tabs(level);
-// 		printf("---<empty>---");
-// 		return;
-// 	}
-// 	insert_tabs(level);
-// 	if (zero_node->nb != -1)
-// 		printf("nb = %d\n", zero_node->nb);
-// 	else
-// 		printf("sign = %c\n", zero_node->sign);
-// 	print_tree(zero_node->left, level + 1);
-// 	insert_tabs(level);
-// 	printf("left\n");
-// 	print_tree(zero_node->right, level + 1);
-// 	insert_tabs(level);
-// 	printf("right\n");
-// }
+ void	print_tree(t_tree *zero_node, int level)
+ {
+ 	if (zero_node == NULL)
+ 	{
+ 		insert_tabs(level);
+ 		printf("---<empty>---");
+ 		return;
+ 	}
+ 	if (zero_node->command != NULL)
+	{
+		insert_tabs(level);
+		printf("command = |%s|\n", zero_node->command);
+		insert_tabs(level);
+		printf("flags = |%s|\n", zero_node->flags);
+		insert_tabs(level);
+		printf("arguments = |%s|\n", zero_node->arguments);
+	}
+ 	else
+	{
+		insert_tabs(level);
+		printf("type = %c\n", zero_node->type);
+	}
+	print_tree(zero_node->left, level + 1);
+ 	insert_tabs(level);
+ 	printf("left\n");
+ 	print_tree(zero_node->right, level + 1);
+ 	insert_tabs(level);
+ 	printf("right\n");
+ }
 
 // int		calculate(t_calc *zero_node)
 // {
@@ -113,15 +122,22 @@ int		main(int argc, char *argv[])
 {
 	char *str = NULL;
 	char **mas;
+	t_tree *tree;
 	while (get_next_line(0, &str))
 	{
 		printf("str = |%s|\n", str);
 		mas = NULL;
 		mas = make_tokens_massive(str);
-		printmas(mas);
+		//printmas(mas);
 		printf("::::::::::::::::::::::::::::\n");
-		check_tokens(mas);
-		printmas(mas);
+		if (check_tokens(mas) == 1)
+		{
+			//make_tree(mas);
+			tree = make_tree(mas);
+			print_tree(tree, 0);
+
+		}
+		free_tree(tree);
 		free_mas(mas);
 	}
 	free(str);

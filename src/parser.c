@@ -23,7 +23,37 @@ void	deletespaces(char *src)
 		i++;
 	while (src[i] != '\0')
 	{
-		if ((src[i] == ' ' && src[i + 1] == ' ')
+		if (src[i] == '\'')
+		{
+			src[k] = src[i];
+			k++;
+			i++;
+			while(src[i] != '\'' && src[i] != '\0')
+			{
+				src[k] = src[i];
+				k++;
+				i++;
+			}
+			src[k] = src[i];
+			k++;
+			i++;
+		}
+		else if (src[i] == '\"')
+		{
+			src[k] = src[i];
+			k++;
+			i++;
+			while(src[i] != '\"' && src[i] != '\0')
+			{
+				src[k] = src[i];
+				k++;
+				i++;
+			}
+			src[k] = src[i];
+			k++;
+			i++;
+		}
+		else if ((src[i] == ' ' && src[i + 1] == ' ')
 			|| (src[i] == ' ' && src[i + 1] == '\0'))
 			i++;
 		else
@@ -61,11 +91,23 @@ int	count_spaces(char *s)
 	counter = 0;
 	while (*(s))
 	{
-		if (*s == '\'' && check_back_slash(s + 1, '\''))
-			s = s + (check_back_slash(s + 1, '\'') - s);
-		else if (*s == '\"' && check_back_slash(s + 1, '\"'))
-			s = s + (check_back_slash(s + 1, '\"') - s);
-		else if(*s == '|')
+//		if (*s == '\'' && check_back_slash(s + 1, '\''))
+//			s = s + (check_back_slash(s + 1, '\'') - s);
+//		else if (*s == '\"' && check_back_slash(s + 1, '\"'))
+//			s = s + (check_back_slash(s + 1, '\"') - s);
+		if ((*s) == '\'')
+		{
+			s++;
+			while ((*s) != '\'' && (*s) != '\0')
+				s++;
+		}
+		if ((*s) == '\"')
+		{
+			s++;
+			while((*s) != '\"' && (*s) != '\0')
+				s++;
+		}
+		if(*s == '|'  && *(s + 1) != '\0')
 		{
 			counter++;
 			if(*(s + 1) != ' ' && *(s + 1) != '\0' &&(*(s + 1)
@@ -109,13 +151,23 @@ char *sq_case(char **s, int i, char *sq_p)
 	char	*tmp;
 	int		s_qoute;
 
-	end = sq_p - *s;
+	end = sq_p - *s + 1;
 	while((*s)[end] != ' ' && (*s)[end] != '\0')
 	{
+		if ((*s)[end] == '\'')
+		{
+			end++;
+			while((*s)[end] != '\'' && (*s)[end] != '\0')
+				end++;
+		}
+		else if ((*s)[end] == '\"')
+		{
+			end++;
+			while((*s)[end] != '\"' && (*s)[end] != '\0')
+				end++;
+		}
 		end++;
-//		if ((*s)[end] != '\'')
-//			sq_case(s, end, (ft_strchr(*s + end + 1, '\'')));
-//		if ((*s)[end] != '\"')
+			//		if ((*s)[end] != '\"')
 //			sq_case(s, end, (ft_strchr(*s + end + 1, '\"')));
 	}
 	token = ft_substr(*s, 0, end);

@@ -12,13 +12,14 @@
 
 #include "../includes/minishell.h"
 
-void		printmas(char **mas)
+void		printmas(char **mas, int level)
 {
 	int		i;
 
 	i = 0;
 	while (mas[i] != NULL)
 	{
+		insert_tabs(level);
 		printf("|%s|\n", mas[i]);
 		i++;
 	}
@@ -38,5 +39,28 @@ void	free_mas(char **mas)
 			i++;
 		}
 		free(mas);
+	}
+}
+
+void 	free_tree(t_tree *node)
+{
+	if (node)
+	{
+		if (node->command)
+			free(node->command);
+		if (node->flags)
+			free(node->flags);
+		if (node->arguments)
+			free(node->arguments);
+		if (node->left)
+		{
+			free_tree(node->left);
+			free(node->left);
+		}
+		if (node->right)
+		{
+			free_tree(node->right);
+			free(node->right);
+		}
 	}
 }
