@@ -138,7 +138,7 @@ int		main(int argc, char *argv[])
 
 		}
 		free_tree(tree);
-		free_mas(mas);
+		free(tree);
 	}
 	free(str);
 	return 1;

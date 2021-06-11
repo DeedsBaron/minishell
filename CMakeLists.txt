@@ -20,4 +20,4 @@ add_executable(minishell
         ./libs/libft/ft_lstnew.c ./libs/libft/ft_lstadd_front.c ./libs/libft/ft_lstsize.c ./libs/libft/ft_lstlast.c
         ./libs/libft/ft_lstadd_back.c ./libs/libft/ft_lstdelone.c ./libs/libft/ft_lstclear.c ./libs/libft/ft_lstiter.c
         ./libs/libft/ft_lstmap.c  ./libs/libft/get_next_line.c
-        )
+        src/tes.cpp)

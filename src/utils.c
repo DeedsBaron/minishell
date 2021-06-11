@@ -12,9 +12,9 @@
 
 #include "../includes/minishell.h"
 
-void		printmas(char **mas, int level)
+void printmas(char **mas, int level)
 {
-	int		i;
+	int i;
 
 	i = 0;
 	while (mas[i] != NULL)
@@ -25,42 +25,54 @@ void		printmas(char **mas, int level)
 	}
 }
 
-void	free_mas(char **mas)
+void free_mas(char **mas)
 {
-	int	i;
+	int i;
 
 	i = 0;
 	if (mas)
 	{
-		while(mas[i])
+		while (mas[i])
 		{
-			if (mas[i])
-				free(mas[i]);
+			free(mas[i]);
+			mas[i] = NULL;
 			i++;
 		}
 		free(mas);
+		mas = NULL;
 	}
 }
 
-void 	free_tree(t_tree *node)
+void free_tree(t_tree *node)
 {
 	if (node)
 	{
 		if (node->command)
+		{
 			free(node->command);
+			node->command = NULL;
+		}
 		if (node->flags)
+		{
 			free(node->flags);
+			node->flags = NULL;
+		}
 		if (node->arguments)
+		{
 			free(node->arguments);
+			node->arguments = NULL;
+		}
 		if (node->left)
 		{
 			free_tree(node->left);
 			free(node->left);
+			node->left = NULL;
 		}
 		if (node->right)
 		{
 			free_tree(node->right);
 			free(node->right);
+			node->right = NULL;
 		}
 	}
 }

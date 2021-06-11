@@ -2,7 +2,7 @@
 
 int mas_len(char **mas)
 {
-	int i;
+	int i = 0;
 	while(mas[i])
 		i++;
 	return(i);
@@ -24,7 +24,7 @@ char **submas(char **mas, long int start, long int len)
 		return (NULL);
 	while(i < len)
 	{
-		new_mas[i] = mas[start + i];
+		new_mas[i] = ft_strdup(mas[start + i]);
 		i++;
 	}
 	new_mas[i] = NULL;
@@ -51,12 +51,12 @@ void make_flags_arguments(char **mas, t_tree *node)
 	char *tmp;
 
 	k = 1;
-	node->command = mas[0];
-	if(mas[k] && mas[k][0] == '-')
-	{
-		node->flags  = (char *)malloc(sizeof(char) * 1);
-		node->flags[0] = '\0';
-	}
+//	node->command = ft_strdup(mas[0]);
+//	if(mas[k] && mas[k][0] == '-')
+//	{
+//		node->flags  = (char *)malloc(sizeof(char) * 1);
+//		node->flags[0] = '\0';
+//	}
 	while(mas[k] && mas[k][0] == '-')
 	{
 		tmp = ft_strjoin(node->flags, mas[k] + 1);
@@ -64,11 +64,11 @@ void make_flags_arguments(char **mas, t_tree *node)
 		node->flags = tmp;
 		k++;
 	}
-	if(mas[k])
-	{
-		node->arguments  = (char *)malloc(sizeof(char) * 1);
-		node->arguments[0] = '\0';
-	}
+//	if(mas[k])
+//	{
+//		node->arguments  = (char *)malloc(sizeof(char) * 1);
+//		node->arguments[0] = '\0';
+//	}
 
 	while(mas[k])
 	{
@@ -87,11 +87,17 @@ void make_flags_arguments(char **mas, t_tree *node)
 
 void *make_tree(char **mas)
 {
-	t_tree *zero_node = malloc(sizeof(t_tree));
+	t_tree *zero_node = (t_tree *)malloc(sizeof(t_tree));
  	zero_node->left = NULL;
  	zero_node->right = NULL;
  	zero_node->type = '0';
- 	zero_node->command = NULL;
+// 	zero_node->command = NULL;
+	zero_node->command  = (char *)malloc(sizeof(char) * 1);
+	zero_node->command[0] = '\0';
+	zero_node->flags  = (char *)malloc(sizeof(char) * 1);
+	zero_node->flags[0] = '\0';
+	zero_node->arguments  = (char *)malloc(sizeof(char) * 1);
+	zero_node->arguments[0] = '\0';
  	if (find_str(mas, "|"))
  	{
  		zero_node->type = '|';
@@ -136,6 +142,6 @@ void *make_tree(char **mas)
  		zero_node->left = NULL;
  		zero_node->right = NULL;
  	}
-//	free_mas(mas);
+	free_mas(mas);
  	return(zero_node);
 }
