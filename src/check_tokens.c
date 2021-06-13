@@ -27,21 +27,6 @@ int count_quotes(char *s, char c)
 	}
 	return (counter);
 }
-//	int	i;
-//	int k;
-//
-//	i = 0;
-//	k = 0;
-//	if (count_quotes(str, '\'') % 2 != 0)
-//		print_error(MULTILINE); /// return; ??
-//	while (str[i] != '\0')
-//	{
-//		if (str[i] == '\'')
-//			i++;
-//		else
-//			str[k++] = str[i++];
-//	}
-//	str[k] = '\0';
 
 char	*dollar(char *str, int *dolla)
 {
@@ -200,37 +185,3 @@ int	check_tokens(char **mas)
 	}
 	return (1);
 }
-
-//int check_dollar_pos(char *str, int i)
-//{
-//	int count_single;
-//	int count_double;
-//	int k;
-//
-//	while (i >= 0 && str[i] != '\\' && str[i] != '\'')
-//		i--;
-//	if (i == -1)
-//		return(0);
-//	if ((i == 0 && str[i] != '\'') || str[i] != '\\' || str[i] != '\\')
-//		return(1);
-//
-//}
-//void	check_tokens(char **mas)
-//{
-//	int i;
-//	int k;
-//
-//	i = 0;
-//	k = 0;
-//
-//	while(mas[i])
-//	{
-//		k = 0;
-//		while(mas[i][k])
-//		{
-//			k++;
-//			if (mas[i][k] == '$' && check_dollar_pos(mas[i], k) != 1)
-//
-//		i++;
-//	}
-//}

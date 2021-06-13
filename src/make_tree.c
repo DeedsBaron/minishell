@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   make_tree.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dbaron <dbaron@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/06/13 16:40:33 by dbaron            #+#    #+#             */
+/*   Updated: 2021/06/13 16:40:36 by dbaron           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 
 int mas_len(char **mas)
@@ -45,31 +57,22 @@ char **find_str(char **mas,  char *str)
 		return (NULL);
 }
 
-void make_flags_arguments(char **mas, t_tree *node)
+void make_com_fl_arg(char **mas, t_tree *node)
 {
 	int k;
 	char *tmp;
 
 	k = 1;
-//	node->command = ft_strdup(mas[0]);
-//	if(mas[k] && mas[k][0] == '-')
-//	{
-//		node->flags  = (char *)malloc(sizeof(char) * 1);
-//		node->flags[0] = '\0';
-//	}
-	while(mas[k] && mas[k][0] == '-')
+	tmp = node->command;
+	node->command = ft_strjoin(node->command, mas[0]);
+	free(tmp);
+	while (mas[k] && mas[k][0] == '-')
 	{
 		tmp = ft_strjoin(node->flags, mas[k] + 1);
-		free (node->flags);
+		free(node->flags);
 		node->flags = tmp;
 		k++;
 	}
-//	if(mas[k])
-//	{
-//		node->arguments  = (char *)malloc(sizeof(char) * 1);
-//		node->arguments[0] = '\0';
-//	}
-
 	while(mas[k])
 	{
 		tmp = ft_strjoin(node->arguments, mas[k]);
@@ -87,61 +90,60 @@ void make_flags_arguments(char **mas, t_tree *node)
 
 void *make_tree(char **mas)
 {
-	t_tree *zero_node = (t_tree *)malloc(sizeof(t_tree));
- 	zero_node->left = NULL;
- 	zero_node->right = NULL;
- 	zero_node->type = '0';
-// 	zero_node->command = NULL;
-	zero_node->command  = (char *)malloc(sizeof(char) * 1);
-	zero_node->command[0] = '\0';
-	zero_node->flags  = (char *)malloc(sizeof(char) * 1);
-	zero_node->flags[0] = '\0';
-	zero_node->arguments  = (char *)malloc(sizeof(char) * 1);
-	zero_node->arguments[0] = '\0';
+	t_tree *root = (t_tree *)malloc(sizeof(t_tree));
+	root->left = NULL;
+	root->right = NULL;
+	root->type = '0';
+	root->command  = (char *)malloc(sizeof(char) * 1);
+	root->command[0] = '\0';
+	root->flags  = (char *)malloc(sizeof(char) * 1);
+	root->flags[0] = '\0';
+	root->arguments  = (char *)malloc(sizeof(char) * 1);
+	root->arguments[0] = '\0';
  	if (find_str(mas, "|"))
  	{
- 		zero_node->type = '|';
- 		zero_node->left = make_tree(submas(mas, 0, (find_str(mas, "|") - mas)));
- 		zero_node->right = make_tree(submas(mas, (find_str(mas, "|") - mas) + 1,
-											mas_len((mas))));
+		root->type = '|';
+		root->left = make_tree(submas(mas, 0, (find_str(mas, "|") - mas)));
+		root->right = make_tree(submas(mas, (find_str(mas, "|") - mas) + 1,
+									   mas_len((mas))));
  	}
  	else if (find_str(mas, "<"))
  	{
- 		zero_node->type = '<';
- 		zero_node->left = make_tree(submas(mas, 0, (find_str(mas, "<") - mas)));
- 		zero_node->right = make_tree(submas(mas, (find_str(mas, "<") - mas) + 1,
- 											   mas_len(mas)));
+		root->type = '<';
+		root->left = make_tree(submas(mas, 0, (find_str(mas, "<") - mas)));
+		root->right = make_tree(submas(mas, (find_str(mas, "<") - mas) + 1,
+									   mas_len(mas)));
  	}
  	else if (find_str(mas, "<<"))
  	{
- 		zero_node->type = 'l';
- 		zero_node->left = make_tree(submas(mas, 0, (find_str(mas, "<<") - mas)));
- 		zero_node->right = make_tree(submas(mas, (find_str(mas, "<<") - mas) + 1,
- 											   mas_len(mas)));
+		root->type = 'l';
+		root->left = make_tree(submas(mas, 0, (find_str(mas, "<<") - mas)));
+		root->right = make_tree(submas(mas, (find_str(mas, "<<") - mas) + 1,
+									   mas_len(mas)));
  	}
  	else if (find_str(mas, ">"))
  	{
- 		zero_node->type = '>';
- 		zero_node->left = make_tree(submas(mas, 0, (find_str(mas, ">") - mas)));
- 		zero_node->right = make_tree(submas(mas, (find_str(mas, ">") - mas) + 1,
- 											   mas_len(mas)));
+		root->type = '>';
+		root->left = make_tree(submas(mas, 0, (find_str(mas, ">") - mas)));
+		root->right = make_tree(submas(mas, (find_str(mas, ">") - mas) + 1,
+									   mas_len(mas)));
  	}
 	else if (find_str(mas, ">>"))
 	{
-		zero_node->type = '>';
-		zero_node->left = make_tree(submas(mas, 0, (find_str(mas, ">>") -
-		mas)));
-		zero_node->right = make_tree(submas(mas, (find_str(mas, ">>") - mas)
-		+ 1,
-											mas_len(mas)));
+		root->type = '>';
+		root->left = make_tree(submas(mas, 0, (find_str(mas, ">>") -
+											   mas)));
+		root->right = make_tree(submas(mas, (find_str(mas, ">>") - mas)
+											+ 1,
+									   mas_len(mas)));
 	}
  	else
  	{
- 		zero_node->type = 'c';
- 		make_flags_arguments(mas, zero_node);
- 		zero_node->left = NULL;
- 		zero_node->right = NULL;
+		root->type = 'c';
+ 		make_com_fl_arg(mas, root);
+		root->left = NULL;
+		root->right = NULL;
  	}
 	free_mas(mas);
- 	return(zero_node);
+ 	return(root);
 }

@@ -25,6 +25,7 @@ typedef struct s_tree
 	char 	*command;
 	char 	*flags;
 	char 	*arguments;
+	char 	*file_name;
 	char    type;
 }				t_tree;
 //parser

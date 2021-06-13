@@ -1,0 +1,32 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/dbaron/Desktop/42/minishell/includes/errors.h
+
+/Users/dbaron/Desktop/42/minishell/includes/minishell.h
+stdio.h
+-
+stdlib.h
+-
+unistd.h
+-
+../libs/libft/libft.h
+/Users/dbaron/Desktop/42/minishell/libs/libft/libft.h
+errors.h
+/Users/dbaron/Desktop/42/minishell/includes/errors.h
+
+/Users/dbaron/Desktop/42/minishell/libs/libft/libft.h
+stdlib.h
+-
+unistd.h
+-
+
+/Users/dbaron/Desktop/42/minishell/src/exec_tree.c
+../includes/minishell.h
+/Users/dbaron/Desktop/42/minishell/includes/minishell.h
+

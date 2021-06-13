@@ -9,6 +9,7 @@ add_executable(minishell
         src/main1.c
         src/error.c
         src/make_tree.c
+        src/exec_tree.c
         src/check_tokens.c
         ./libs/libft/ft_memset.c ./libs/libft/ft_bzero.c ./libs/libft/ft_memcpy.c ./libs/libft/ft_memccpy.c ./libs/libft/ft_memmove.c
         ./libs/libft/ft_strlen.c ./libs/libft/ft_strlcpy.c ./libs/libft/ft_atoi.c ./libs/libft/ft_isalpha.c ./libs/libft/ft_isdigit.c

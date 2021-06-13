@@ -66,24 +66,6 @@ void	deletespaces(char *src)
 	src[k] = '\0';
 }
 
-char *check_back_slash(char *s, char c)
-{
-	unsigned int	i;
-
-	i = 0;
-	while (s[i])
-	{
-		if (s[i] == '\\' && s[i + 1] == (char)c)
-			i = i + 2;
-		if (s[i] == (char)c)
-			return ((char *)&s[i]);
-		i++;
-	}
-	if ((char)c == s[i])
-		return ((char *)&s[i]);
-	return (NULL);
-}
-
 int	count_spaces(char *s)
 {
 	int	counter;
@@ -91,10 +73,6 @@ int	count_spaces(char *s)
 	counter = 0;
 	while (*(s))
 	{
-//		if (*s == '\'' && check_back_slash(s + 1, '\''))
-//			s = s + (check_back_slash(s + 1, '\'') - s);
-//		else if (*s == '\"' && check_back_slash(s + 1, '\"'))
-//			s = s + (check_back_slash(s + 1, '\"') - s);
 		if ((*s) == '\'')
 		{
 			s++;
@@ -130,26 +108,11 @@ int	count_spaces(char *s)
 	return (counter);
 }
 
-int		find_single_qoute(char *s)
-{
-	int		i;
-
-	i = 0;
-	while (s[i] != '\0')
-	{
-		if (s[i] == '\'')
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
 char *sq_case(char **s, int i, char *sq_p)
 {
 	int end;
 	char	*token;
 	char	*tmp;
-	int		s_qoute;
 
 	end = sq_p - *s + 1;
 	while((*s)[end] != ' ' && (*s)[end] != '\0')
@@ -167,28 +130,7 @@ char *sq_case(char **s, int i, char *sq_p)
 				end++;
 		}
 		end++;
-			//		if ((*s)[end] != '\"')
-//			sq_case(s, end, (ft_strchr(*s + end + 1, '\"')));
 	}
-	token = ft_substr(*s, 0, end);
-	if ((*s)[end] != '\0')
-	{
-			tmp = ft_substr(*s, end + 1, ft_strlen(*s) - end);
-			free(*s);
-			*s = tmp;
-	}
-	return (token);
-}
-
-char *dq_case(char **s, int i, char *sq_p)
-{
-	int end;
-	char	*token;
-	char	*tmp;
-
-	end = sq_p - *s;
-	while((*s)[end] != ' ' && (*s)[end] != '\0')
-		end++;
 	token = ft_substr(*s, 0, end);
 	if ((*s)[end] != '\0')
 	{
@@ -285,8 +227,6 @@ char	**make_tokens_massive(char *s)
 	{
 		mas[i] = make_token(&s);
 		i++;
-		// if (s[0] == '\0')
-		// 	break;
 	}
 	free(s);
 	mas[i] = NULL;

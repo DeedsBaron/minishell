@@ -11,60 +11,6 @@
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-// int where_smb(char *str, char c)
-// {
-// 	int i = 0;
-// 	while (str[i] != c && str[i] != '\0')
-// 		i++;
-// 	return (i);
-// }
-
-// void *make_tree(char *str)
-// {
-// 	t_calc *zero_node = malloc(sizeof(t_calc));
-// 	t_calc *left = malloc(sizeof(t_calc));
-// 	t_calc *right = malloc(sizeof(t_calc));
-// 	zero_node->left = NULL;
-// 	zero_node->right = NULL;
-// 	zero_node->type = "NULL";
-// 	zero_node->token = '0';
-// 	if (ft_strchr(str, '+'))
-// 	{
-// 		zero_node->sign = '+';
-// 		zero_node->left = make_tree(ft_substr(str, 0, where_smb(str, '|')));
-// 		zero_node->right = make_tree(ft_substr(str, where_smb(str, '+') + 1,
-// 					ft_strlen(str)));
-// 	}
-// 	else if (ft_strchr(str, '-'))
-// 	{
-// 		zero_node->sign = '-';
-// 		zero_node->left = make_tree(ft_substr(str, 0, where_smb(str, '-')));
-// 		zero_node->right = make_tree(ft_substr(str, where_smb(str, '-') + 1,
-// 											   ft_strlen(str)));
-// 	}
-// 	else if (ft_strchr(str, '*'))
-// 	{
-// 		zero_node->sign = '*';
-// 		zero_node->left = make_tree(ft_substr(str, 0, where_smb(str, '*')));
-// 		zero_node->right = make_tree(ft_substr(str, where_smb(str, '*') + 1,
-// 											   ft_strlen(str)));
-// 	}
-// 	else if (ft_strchr(str, '\\'))
-// 	{
-// 		zero_node->sign = '\\';
-// 		zero_node->left = make_tree(ft_substr(str, 0, where_smb(str, '\\')));
-// 		zero_node->right = make_tree(ft_substr(str, where_smb(str, '\\') + 1,
-// 											   ft_strlen(str)));
-// 	}
-// 	else
-// 	{
-// 		zero_node->nb = ft_atoi(str);
-// 		zero_node->left = NULL;
-// 		zero_node->right = NULL;
-// 	}
-// 	return(zero_node);
-// }
-
  void	insert_tabs(int level)
  {
  	int i = 0;
@@ -85,6 +31,8 @@
  	}
  	if (zero_node->command != NULL)
 	{
+		insert_tabs(level);
+		printf("type = |%c|\n", zero_node->type);
 		insert_tabs(level);
 		printf("command = |%s|\n", zero_node->command);
 		insert_tabs(level);
