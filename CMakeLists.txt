@@ -4,6 +4,7 @@ project(minishell C)
 set(CMAKE_C_STANDARD 99)
 
 add_executable(minishell
+        test.c
         src/utils.c
         src/parser.c
         src/main1.c
@@ -20,5 +21,5 @@ add_executable(minishell
         ./libs/libft/ft_putendl_fd.c ./libs/libft/ft_putnbr_fd.c ./libs/libft/ft_strtrim.c ./libs/libft/ft_itoa.c
         ./libs/libft/ft_lstnew.c ./libs/libft/ft_lstadd_front.c ./libs/libft/ft_lstsize.c ./libs/libft/ft_lstlast.c
         ./libs/libft/ft_lstadd_back.c ./libs/libft/ft_lstdelone.c ./libs/libft/ft_lstclear.c ./libs/libft/ft_lstiter.c
-        ./libs/libft/ft_lstmap.c  ./libs/libft/get_next_line.c
+        ./libs/libft/ft_lstmap.c  ./libs/libft/get_next_line.c ./libs/libft/ft_strcmp.c
         )

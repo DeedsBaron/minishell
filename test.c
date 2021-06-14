@@ -1,19 +1,23 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   test.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: dbaron <dbaron@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/06/05 17:43:08 by dbaron            #+#    #+#             */
-/*   Updated: 2021/06/05 17:47:05 by dbaron           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+#include "./includes/minishell.h"
+#include "libs/libft/libft.h"
 
-#include "includes/minishell.h"
-
-int	main(void)
-{ 
-	printf("new str = %s", deletespaces(" echo "));
-	return (1);
+int main(void)
+{
+	char *str = getenv("PATH");
+	char **mas = ft_split(str, ':');
+	char *name;
+	struct dirent *entry;
+	//printmas(mas, 0);
+	printf("::::::::::::::::::::::::::\n");
+	DIR *folder = opendir("/bin");
+	while ((entry = readdir(folder)) != NULL)
+	{
+		if (ft_strcmp(entry->d_name, "cat") == 0)
+			printf("YES");
+		//free(entry);
+	}
+	closedir(folder);
+	//printf("%s\n", str);
+	//printf("res = %d\n", ft_strcmp("echo", "echo1"));
+	return (0);
 }

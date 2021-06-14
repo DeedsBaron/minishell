@@ -34,6 +34,7 @@ set(CMAKE_DEPENDS_CHECK_C
   "/Users/dbaron/Desktop/42/minishell/libs/libft/ft_putstr_fd.c" "/Users/dbaron/Desktop/42/minishell/cmake-build-debug/CMakeFiles/minishell.dir/libs/libft/ft_putstr_fd.c.o"
   "/Users/dbaron/Desktop/42/minishell/libs/libft/ft_split.c" "/Users/dbaron/Desktop/42/minishell/cmake-build-debug/CMakeFiles/minishell.dir/libs/libft/ft_split.c.o"
   "/Users/dbaron/Desktop/42/minishell/libs/libft/ft_strchr.c" "/Users/dbaron/Desktop/42/minishell/cmake-build-debug/CMakeFiles/minishell.dir/libs/libft/ft_strchr.c.o"
+  "/Users/dbaron/Desktop/42/minishell/libs/libft/ft_strcmp.c" "/Users/dbaron/Desktop/42/minishell/cmake-build-debug/CMakeFiles/minishell.dir/libs/libft/ft_strcmp.c.o"
   "/Users/dbaron/Desktop/42/minishell/libs/libft/ft_strdup.c" "/Users/dbaron/Desktop/42/minishell/cmake-build-debug/CMakeFiles/minishell.dir/libs/libft/ft_strdup.c.o"
   "/Users/dbaron/Desktop/42/minishell/libs/libft/ft_strjoin.c" "/Users/dbaron/Desktop/42/minishell/cmake-build-debug/CMakeFiles/minishell.dir/libs/libft/ft_strjoin.c.o"
   "/Users/dbaron/Desktop/42/minishell/libs/libft/ft_strlcat.c" "/Users/dbaron/Desktop/42/minishell/cmake-build-debug/CMakeFiles/minishell.dir/libs/libft/ft_strlcat.c.o"
@@ -55,6 +56,7 @@ set(CMAKE_DEPENDS_CHECK_C
   "/Users/dbaron/Desktop/42/minishell/src/make_tree.c" "/Users/dbaron/Desktop/42/minishell/cmake-build-debug/CMakeFiles/minishell.dir/src/make_tree.c.o"
   "/Users/dbaron/Desktop/42/minishell/src/parser.c" "/Users/dbaron/Desktop/42/minishell/cmake-build-debug/CMakeFiles/minishell.dir/src/parser.c.o"
   "/Users/dbaron/Desktop/42/minishell/src/utils.c" "/Users/dbaron/Desktop/42/minishell/cmake-build-debug/CMakeFiles/minishell.dir/src/utils.c.o"
+  "/Users/dbaron/Desktop/42/minishell/test.c" "/Users/dbaron/Desktop/42/minishell/cmake-build-debug/CMakeFiles/minishell.dir/test.c.o"
   )
 set(CMAKE_C_COMPILER_ID "AppleClang")
 

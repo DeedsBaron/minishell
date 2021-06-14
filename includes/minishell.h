@@ -17,6 +17,8 @@
 #include <unistd.h>
 #include "../libs/libft/libft.h"
 #include "errors.h"
+#include <sys/types.h>
+#include <dirent.h>
 
 typedef struct s_tree
 {
@@ -43,5 +45,7 @@ int	check_tokens(char **mas);
 void *make_tree(char **mas);
 //main
 void	insert_tabs(int level);
+//exec_tree
+void 	exec_tree(t_tree *root);
 
 #endif

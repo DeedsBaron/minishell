@@ -168,6 +168,9 @@
 		<Unit filename="/Users/dbaron/Desktop/42/minishell/libs/libft/ft_strchr.c">
 			<Option target="minishell"/>
 		</Unit>
+		<Unit filename="/Users/dbaron/Desktop/42/minishell/libs/libft/ft_strcmp.c">
+			<Option target="minishell"/>
+		</Unit>
 		<Unit filename="/Users/dbaron/Desktop/42/minishell/libs/libft/ft_strdup.c">
 			<Option target="minishell"/>
 		</Unit>
@@ -229,6 +232,9 @@
 			<Option target="minishell"/>
 		</Unit>
 		<Unit filename="/Users/dbaron/Desktop/42/minishell/src/utils.c">
+			<Option target="minishell"/>
+		</Unit>
+		<Unit filename="/Users/dbaron/Desktop/42/minishell/test.c">
 			<Option target="minishell"/>
 		</Unit>
 		<Unit filename="/Users/dbaron/Desktop/42/minishell/CMakeLists.txt">

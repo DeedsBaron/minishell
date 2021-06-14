@@ -91,6 +91,9 @@ CMakeFiles/minishell.dir/libs/libft/ft_split.c.o: ../libs/libft/libft.h
 CMakeFiles/minishell.dir/libs/libft/ft_strchr.c.o: ../libs/libft/ft_strchr.c
 CMakeFiles/minishell.dir/libs/libft/ft_strchr.c.o: ../libs/libft/libft.h
 
+CMakeFiles/minishell.dir/libs/libft/ft_strcmp.c.o: ../libs/libft/ft_strcmp.c
+CMakeFiles/minishell.dir/libs/libft/ft_strcmp.c.o: ../libs/libft/libft.h
+
 CMakeFiles/minishell.dir/libs/libft/ft_strdup.c.o: ../libs/libft/ft_strdup.c
 CMakeFiles/minishell.dir/libs/libft/ft_strdup.c.o: ../libs/libft/libft.h
 
@@ -167,4 +170,9 @@ CMakeFiles/minishell.dir/src/utils.c.o: ../includes/errors.h
 CMakeFiles/minishell.dir/src/utils.c.o: ../includes/minishell.h
 CMakeFiles/minishell.dir/src/utils.c.o: ../libs/libft/libft.h
 CMakeFiles/minishell.dir/src/utils.c.o: ../src/utils.c
+
+CMakeFiles/minishell.dir/test.c.o: ../includes/errors.h
+CMakeFiles/minishell.dir/test.c.o: ../includes/minishell.h
+CMakeFiles/minishell.dir/test.c.o: ../libs/libft/libft.h
+CMakeFiles/minishell.dir/test.c.o: ../test.c
 

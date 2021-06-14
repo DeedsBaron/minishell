@@ -12,6 +12,16 @@
 
 #include "../includes/minishell.h"
 
+void	insert_tabs(int level)
+{
+	int i = 0;
+	while (i < level)
+	{
+		printf("\t");
+		i++;
+	}
+}
+
 void printmas(char **mas, int level)
 {
 	int i;

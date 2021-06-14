@@ -952,6 +952,33 @@ libs/libft/ft_strchr.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/minishell.dir/build.make CMakeFiles/minishell.dir/libs/libft/ft_strchr.c.s
 .PHONY : libs/libft/ft_strchr.c.s
 
+libs/libft/ft_strcmp.o: libs/libft/ft_strcmp.c.o
+
+.PHONY : libs/libft/ft_strcmp.o
+
+# target to build an object file
+libs/libft/ft_strcmp.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/minishell.dir/build.make CMakeFiles/minishell.dir/libs/libft/ft_strcmp.c.o
+.PHONY : libs/libft/ft_strcmp.c.o
+
+libs/libft/ft_strcmp.i: libs/libft/ft_strcmp.c.i
+
+.PHONY : libs/libft/ft_strcmp.i
+
+# target to preprocess a source file
+libs/libft/ft_strcmp.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/minishell.dir/build.make CMakeFiles/minishell.dir/libs/libft/ft_strcmp.c.i
+.PHONY : libs/libft/ft_strcmp.c.i
+
+libs/libft/ft_strcmp.s: libs/libft/ft_strcmp.c.s
+
+.PHONY : libs/libft/ft_strcmp.s
+
+# target to generate assembly for a file
+libs/libft/ft_strcmp.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/minishell.dir/build.make CMakeFiles/minishell.dir/libs/libft/ft_strcmp.c.s
+.PHONY : libs/libft/ft_strcmp.c.s
+
 libs/libft/ft_strdup.o: libs/libft/ft_strdup.c.o
 
 .PHONY : libs/libft/ft_strdup.o
@@ -1519,6 +1546,33 @@ src/utils.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/minishell.dir/build.make CMakeFiles/minishell.dir/src/utils.c.s
 .PHONY : src/utils.c.s
 
+test.o: test.c.o
+
+.PHONY : test.o
+
+# target to build an object file
+test.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/minishell.dir/build.make CMakeFiles/minishell.dir/test.c.o
+.PHONY : test.c.o
+
+test.i: test.c.i
+
+.PHONY : test.i
+
+# target to preprocess a source file
+test.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/minishell.dir/build.make CMakeFiles/minishell.dir/test.c.i
+.PHONY : test.c.i
+
+test.s: test.c.s
+
+.PHONY : test.s
+
+# target to generate assembly for a file
+test.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/minishell.dir/build.make CMakeFiles/minishell.dir/test.c.s
+.PHONY : test.c.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -1618,6 +1672,9 @@ help:
 	@echo "... libs/libft/ft_strchr.o"
 	@echo "... libs/libft/ft_strchr.i"
 	@echo "... libs/libft/ft_strchr.s"
+	@echo "... libs/libft/ft_strcmp.o"
+	@echo "... libs/libft/ft_strcmp.i"
+	@echo "... libs/libft/ft_strcmp.s"
 	@echo "... libs/libft/ft_strdup.o"
 	@echo "... libs/libft/ft_strdup.i"
 	@echo "... libs/libft/ft_strdup.s"
@@ -1681,6 +1738,9 @@ help:
 	@echo "... src/utils.o"
 	@echo "... src/utils.i"
 	@echo "... src/utils.s"
+	@echo "... test.o"
+	@echo "... test.i"
+	@echo "... test.s"
 .PHONY : help
 
 

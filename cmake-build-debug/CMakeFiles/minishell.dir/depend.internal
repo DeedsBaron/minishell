@@ -91,6 +91,9 @@ CMakeFiles/minishell.dir/libs/libft/ft_split.c.o
 CMakeFiles/minishell.dir/libs/libft/ft_strchr.c.o
  /Users/dbaron/Desktop/42/minishell/libs/libft/ft_strchr.c
  /Users/dbaron/Desktop/42/minishell/libs/libft/libft.h
+CMakeFiles/minishell.dir/libs/libft/ft_strcmp.c.o
+ /Users/dbaron/Desktop/42/minishell/libs/libft/ft_strcmp.c
+ /Users/dbaron/Desktop/42/minishell/libs/libft/libft.h
 CMakeFiles/minishell.dir/libs/libft/ft_strdup.c.o
  /Users/dbaron/Desktop/42/minishell/libs/libft/ft_strdup.c
  /Users/dbaron/Desktop/42/minishell/libs/libft/libft.h
@@ -168,3 +171,8 @@ CMakeFiles/minishell.dir/src/utils.c.o
  /Users/dbaron/Desktop/42/minishell/includes/minishell.h
  /Users/dbaron/Desktop/42/minishell/libs/libft/libft.h
  /Users/dbaron/Desktop/42/minishell/src/utils.c
+CMakeFiles/minishell.dir/test.c.o
+ /Users/dbaron/Desktop/42/minishell/includes/errors.h
+ /Users/dbaron/Desktop/42/minishell/includes/minishell.h
+ /Users/dbaron/Desktop/42/minishell/libs/libft/libft.h
+ /Users/dbaron/Desktop/42/minishell/test.c

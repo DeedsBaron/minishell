@@ -29,6 +29,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/minishell.dir/libs/libft/ft_putstr_fd.c.o"
   "CMakeFiles/minishell.dir/libs/libft/ft_split.c.o"
   "CMakeFiles/minishell.dir/libs/libft/ft_strchr.c.o"
+  "CMakeFiles/minishell.dir/libs/libft/ft_strcmp.c.o"
   "CMakeFiles/minishell.dir/libs/libft/ft_strdup.c.o"
   "CMakeFiles/minishell.dir/libs/libft/ft_strjoin.c.o"
   "CMakeFiles/minishell.dir/libs/libft/ft_strlcat.c.o"
@@ -50,6 +51,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/minishell.dir/src/make_tree.c.o"
   "CMakeFiles/minishell.dir/src/parser.c.o"
   "CMakeFiles/minishell.dir/src/utils.c.o"
+  "CMakeFiles/minishell.dir/test.c.o"
   "minishell"
   "minishell.pdb"
 )

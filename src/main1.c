@@ -11,15 +11,6 @@
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
- void	insert_tabs(int level)
- {
- 	int i = 0;
- 	while (i < level)
- 	{
- 		printf("\t");
- 		i++;
- 	}
- }
 
  void	print_tree(t_tree *zero_node, int level)
  {
@@ -85,6 +76,8 @@ int		main(int argc, char *argv[])
 			print_tree(tree, 0);
 
 		}
+		if (tree)
+			exec_tree(tree);
 		free_tree(tree);
 		free(tree);
 	}
