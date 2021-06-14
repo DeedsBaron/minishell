@@ -12,7 +12,7 @@
 
 #include "../includes/minishell.h"
 
-char 	**make_bin_folders(char )
+char 	**make_bin_folders(char );
 
 void	exec_echo(t_tree *root)
 {
@@ -30,7 +30,7 @@ void 	exec_command(t_tree *root)
 {
 	char	**folders;
 
-	folders = make_bin_folders(folders)
+	//folders = make_bin_folders(folders);
 	if (ft_strcmp(root->command, "echo") == 0)
 		exec_echo(root);
 }
