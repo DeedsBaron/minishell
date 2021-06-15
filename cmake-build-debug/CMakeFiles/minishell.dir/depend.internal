@@ -136,6 +136,11 @@ CMakeFiles/minishell.dir/libs/libft/ft_toupper.c.o
 CMakeFiles/minishell.dir/libs/libft/get_next_line.c.o
  /Users/dbaron/Desktop/42/minishell/libs/libft/get_next_line.c
  /Users/dbaron/Desktop/42/minishell/libs/libft/libft.h
+CMakeFiles/minishell.dir/src/builtins.c.o
+ /Users/dbaron/Desktop/42/minishell/includes/errors.h
+ /Users/dbaron/Desktop/42/minishell/includes/minishell.h
+ /Users/dbaron/Desktop/42/minishell/libs/libft/libft.h
+ /Users/dbaron/Desktop/42/minishell/src/builtins.c
 CMakeFiles/minishell.dir/src/check_tokens.c.o
  /Users/dbaron/Desktop/42/minishell/includes/errors.h
  /Users/dbaron/Desktop/42/minishell/includes/minishell.h
@@ -171,8 +176,3 @@ CMakeFiles/minishell.dir/src/utils.c.o
  /Users/dbaron/Desktop/42/minishell/includes/minishell.h
  /Users/dbaron/Desktop/42/minishell/libs/libft/libft.h
  /Users/dbaron/Desktop/42/minishell/src/utils.c
-CMakeFiles/minishell.dir/test.c.o
- /Users/dbaron/Desktop/42/minishell/includes/errors.h
- /Users/dbaron/Desktop/42/minishell/includes/minishell.h
- /Users/dbaron/Desktop/42/minishell/libs/libft/libft.h
- /Users/dbaron/Desktop/42/minishell/test.c

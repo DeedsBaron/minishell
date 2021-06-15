@@ -44,6 +44,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/minishell.dir/libs/libft/ft_tolower.c.o"
   "CMakeFiles/minishell.dir/libs/libft/ft_toupper.c.o"
   "CMakeFiles/minishell.dir/libs/libft/get_next_line.c.o"
+  "CMakeFiles/minishell.dir/src/builtins.c.o"
   "CMakeFiles/minishell.dir/src/check_tokens.c.o"
   "CMakeFiles/minishell.dir/src/error.c.o"
   "CMakeFiles/minishell.dir/src/exec_tree.c.o"
@@ -51,7 +52,6 @@ file(REMOVE_RECURSE
   "CMakeFiles/minishell.dir/src/make_tree.c.o"
   "CMakeFiles/minishell.dir/src/parser.c.o"
   "CMakeFiles/minishell.dir/src/utils.c.o"
-  "CMakeFiles/minishell.dir/test.c.o"
   "minishell"
   "minishell.pdb"
 )

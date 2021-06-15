@@ -19,15 +19,15 @@
 #include "errors.h"
 #include <sys/types.h>
 #include <dirent.h>
-
+#include <string.h>
+#include <errno.h>
+#include <fcntl.h>
 typedef struct s_tree
 {
 	struct s_tree *left;
 	struct s_tree *right;
 	char 	*command;
-	char 	*flags;
-	char 	*arguments;
-	char 	*file_name;
+	char 	**f_arg;
 	char    type;
 }				t_tree;
 //parser
@@ -38,7 +38,7 @@ void		printmas(char **mas, int level);
 void 		free_mas(char **mas);
 void 		free_tree(t_tree *node);
 //error
-void		print_error(char *str);
+void		print_error(char *command, char *argument);
 //check_tokens
 int	check_tokens(char **mas);
 //tree
@@ -46,6 +46,11 @@ void *make_tree(char **mas);
 //main
 void	insert_tabs(int level);
 //exec_tree
-void 	exec_tree(t_tree *root);
+void 	exec_tree(t_tree *root, char *envp[]);
+//builtins
+void	exec_env(char *envp[]);
+void	exec_echo(t_tree *root);
+void	exec_pwd(void);
+void 	exec_cd(t_tree *root);
 
 #endif

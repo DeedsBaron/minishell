@@ -136,6 +136,11 @@ CMakeFiles/minishell.dir/libs/libft/ft_toupper.c.o: ../libs/libft/libft.h
 CMakeFiles/minishell.dir/libs/libft/get_next_line.c.o: ../libs/libft/get_next_line.c
 CMakeFiles/minishell.dir/libs/libft/get_next_line.c.o: ../libs/libft/libft.h
 
+CMakeFiles/minishell.dir/src/builtins.c.o: ../includes/errors.h
+CMakeFiles/minishell.dir/src/builtins.c.o: ../includes/minishell.h
+CMakeFiles/minishell.dir/src/builtins.c.o: ../libs/libft/libft.h
+CMakeFiles/minishell.dir/src/builtins.c.o: ../src/builtins.c
+
 CMakeFiles/minishell.dir/src/check_tokens.c.o: ../includes/errors.h
 CMakeFiles/minishell.dir/src/check_tokens.c.o: ../includes/minishell.h
 CMakeFiles/minishell.dir/src/check_tokens.c.o: ../libs/libft/libft.h
@@ -170,9 +175,4 @@ CMakeFiles/minishell.dir/src/utils.c.o: ../includes/errors.h
 CMakeFiles/minishell.dir/src/utils.c.o: ../includes/minishell.h
 CMakeFiles/minishell.dir/src/utils.c.o: ../libs/libft/libft.h
 CMakeFiles/minishell.dir/src/utils.c.o: ../src/utils.c
-
-CMakeFiles/minishell.dir/test.c.o: ../includes/errors.h
-CMakeFiles/minishell.dir/test.c.o: ../includes/minishell.h
-CMakeFiles/minishell.dir/test.c.o: ../libs/libft/libft.h
-CMakeFiles/minishell.dir/test.c.o: ../test.c
 

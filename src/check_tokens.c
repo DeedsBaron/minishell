@@ -85,7 +85,7 @@ int single_quote(char *str, int *j)
 		str[k++] = str[i++];
 	if (str[i] == '\0')
 	{
-		print_error(MULTILINE);
+		printf("%s\n", MULTILINE);
 		return (-1);
 	}
 	*j = k;
@@ -111,7 +111,7 @@ int double_quote(char **str, int *j)
 									  (*str)[k++] = (*str)[i++];
 	if ((*str)[i] == '\0')
 	{
-		print_error(MULTILINE);
+		printf("%s\n", MULTILINE);
 		return (-1);
 	}
 	end = k;

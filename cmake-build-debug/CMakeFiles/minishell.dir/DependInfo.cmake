@@ -49,6 +49,7 @@ set(CMAKE_DEPENDS_CHECK_C
   "/Users/dbaron/Desktop/42/minishell/libs/libft/ft_tolower.c" "/Users/dbaron/Desktop/42/minishell/cmake-build-debug/CMakeFiles/minishell.dir/libs/libft/ft_tolower.c.o"
   "/Users/dbaron/Desktop/42/minishell/libs/libft/ft_toupper.c" "/Users/dbaron/Desktop/42/minishell/cmake-build-debug/CMakeFiles/minishell.dir/libs/libft/ft_toupper.c.o"
   "/Users/dbaron/Desktop/42/minishell/libs/libft/get_next_line.c" "/Users/dbaron/Desktop/42/minishell/cmake-build-debug/CMakeFiles/minishell.dir/libs/libft/get_next_line.c.o"
+  "/Users/dbaron/Desktop/42/minishell/src/builtins.c" "/Users/dbaron/Desktop/42/minishell/cmake-build-debug/CMakeFiles/minishell.dir/src/builtins.c.o"
   "/Users/dbaron/Desktop/42/minishell/src/check_tokens.c" "/Users/dbaron/Desktop/42/minishell/cmake-build-debug/CMakeFiles/minishell.dir/src/check_tokens.c.o"
   "/Users/dbaron/Desktop/42/minishell/src/error.c" "/Users/dbaron/Desktop/42/minishell/cmake-build-debug/CMakeFiles/minishell.dir/src/error.c.o"
   "/Users/dbaron/Desktop/42/minishell/src/exec_tree.c" "/Users/dbaron/Desktop/42/minishell/cmake-build-debug/CMakeFiles/minishell.dir/src/exec_tree.c.o"
@@ -56,7 +57,6 @@ set(CMAKE_DEPENDS_CHECK_C
   "/Users/dbaron/Desktop/42/minishell/src/make_tree.c" "/Users/dbaron/Desktop/42/minishell/cmake-build-debug/CMakeFiles/minishell.dir/src/make_tree.c.o"
   "/Users/dbaron/Desktop/42/minishell/src/parser.c" "/Users/dbaron/Desktop/42/minishell/cmake-build-debug/CMakeFiles/minishell.dir/src/parser.c.o"
   "/Users/dbaron/Desktop/42/minishell/src/utils.c" "/Users/dbaron/Desktop/42/minishell/cmake-build-debug/CMakeFiles/minishell.dir/src/utils.c.o"
-  "/Users/dbaron/Desktop/42/minishell/test.c" "/Users/dbaron/Desktop/42/minishell/cmake-build-debug/CMakeFiles/minishell.dir/test.c.o"
   )
 set(CMAKE_C_COMPILER_ID "AppleClang")
 

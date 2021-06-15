@@ -24,7 +24,7 @@ DIR_O = ./obj
 
 CC = gcc
 
-SOURCES = main1.c parser.c utils.c error.c check_tokens.c make_tree.c exec_tree.c
+SOURCES = main1.c parser.c utils.c error.c check_tokens.c make_tree.c exec_tree.c builtins.c
 
 SRCS = $(addprefix $(DIR_S)/,${SOURCES})
 
@@ -49,12 +49,8 @@ $(NAME): $(OBJS)
 	$(CC) $(FLAGS) $^ -o $@ $(LIB) -g
 	chmod 777 $(NAME)
 norm:
-	@echo "\033[0;32mnorminette $(DIR_GS)/*.c\033[0m"
-	@norminette $(DIR_GS)/*.c
-	@echo "\033[0;32mnorminette $(DIR_BS)/*.c\033[0m"
-	@norminette $(DIR_BS)/*.c
-	@echo "\033[0;32mnorminette $(DIR_MS)/*.c\033[0m"
-	@norminette $(DIR_MS)/*.c
+	@echo "\033[0;32mnorminette $(DIR_S)/*.c\033[0m"
+	@norminette $(DIR_S)/*.c
 	@echo "\033[0;32mnorminette includes/*.h\033[0m"
 	@norminette includes/*.h
 	@echo "\033[0;32mnorminette $(LIBFT)/*.c\033[0m"
@@ -64,6 +60,8 @@ clean:
 	rm -rf $(DIR_O)
 	make clean -C $(LIBFT)
 
+test:
+	gcc test.c src/utils.c libs/libft/libft.a
 fclean: clean
 	@echo "\033[0;33m"
 	rm -f $(NAME)

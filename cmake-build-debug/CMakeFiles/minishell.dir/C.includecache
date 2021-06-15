@@ -23,6 +23,12 @@ sys/types.h
 -
 dirent.h
 -
+string.h
+-
+errno.h
+-
+fcntl.h
+-
 
 /Users/dbaron/Desktop/42/minishell/libs/libft/libft.h
 stdlib.h
@@ -30,7 +36,7 @@ stdlib.h
 unistd.h
 -
 
-/Users/dbaron/Desktop/42/minishell/src/main1.c
+/Users/dbaron/Desktop/42/minishell/src/exec_tree.c
 ../includes/minishell.h
 /Users/dbaron/Desktop/42/minishell/includes/minishell.h
 

@@ -12,7 +12,13 @@
 
 #include "../includes/minishell.h"
 
-void		print_error(char *str)
+void		print_error(char *command, char *argument)
 {
-	write(1, str, ft_strlen(str));
+	write(1, "minishell: ", 11);
+	write(1, command, ft_strlen(command));
+	write(1,": ", 2);
+	write(1, argument, ft_strlen(argument));
+	write(1, ": ", 2);
+	write(1, strerror(errno), ft_strlen(strerror((errno))));
+	write(1, "\n", 1);
 }

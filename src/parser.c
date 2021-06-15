@@ -220,6 +220,11 @@ char	**make_tokens_massive(char *s)
 	deletespaces(s);
 	c_str = count_spaces(s);
 	printf("Num of str to malloc %d\n", c_str);
+	if (*s == '\0')
+	{
+		free(s);
+		return (NULL);
+	}
 	mas = (char **)malloc(sizeof(char *) * (c_str + 2));
 	if (mas == NULL)
 		return (NULL);

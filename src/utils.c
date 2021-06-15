@@ -17,7 +17,7 @@ void	insert_tabs(int level)
 	int i = 0;
 	while (i < level)
 	{
-		printf("\t");
+		write(1, "\t", 1);
 		i++;
 	}
 }
@@ -30,7 +30,7 @@ void printmas(char **mas, int level)
 	while (mas[i] != NULL)
 	{
 		insert_tabs(level);
-		printf("|%s|\n", mas[i]);
+		write(1, mas[i], ft_strlen(mas[i]));
 		i++;
 	}
 }
@@ -62,15 +62,10 @@ void free_tree(t_tree *node)
 			free(node->command);
 			node->command = NULL;
 		}
-		if (node->flags)
+		if (node->f_arg)
 		{
-			free(node->flags);
-			node->flags = NULL;
-		}
-		if (node->arguments)
-		{
-			free(node->arguments);
-			node->arguments = NULL;
+			free_mas(node->f_arg);
+			node->f_arg = NULL;
 		}
 		if (node->left)
 		{

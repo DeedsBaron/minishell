@@ -1357,6 +1357,33 @@ libs/libft/get_next_line.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/minishell.dir/build.make CMakeFiles/minishell.dir/libs/libft/get_next_line.c.s
 .PHONY : libs/libft/get_next_line.c.s
 
+src/builtins.o: src/builtins.c.o
+
+.PHONY : src/builtins.o
+
+# target to build an object file
+src/builtins.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/minishell.dir/build.make CMakeFiles/minishell.dir/src/builtins.c.o
+.PHONY : src/builtins.c.o
+
+src/builtins.i: src/builtins.c.i
+
+.PHONY : src/builtins.i
+
+# target to preprocess a source file
+src/builtins.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/minishell.dir/build.make CMakeFiles/minishell.dir/src/builtins.c.i
+.PHONY : src/builtins.c.i
+
+src/builtins.s: src/builtins.c.s
+
+.PHONY : src/builtins.s
+
+# target to generate assembly for a file
+src/builtins.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/minishell.dir/build.make CMakeFiles/minishell.dir/src/builtins.c.s
+.PHONY : src/builtins.c.s
+
 src/check_tokens.o: src/check_tokens.c.o
 
 .PHONY : src/check_tokens.o
@@ -1546,33 +1573,6 @@ src/utils.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/minishell.dir/build.make CMakeFiles/minishell.dir/src/utils.c.s
 .PHONY : src/utils.c.s
 
-test.o: test.c.o
-
-.PHONY : test.o
-
-# target to build an object file
-test.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/minishell.dir/build.make CMakeFiles/minishell.dir/test.c.o
-.PHONY : test.c.o
-
-test.i: test.c.i
-
-.PHONY : test.i
-
-# target to preprocess a source file
-test.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/minishell.dir/build.make CMakeFiles/minishell.dir/test.c.i
-.PHONY : test.c.i
-
-test.s: test.c.s
-
-.PHONY : test.s
-
-# target to generate assembly for a file
-test.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/minishell.dir/build.make CMakeFiles/minishell.dir/test.c.s
-.PHONY : test.c.s
-
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -1717,6 +1717,9 @@ help:
 	@echo "... libs/libft/get_next_line.o"
 	@echo "... libs/libft/get_next_line.i"
 	@echo "... libs/libft/get_next_line.s"
+	@echo "... src/builtins.o"
+	@echo "... src/builtins.i"
+	@echo "... src/builtins.s"
 	@echo "... src/check_tokens.o"
 	@echo "... src/check_tokens.i"
 	@echo "... src/check_tokens.s"
@@ -1738,9 +1741,6 @@ help:
 	@echo "... src/utils.o"
 	@echo "... src/utils.i"
 	@echo "... src/utils.s"
-	@echo "... test.o"
-	@echo "... test.i"
-	@echo "... test.s"
 .PHONY : help
 
 

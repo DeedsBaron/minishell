@@ -213,6 +213,9 @@
 		<Unit filename="/Users/dbaron/Desktop/42/minishell/libs/libft/get_next_line.c">
 			<Option target="minishell"/>
 		</Unit>
+		<Unit filename="/Users/dbaron/Desktop/42/minishell/src/builtins.c">
+			<Option target="minishell"/>
+		</Unit>
 		<Unit filename="/Users/dbaron/Desktop/42/minishell/src/check_tokens.c">
 			<Option target="minishell"/>
 		</Unit>
@@ -232,9 +235,6 @@
 			<Option target="minishell"/>
 		</Unit>
 		<Unit filename="/Users/dbaron/Desktop/42/minishell/src/utils.c">
-			<Option target="minishell"/>
-		</Unit>
-		<Unit filename="/Users/dbaron/Desktop/42/minishell/test.c">
 			<Option target="minishell"/>
 		</Unit>
 		<Unit filename="/Users/dbaron/Desktop/42/minishell/CMakeLists.txt">

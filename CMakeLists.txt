@@ -4,7 +4,6 @@ project(minishell C)
 set(CMAKE_C_STANDARD 99)
 
 add_executable(minishell
-        test.c
         src/utils.c
         src/parser.c
         src/main1.c
@@ -12,6 +11,7 @@ add_executable(minishell
         src/make_tree.c
         src/exec_tree.c
         src/check_tokens.c
+        src/builtins.c
         ./libs/libft/ft_memset.c ./libs/libft/ft_bzero.c ./libs/libft/ft_memcpy.c ./libs/libft/ft_memccpy.c ./libs/libft/ft_memmove.c
         ./libs/libft/ft_strlen.c ./libs/libft/ft_strlcpy.c ./libs/libft/ft_atoi.c ./libs/libft/ft_isalpha.c ./libs/libft/ft_isdigit.c
         ./libs/libft/ft_isalnum.c ./libs/libft/ft_isascii.c ./libs/libft/ft_isprint.c ./libs/libft/ft_toupper.c ./libs/libft/ft_tolower.c
