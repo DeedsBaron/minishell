@@ -92,7 +92,7 @@ void *make_tree(char **mas)
 		root->right = make_tree(submas(mas, (find_str(mas, "|") - mas) + 1,
 									   mas_len((mas))));
  	}
- 	else if (mas[0][0] == '>') // eсли вначале >
+ 	else if (mas[0][0] == '>' && mas[0][1] == '\0') // eсли вначале >
 	{
  		root->type = '>';
  		root->right = make_tree(submas(mas, 1, 1));
@@ -101,6 +101,18 @@ void *make_tree(char **mas)
 	else if (mas[0][0] == '>' && mas[0][1] == '>') // если вначале >>
 	{
 		root->type = 'r';
+		root->right = make_tree(submas(mas, 1, 1));
+		root->left = make_tree(submas(mas, 2, mas_len(mas) - 2 ));
+	}
+	else if (mas[0][0] == '<') // eсли вначале >
+	{
+		root->type = '<';
+		root->right = make_tree(submas(mas, 1, 1));
+		root->left = make_tree(submas(mas, 2, mas_len(mas) - 2 ));
+	}
+	else if (mas[0][0] == '<' && mas[0][1] == '<') // если вначале >>
+	{
+		root->type = 'l';
 		root->right = make_tree(submas(mas, 1, 1));
 		root->left = make_tree(submas(mas, 2, mas_len(mas) - 2 ));
 	}
@@ -118,18 +130,6 @@ void *make_tree(char **mas)
 		root->right = make_tree(submas(mas, (find_str(mas, ">>") - mas) + 1,
 									   mas_len(mas)));
  	}
-	else if (mas[0][0] == '<') // eсли вначале >
-	{
-		root->type = '<';
-		root->right = make_tree(submas(mas, 1, 1));
-		root->left = make_tree(submas(mas, 2, mas_len(mas) - 2 ));
-	}
-	else if (mas[0][0] == '<' && mas[0][1] == '<') // если вначале >>
-	{
-		root->type = 'l';
-		root->right = make_tree(submas(mas, 1, 1));
-		root->left = make_tree(submas(mas, 2, mas_len(mas) - 2 ));
-	}
  	else if (find_str(mas, "<"))
  	{
 		root->type = '<';

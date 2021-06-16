@@ -67,10 +67,10 @@ RM = /Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /Users/dbaron/Desktop/42/minishell
+CMAKE_SOURCE_DIR = /Users/dbaron/CLionProjects/minishell
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /Users/dbaron/Desktop/42/minishell/cmake-build-debug
+CMAKE_BINARY_DIR = /Users/dbaron/CLionProjects/minishell/cmake-build-debug
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -99,9 +99,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/dbaron/Desktop/42/minishell/cmake-build-debug/CMakeFiles /Users/dbaron/Desktop/42/minishell/cmake-build-debug//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/dbaron/CLionProjects/minishell/cmake-build-debug/CMakeFiles /Users/dbaron/CLionProjects/minishell/cmake-build-debug//CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/dbaron/Desktop/42/minishell/cmake-build-debug/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/dbaron/CLionProjects/minishell/cmake-build-debug/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -1492,6 +1492,33 @@ src/main1.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/minishell.dir/build.make CMakeFiles/minishell.dir/src/main1.c.s
 .PHONY : src/main1.c.s
 
+src/make_tokens.o: src/make_tokens.c.o
+
+.PHONY : src/make_tokens.o
+
+# target to build an object file
+src/make_tokens.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/minishell.dir/build.make CMakeFiles/minishell.dir/src/make_tokens.c.o
+.PHONY : src/make_tokens.c.o
+
+src/make_tokens.i: src/make_tokens.c.i
+
+.PHONY : src/make_tokens.i
+
+# target to preprocess a source file
+src/make_tokens.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/minishell.dir/build.make CMakeFiles/minishell.dir/src/make_tokens.c.i
+.PHONY : src/make_tokens.c.i
+
+src/make_tokens.s: src/make_tokens.c.s
+
+.PHONY : src/make_tokens.s
+
+# target to generate assembly for a file
+src/make_tokens.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/minishell.dir/build.make CMakeFiles/minishell.dir/src/make_tokens.c.s
+.PHONY : src/make_tokens.c.s
+
 src/make_tree.o: src/make_tree.c.o
 
 .PHONY : src/make_tree.o
@@ -1518,33 +1545,6 @@ src/make_tree.s: src/make_tree.c.s
 src/make_tree.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/minishell.dir/build.make CMakeFiles/minishell.dir/src/make_tree.c.s
 .PHONY : src/make_tree.c.s
-
-src/parser.o: src/parser.c.o
-
-.PHONY : src/parser.o
-
-# target to build an object file
-src/parser.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/minishell.dir/build.make CMakeFiles/minishell.dir/src/parser.c.o
-.PHONY : src/parser.c.o
-
-src/parser.i: src/parser.c.i
-
-.PHONY : src/parser.i
-
-# target to preprocess a source file
-src/parser.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/minishell.dir/build.make CMakeFiles/minishell.dir/src/parser.c.i
-.PHONY : src/parser.c.i
-
-src/parser.s: src/parser.c.s
-
-.PHONY : src/parser.s
-
-# target to generate assembly for a file
-src/parser.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/minishell.dir/build.make CMakeFiles/minishell.dir/src/parser.c.s
-.PHONY : src/parser.c.s
 
 src/utils.o: src/utils.c.o
 
@@ -1732,12 +1732,12 @@ help:
 	@echo "... src/main1.o"
 	@echo "... src/main1.i"
 	@echo "... src/main1.s"
+	@echo "... src/make_tokens.o"
+	@echo "... src/make_tokens.i"
+	@echo "... src/make_tokens.s"
 	@echo "... src/make_tree.o"
 	@echo "... src/make_tree.i"
 	@echo "... src/make_tree.s"
-	@echo "... src/parser.o"
-	@echo "... src/parser.i"
-	@echo "... src/parser.s"
 	@echo "... src/utils.o"
 	@echo "... src/utils.i"
 	@echo "... src/utils.s"

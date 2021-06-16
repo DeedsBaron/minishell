@@ -5,7 +5,7 @@ set(CMAKE_C_STANDARD 99)
 
 add_executable(minishell
         src/utils.c
-        src/parser.c
+        src/make_tokens.c
         src/main1.c
         src/error.c
         src/make_tree.c

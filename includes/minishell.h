@@ -22,6 +22,7 @@
 #include <string.h>
 #include <errno.h>
 #include <fcntl.h>
+#include <signal.h>
 typedef struct s_tree
 {
 	struct s_tree *left;

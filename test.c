@@ -23,8 +23,6 @@ int main(int argc, char *argv[], char *envp[])
 	char *str;
 	char *mas[4];
 	mas[0] = "cat";
-	mas[1] = "file1 file2";
-	mas[2] = "file2";
 	mas[3] = NULL;
 	execve("/bin/cat", mas, envp);
 	return (0);

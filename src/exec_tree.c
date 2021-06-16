@@ -83,10 +83,19 @@ void 	exec_command(t_tree *root, char *envp[])
 	free_mas(folders);
 }
 
-void 	redir_out(t_tree *root)
+void 	redirect_out(t_tree *root)
 {
 	int fd;
-	fd = open(root->right->command, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	char *name;
+
+	if (root->right->type == '>' || root->right->type == 'r')
+		name = root->right->left->command;
+	else
+		name = root->right->command;
+	if (root->type == '>')
+		fd = open(name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	else
+		fd = open(name, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd < 0)
 	{
 		write(1, strerror(errno), ft_strlen(strerror(errno)));
@@ -96,22 +105,45 @@ void 	redir_out(t_tree *root)
 	close(fd);
 }
 
+void 	redirect_in(t_tree *root)
+{
+	int fd;
+	char *name;
+
+	if (root->right->type == '<' || root->right->type == 'r')
+		name = root->right->left->command;
+	else
+		name = root->right->command;
+	if (root->type == '<')
+		fd = open(name, O_RDONLY, 0644);
+	else
+		fd = open(name, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	dup2(fd, 0);
+	close(fd);
+}
+
+void 	redirect(t_tree *root)
+{
+	if (root->type == '>' || root->type == 'r')
+		redirect_out(root);
+	else if (root->type == '<' || root->type == 'l')
+		redirect_in(root);
+}
+
 void 	exec_tree(t_tree *root, char *envp[])
 {
-	pid_t pid;
-	pid_t pid1;
-	pid = fork();
-	if (pid == 0)
+	if (root->type == '>' || root->type == 'r' || root->type == '<')
 	{
-		if (root->type == '>')
-		{
-			redir_out(root);
-			if (root->left)
-				return (exec_tree(root->left, envp));
-		}
-		if (root->type == 'c')
-		{
-			exec_command(root, envp);
-		}
+
+		redirect(root);
+		if(root->right)
+			exec_tree(root->right, envp);
+		if (root->left)
+			exec_tree(root->left, envp);
+
+	}
+	if (root->type == 'c')
+	{
+		exec_command(root, envp);
 	}
 }

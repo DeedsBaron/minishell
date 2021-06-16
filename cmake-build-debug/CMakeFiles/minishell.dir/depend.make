@@ -161,15 +161,15 @@ CMakeFiles/minishell.dir/src/main1.c.o: ../includes/minishell.h
 CMakeFiles/minishell.dir/src/main1.c.o: ../libs/libft/libft.h
 CMakeFiles/minishell.dir/src/main1.c.o: ../src/main1.c
 
+CMakeFiles/minishell.dir/src/make_tokens.c.o: ../includes/errors.h
+CMakeFiles/minishell.dir/src/make_tokens.c.o: ../includes/minishell.h
+CMakeFiles/minishell.dir/src/make_tokens.c.o: ../libs/libft/libft.h
+CMakeFiles/minishell.dir/src/make_tokens.c.o: ../src/make_tokens.c
+
 CMakeFiles/minishell.dir/src/make_tree.c.o: ../includes/errors.h
 CMakeFiles/minishell.dir/src/make_tree.c.o: ../includes/minishell.h
 CMakeFiles/minishell.dir/src/make_tree.c.o: ../libs/libft/libft.h
 CMakeFiles/minishell.dir/src/make_tree.c.o: ../src/make_tree.c
-
-CMakeFiles/minishell.dir/src/parser.c.o: ../includes/errors.h
-CMakeFiles/minishell.dir/src/parser.c.o: ../includes/minishell.h
-CMakeFiles/minishell.dir/src/parser.c.o: ../libs/libft/libft.h
-CMakeFiles/minishell.dir/src/parser.c.o: ../src/parser.c
 
 CMakeFiles/minishell.dir/src/utils.c.o: ../includes/errors.h
 CMakeFiles/minishell.dir/src/utils.c.o: ../includes/minishell.h

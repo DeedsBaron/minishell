@@ -50,19 +50,6 @@
  	printf("right\n");
  }
 
-// int		calculate(t_calc *root)
-// {
-// 	if (root->sign == '+')
-// 		return (calculate(root->left) + calculate(zero_node->right));
-// 	if (zero_node->sign == '-')
-// 		return (calculate(zero_node->left) - calculate(zero_node->right));
-// 	if (zero_node->sign == '*')
-// 		return (calculate(zero_node->left) * calculate(zero_node->right));
-// 	if (zero_node->sign == '\\')
-// 		return (calculate(zero_node->left) / calculate(zero_node->right));
-// 	return (zero_node->nb);
-// }
-
 int		main(int argc, char *argv[], char *envp[])
 {
 	char *str = NULL;
@@ -70,14 +57,11 @@ int		main(int argc, char *argv[], char *envp[])
 	t_tree *tree;
 	while (write(1, "minishell$ ", 12) && get_next_line(0, &str))
 	{
-		printf("str = |%s|\n", str);
 		mas = NULL;
 		tree = NULL;
 		mas = make_tokens_massive(str);
-		printf("::::::::::::::::::::::::::::\n");
 		if (mas && (check_tokens(mas) == 1))
 		{
-			//make_tree(mas);
 			if (*mas)
 			{
 				tree = make_tree(mas);
@@ -85,7 +69,20 @@ int		main(int argc, char *argv[], char *envp[])
 			}
 		}
 		if (tree)
-			exec_tree(tree, envp);
+		{
+			int in = dup(0);
+			int out = dup(1);
+			//pid_t pid;
+			//pid = fork();
+			//waitpid(pid, NULL, 0);
+			//if (pid == 0)
+			//{
+				exec_tree(tree, envp);
+				//exit(EXIT_SUCCESS);
+			//}
+			dup2(in, 0);
+			dup2(out, 1);
+		}
 		free_tree(tree);
 		free(tree);
 	}

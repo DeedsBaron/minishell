@@ -6,9 +6,9 @@
 
 #IncludeRegexTransform: 
 
-/Users/dbaron/Desktop/42/minishell/includes/errors.h
+/Users/dbaron/CLionProjects/minishell/includes/errors.h
 
-/Users/dbaron/Desktop/42/minishell/includes/minishell.h
+/Users/dbaron/CLionProjects/minishell/includes/minishell.h
 stdio.h
 -
 stdlib.h
@@ -16,9 +16,9 @@ stdlib.h
 unistd.h
 -
 ../libs/libft/libft.h
-/Users/dbaron/Desktop/42/minishell/libs/libft/libft.h
+/Users/dbaron/CLionProjects/minishell/libs/libft/libft.h
 errors.h
-/Users/dbaron/Desktop/42/minishell/includes/errors.h
+/Users/dbaron/CLionProjects/minishell/includes/errors.h
 sys/types.h
 -
 dirent.h
@@ -29,14 +29,24 @@ errno.h
 -
 fcntl.h
 -
+signal.h
+-
 
-/Users/dbaron/Desktop/42/minishell/libs/libft/libft.h
+/Users/dbaron/CLionProjects/minishell/libs/libft/libft.h
 stdlib.h
 -
 unistd.h
 -
 
-/Users/dbaron/Desktop/42/minishell/src/exec_tree.c
+/Users/dbaron/CLionProjects/minishell/src/exec_tree.c
 ../includes/minishell.h
-/Users/dbaron/Desktop/42/minishell/includes/minishell.h
+/Users/dbaron/CLionProjects/minishell/includes/minishell.h
+
+/Users/dbaron/CLionProjects/minishell/src/main1.c
+../includes/minishell.h
+/Users/dbaron/CLionProjects/minishell/includes/minishell.h
+
+/Users/dbaron/CLionProjects/minishell/src/make_tree.c
+../includes/minishell.h
+/Users/dbaron/CLionProjects/minishell/includes/minishell.h
 

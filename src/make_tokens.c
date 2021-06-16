@@ -219,7 +219,7 @@ char	**make_tokens_massive(char *s)
 	i = 0;
 	deletespaces(s);
 	c_str = count_spaces(s);
-	printf("Num of str to malloc %d\n", c_str);
+	//printf("Num of str to malloc %d\n", c_str);
 	if (*s == '\0')
 	{
 		free(s);
