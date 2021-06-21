@@ -23,6 +23,8 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <signal.h>
+#include <readline/readline.h>
+#include <readline/history.h>
 typedef struct s_tree
 {
 	struct s_tree *left;

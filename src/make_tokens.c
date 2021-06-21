@@ -108,7 +108,7 @@ int	count_spaces(char *s)
 	return (counter);
 }
 
-char *sq_case(char **s, int i, char *sq_p)
+char *sq_case(char **s, char *sq_p)
 {
 	int end;
 	char	*token;
@@ -155,7 +155,7 @@ char	*make_token(char **s)
 	{
 		if (((*s)[i] == '\'' && ft_strchr(*s + 1+ i, '\'')) || ((*s)[i] ==
 		'\"' && ft_strchr(*s + 1+ i, '\"')))
-			return (sq_case(s, i, ft_strchr(*s + 1+ i, (*s)[i])));
+			return (sq_case(s,ft_strchr(*s + 1+ i, (*s)[i])));
 		if ((*s)[i] == ' ')
 		{
 			token = ft_substr((*s), 0, i);

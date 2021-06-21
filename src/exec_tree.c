@@ -153,18 +153,6 @@ void 	redirect(t_tree *root)
 		redirect_in(root);
 }
 
-void 	pipez_right(t_tree *root, int fd[])
-{
-	close(fd[1]);
-	dup2(fd[0], 0);
-}
-
-void 	pipez_left(t_tree *root, int fd[])
-{
-	close(fd[0]);
-	dup2(fd[1], 1);
-}
-
 void 	exec_tree(t_tree *root, char *envp[])
 {
 	int fd[2];
@@ -183,11 +171,13 @@ void 	exec_tree(t_tree *root, char *envp[])
 			close(fd[1]);
 			exit(EXIT_SUCCESS);
 		}
-		waitpid(pid, NULL, 0);
 		close(fd[1]);
+		waitpid(pid, NULL, 0);
+		//close(fd[1]); //???????????????????????
 		pid = fork();
 		if (pid == 0)
 		{
+			//close(fd[1]);
 			dup2(fd[0], 0);
 			if (root->right)
 				exec_tree(root->right, envp);
@@ -195,9 +185,8 @@ void 	exec_tree(t_tree *root, char *envp[])
 			exit(EXIT_SUCCESS);
 		}
 		waitpid(pid, NULL, 0);
-//		else
-//			while(waitpid(pid, NULL, 0) <= 0);
 		close(fd[0]);
+
 	}
 	if (root->type == '>' || root->type == 'r' || root->type == '<')
 	{

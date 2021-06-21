@@ -58,7 +58,7 @@ char	*dollar(char *str, int *dolla)
 		while (++i < (*dolla))
 			res[i] = str[i];
 		k = 0;
-		while (i < ft_strlen(env) + (*dolla))
+		while (i < (int)(ft_strlen(env) + (*dolla)))
 			res[i++] = env[k++];
 		k = *dolla + ft_strlen(name) + 1;
 		while (str[k] != '\0')
@@ -76,7 +76,6 @@ int single_quote(char *str, int *j)
 {
 	int i;
 	int k;
-	char	*tmp;
 
 	i = *j + 1;
 	k = *j;

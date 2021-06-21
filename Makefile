@@ -16,6 +16,8 @@ FLAGS =  -MMD
 
 LIBFT = ./libs/libft/
 
+READLINE_FLAGS := -lreadline -L/Users/$(USER)/.brew/Cellar/readline/8.1/lib/ -I/Users/$(USER)/.brew/Cellar/readline/8.1/include -lreadline
+
 LIB = ./libs/libft/libft.a
 
 DIR_S = ./src
@@ -42,11 +44,11 @@ lib:
 	@echo "\033[0;36m"
 
 $(DIR_O)/%.o: $(DIR_S)/%.c
-	$(CC) $(FLAGS) -c $< -o $@ -g
+	$(CC) $(FLAGS) $(READLINE_FLAGS) -c $< -o $@ -g
 
 $(NAME): $(OBJS)
 	@echo "\033[0;35m"
-	$(CC) $(FLAGS) $^ -o $@ $(LIB) -g
+	$(CC) $(FLAGS) $(READLINE_FLAGS) $^ -o $@ $(LIB) -g
 	chmod 777 $(NAME)
 norm:
 	@echo "\033[0;32mnorminette $(DIR_S)/*.c\033[0m"

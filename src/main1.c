@@ -55,9 +55,16 @@ int		main(int argc, char *argv[], char *envp[])
 	char *str = NULL;
 	char **mas;
 	t_tree *tree;
-//	int fd = open("/Users/dbaron/CLionProjects/minishell/1.txt", O_RDONLY);
-	while (write(1, "minishell$ ", 12) && get_next_line(0, &str))
+	argv[0] = NULL;
+	if (argc != 1)
 	{
+		write(1, ARGS, ft_strlen(ARGS));
+		return (1);
+	}
+//	int fd = open("/Users/dbaron/CLionProjects/minishell/1.txt", O_RDONLY);
+	while ((str = readline("minishell$ ")))
+	{
+		add_history(str);
 		mas = NULL;
 		tree = NULL;
 		mas = make_tokens_massive(str);
@@ -66,7 +73,7 @@ int		main(int argc, char *argv[], char *envp[])
 			if (*mas)
 			{
 				tree = make_tree(mas);
-				print_tree(tree, 0);
+				//print_tree(tree, 0);
 			}
 		}
 		if (tree)
@@ -88,5 +95,5 @@ int		main(int argc, char *argv[], char *envp[])
 		free(tree);
 	}
 	free(str);
-	return 1;
+	return 0;
 }
