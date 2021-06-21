@@ -42,7 +42,6 @@ char 	*bin_in_folder(char **folder, char *command)
 				tmp = ft_strjoin(res, command);
 				free(res);
 				res = tmp;
-				printf("command found\n");
 				closedir(p_fold);
 				return (res);
 			}
@@ -63,7 +62,8 @@ int 	if_builtin(t_tree *root)
 		return (1);
 	else if (ft_strcmp(root->command, "cd") == 0)
 		return (1);
-	return (0);
+	else
+		return (0);
 }
 
 void 	exec_builtin(t_tree *root, char *envp[])
@@ -82,6 +82,7 @@ void 	exec_bin(t_tree *root, char *envp[])
 {
 	char	**folders;
 	char 	*bin;
+	pid_t 	pid;
 
 	bin = NULL;
 	if (if_builtin(root) == 0)
@@ -90,13 +91,19 @@ void 	exec_bin(t_tree *root, char *envp[])
 		bin = bin_in_folder(folders, root->command);
 		if (bin)
 		{
-			if (execve(bin, root->f_arg, envp) == -1)
-				print_error(root->command, root->f_arg[1]);
+			pid = fork();
+			if (pid == 0)
+			{
+				if (execve(bin, root->f_arg, envp) == -1)
+					print_error(root->command, root->f_arg[1]);
+			}
+			//else
+			//	while(waitpid(pid, NULL, 0) <= 0);
+			waitpid(pid, NULL, 0);
 			free(bin);
 		}
 		free_mas(folders);
 	}
-	exit(EXIT_SUCCESS);
 }
 
 void 	redirect_out(t_tree *root)
@@ -162,8 +169,7 @@ void 	exec_tree(t_tree *root, char *envp[])
 {
 	int fd[2];
 	pid_t pid;
-	pid_t pid1;
-	pid_t pid3;
+
 	if (root->type == '|')
 	{
 		pipe (fd);
@@ -172,17 +178,26 @@ void 	exec_tree(t_tree *root, char *envp[])
 		{
 			close(fd[0]);
 			dup2(fd[1], 1);
+			if (root->left)
+				exec_tree(root->left, envp);
+			close(fd[1]);
+			exit(EXIT_SUCCESS);
 		}
-		if (root->left)
-			exec_tree(root->left, envp);
+		waitpid(pid, NULL, 0);
+		close(fd[1]);
 		pid = fork();
 		if (pid == 0)
 		{
-			close(fd[1]);
 			dup2(fd[0], 0);
+			if (root->right)
+				exec_tree(root->right, envp);
+			close(fd[0]);
+			exit(EXIT_SUCCESS);
 		}
-		if (root->right)
-			exec_tree(root->right, envp);
+		waitpid(pid, NULL, 0);
+//		else
+//			while(waitpid(pid, NULL, 0) <= 0);
+		close(fd[0]);
 	}
 	if (root->type == '>' || root->type == 'r' || root->type == '<')
 	{
@@ -194,9 +209,13 @@ void 	exec_tree(t_tree *root, char *envp[])
 	}
 	if (root->type == 'c')
 	{
-		if (if_builtin(root) == 1 && pid != 0)
+		if (if_builtin(root) == 1)
+		{
 			exec_builtin(root, envp);
-		else if (if_builtin(root) == 0 && pid == 0)
+		}
+		else if (if_builtin(root) == 0)
+		{
 			exec_bin(root, envp);
+		}
 	}
 }

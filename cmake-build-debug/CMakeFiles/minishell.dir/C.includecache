@@ -42,11 +42,3 @@ unistd.h
 ../includes/minishell.h
 /Users/dbaron/CLionProjects/minishell/includes/minishell.h
 
-/Users/dbaron/CLionProjects/minishell/src/main1.c
-../includes/minishell.h
-/Users/dbaron/CLionProjects/minishell/includes/minishell.h
-
-/Users/dbaron/CLionProjects/minishell/src/make_tree.c
-../includes/minishell.h
-/Users/dbaron/CLionProjects/minishell/includes/minishell.h
-

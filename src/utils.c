@@ -31,6 +31,7 @@ void printmas(char **mas, int level)
 	{
 		insert_tabs(level);
 		write(1, mas[i], ft_strlen(mas[i]));
+		write(1, "\n", 1);
 		i++;
 	}
 }

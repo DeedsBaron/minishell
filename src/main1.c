@@ -55,6 +55,7 @@ int		main(int argc, char *argv[], char *envp[])
 	char *str = NULL;
 	char **mas;
 	t_tree *tree;
+//	int fd = open("/Users/dbaron/CLionProjects/minishell/1.txt", O_RDONLY);
 	while (write(1, "minishell$ ", 12) && get_next_line(0, &str))
 	{
 		mas = NULL;
