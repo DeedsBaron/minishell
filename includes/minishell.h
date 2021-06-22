@@ -40,22 +40,28 @@ void		deletespaces(char *src);
 void		printmas(char **mas, int level);
 void 		free_mas(char **mas);
 void 		free_tree(t_tree *node);
+void		print_env(char **mas);
+void		print_export(char **mas);
+char 		**make_envp_copy(char **envp);
 //error
-void		print_error(char *command, char *argument);
+void		print_error(char *command, char *argument, char* str);
 //check_tokens
 int	check_tokens(char **mas);
 char	*dollar(char *str, int *dolla);
 //tree
 void *make_tree(char **mas);
+int	mas_len(char **mas);
 //main
 void	insert_tabs(int level);
 //exec_tree
-void 	exec_tree(t_tree *root, char *envp[]);
+void 	exec_tree(t_tree *root, char **envp[]);
 //builtins
 void	exec_env(char *envp[]);
 void	exec_echo(t_tree *root);
 void	exec_pwd(void);
 void 	exec_cd(t_tree *root);
-void	exec_export(char *envp[], t_tree *root);
+void	exec_export(char **envp[], t_tree *root);
+void	exec_unset(char **envp[], t_tree *root);
 void	exec_exit();
+
 #endif

@@ -14,8 +14,8 @@
 
 void	deletespaces(char *src)
 {
-	int		i;
-	int		k;
+	int	i;
+	int	k;
 
 	i = 0;
 	k = 0;
@@ -28,7 +28,7 @@ void	deletespaces(char *src)
 			src[k] = src[i];
 			k++;
 			i++;
-			while(src[i] != '\'' && src[i] != '\0')
+			while (src[i] != '\'' && src[i] != '\0')
 			{
 				src[k] = src[i];
 				k++;
@@ -43,7 +43,7 @@ void	deletespaces(char *src)
 			src[k] = src[i];
 			k++;
 			i++;
-			while(src[i] != '\"' && src[i] != '\0')
+			while (src[i] != '\"' && src[i] != '\0')
 			{
 				src[k] = src[i];
 				k++;
@@ -82,51 +82,50 @@ int	count_spaces(char *s)
 		if ((*s) == '\"')
 		{
 			s++;
-			while((*s) != '\"' && (*s) != '\0')
+			while ((*s) != '\"' && (*s) != '\0')
 				s++;
 		}
-		if(*s == '|'  && *(s + 1) != '\0')
+		if (*s == '|' && *(s + 1) != '\0')
 		{
 			counter++;
-			if(*(s + 1) != ' ' && *(s + 1) != '\0' &&(*(s + 1)
-				!= '|'))
+			if (*(s + 1) != ' ' && *(s + 1) != '\0' && (*(s + 1) != '|'))
 				counter++;
 		}
-		else if (*s == ' '  && *(s + 1) != '|')
+		else if (*s == ' ' && *(s + 1) != '|')
 			counter++;
-		else if (((*s == '>'  && *(s + 1) == '>') || (*s == '<'  && *(s + 1) ==
-		'<')) && *(s + 2) != ' ')
+		else if (((*s == '>' && *(s + 1) == '>') || (*s == '<' && *(s + 1)
+					== '<')) && *(s + 2) != ' ')
 		{
 			counter++;
 			s++;
 		}
-		else if((*s == '<' || *s == '>') && (*(s + 1) != ' ')  && (*(s + 1)
-		!= '<' && *(s + 1) != '>'))
+		else if ((*s == '<' || *s == '>') && (*(s + 1) != ' ') && (*(s + 1)
+				!= '<' && *(s + 1) != '>'))
 			counter++;
 		s++;
 	}
 	return (counter);
 }
 
-char *sq_case(char **s, char *sq_p)
+char	*sq_case(char **s, char *sq_p)
 {
-	int end;
+	int		end;
 	char	*token;
 	char	*tmp;
 
 	end = sq_p - *s + 1;
-	while((*s)[end] != ' ' && (*s)[end] != '\0')
+	while ((*s)[end] != ' ' && (*s)[end] != '\0')
 	{
 		if ((*s)[end] == '\'')
 		{
 			end++;
-			while((*s)[end] != '\'' && (*s)[end] != '\0')
+			while ((*s)[end] != '\'' && (*s)[end] != '\0')
 				end++;
 		}
 		else if ((*s)[end] == '\"')
 		{
 			end++;
-			while((*s)[end] != '\"' && (*s)[end] != '\0')
+			while ((*s)[end] != '\"' && (*s)[end] != '\0')
 				end++;
 		}
 		end++;
@@ -134,9 +133,9 @@ char *sq_case(char **s, char *sq_p)
 	token = ft_substr(*s, 0, end);
 	if ((*s)[end] != '\0')
 	{
-			tmp = ft_substr(*s, end + 1, ft_strlen(*s) - end);
-			free(*s);
-			*s = tmp;
+		tmp = ft_substr(*s, end + 1, ft_strlen(*s) - end);
+		free(*s);
+		*s = tmp;
 	}
 	return (token);
 }
@@ -153,9 +152,9 @@ char	*make_token(char **s)
 	token = NULL;
 	while ((*s)[i] != '\0')
 	{
-		if (((*s)[i] == '\'' && ft_strchr(*s + 1+ i, '\'')) || ((*s)[i] ==
-		'\"' && ft_strchr(*s + 1+ i, '\"')))
-			return (sq_case(s,ft_strchr(*s + 1+ i, (*s)[i])));
+		if (((*s)[i] == '\'' && ft_strchr(*s + 1 + i, '\'')) || ((*s)[i] ==
+		'\"' && ft_strchr(*s + 1 + i, '\"')))
+			return (sq_case(s, ft_strchr(*s + 1 + i, (*s)[i])));
 		if ((*s)[i] == ' ')
 		{
 			token = ft_substr((*s), 0, i);
@@ -180,7 +179,7 @@ char	*make_token(char **s)
 			(*s) = tmp;
 			return (token);
 		}
-		if ((((*s)[i] == '>'  && (*s)[i + 1] == '>') || ((*s)[i] == '<'  &&
+		if ((((*s)[i] == '>' && (*s)[i + 1] == '>') || ((*s)[i] == '<' &&
 		(*s)[i + 1] == '<')) && (*s)[i + 2] != ' ')
 		{
 			token = ft_substr((*s), 0, i + 2);
@@ -189,7 +188,7 @@ char	*make_token(char **s)
 			(*s) = tmp;
 			return (token);
 		}
-		if (((*s)[i] == '<'  || (*s)[i] == '>') && (*s)[i + 1] != ' ' && (*s)
+		if (((*s)[i] == '<' || (*s)[i] == '>') && (*s)[i + 1] != ' ' && (*s)
 		[i + 1] != '>' && (*s)[i + 1] != '<')
 		{
 			token = ft_substr((*s), 0, i + 1);
@@ -207,7 +206,7 @@ char	*make_token(char **s)
 		free(*s);
 		(*s) = tmp;
 	}
-	return(token);
+	return (token);
 }
 
 char	**make_tokens_massive(char *s)
@@ -219,7 +218,6 @@ char	**make_tokens_massive(char *s)
 	i = 0;
 	deletespaces(s);
 	c_str = count_spaces(s);
-	//printf("Num of str to malloc %d\n", c_str);
 	if (*s == '\0')
 	{
 		free(s);

@@ -12,16 +12,18 @@
 
 #include "../includes/minishell.h"
 
- void	print_tree(t_tree *root, int level)
- {
- 	int i = 0;
- 	if (root == NULL)
- 	{
- 		insert_tabs(level);
- 		printf("---<empty>---");
- 		return;
- 	}
- 	if (root->command != NULL)
+void	print_tree(t_tree *root, int level)
+{
+	int	i;
+
+	i = 0;
+	if (root == NULL)
+	{
+		insert_tabs(level);
+		printf("---<empty>---");
+		return ;
+	}
+	if (root->command != NULL)
 	{
 		insert_tabs(level);
 		printf("type = |%c|\n", root->type);
@@ -37,32 +39,37 @@
 			}
 		}
 	}
- 	else
+	else
 	{
 		insert_tabs(level);
 		printf("type = %c\n", root->type);
 	}
 	print_tree(root->left, level + 1);
- 	insert_tabs(level);
- 	printf("left\n");
- 	print_tree(root->right, level + 1);
- 	insert_tabs(level);
- 	printf("right\n");
- }
+	insert_tabs(level);
+	printf("left\n");
+	print_tree(root->right, level + 1);
+	insert_tabs(level);
+	printf("right\n");
+}
 
-int		main(int argc, char *argv[], char *envp[])
+int	main(int argc, char *argv[], char *envp[])
 {
-	char *str = NULL;
-	char **mas;
-	t_tree *tree;
+	char	*str;
+	char	**mas;
+	char	**envp_copy;
+	t_tree	*tree;
+	int		in;
+	int		out;
+
 	argv[0] = NULL;
+	str = NULL;
 	if (argc != 1)
 	{
 		write(1, ARGS, ft_strlen(ARGS));
 		return (1);
 	}
+	envp_copy = make_envp_copy(envp);
 	while ((str = readline("minishell$ ")))
-	//while(write(1, "mi% ", 4) && (get_next_line(0, &str) == 1))
 	{
 		add_history(str);
 		mas = NULL;
@@ -71,23 +78,13 @@ int		main(int argc, char *argv[], char *envp[])
 		if (mas && (check_tokens(mas) == 1))
 		{
 			if (*mas)
-			{
 				tree = make_tree(mas);
-				//print_tree(tree, 0);
-			}
 		}
 		if (tree)
 		{
-			int in = dup(0);
-			int out = dup(1);
-			//pid_t pid;
-			//pid = fork();
-			//waitpid(pid, NULL, 0);
-			//if (pid == 0)
-			//{
-				exec_tree(tree, envp);
-				//exit(EXIT_SUCCESS);
-			//}
+			in = dup(0);
+			out = dup(1);
+			exec_tree(tree, &envp_copy);
 			dup2(in, 0);
 			dup2(out, 1);
 		}
@@ -95,5 +92,5 @@ int		main(int argc, char *argv[], char *envp[])
 		free(tree);
 	}
 	free(str);
-	return 0;
+	return (0);
 }

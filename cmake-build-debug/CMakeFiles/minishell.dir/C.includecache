@@ -6,9 +6,9 @@
 
 #IncludeRegexTransform: 
 
-/Users/dbaron/CLionProjects/minishell/includes/errors.h
+/Users/wspectra/Desktop/minishell/includes/errors.h
 
-/Users/dbaron/CLionProjects/minishell/includes/minishell.h
+/Users/wspectra/Desktop/minishell/includes/minishell.h
 stdio.h
 -
 stdlib.h
@@ -16,9 +16,9 @@ stdlib.h
 unistd.h
 -
 ../libs/libft/libft.h
-/Users/dbaron/CLionProjects/minishell/libs/libft/libft.h
+/Users/wspectra/Desktop/minishell/libs/libft/libft.h
 errors.h
-/Users/dbaron/CLionProjects/minishell/includes/errors.h
+/Users/wspectra/Desktop/minishell/includes/errors.h
 sys/types.h
 -
 dirent.h
@@ -31,18 +31,18 @@ fcntl.h
 -
 signal.h
 -
+readline/readline.h
+-
+readline/history.h
+-
 
-/Users/dbaron/CLionProjects/minishell/libs/libft/libft.h
+/Users/wspectra/Desktop/minishell/libs/libft/libft.h
 stdlib.h
 -
 unistd.h
 -
 
-/Users/dbaron/CLionProjects/minishell/src/exec_tree.c
+/Users/wspectra/Desktop/minishell/src/builtins.c
 ../includes/minishell.h
-/Users/dbaron/CLionProjects/minishell/includes/minishell.h
-
-/Users/dbaron/CLionProjects/minishell/src/main1.c
-../includes/minishell.h
-/Users/dbaron/CLionProjects/minishell/includes/minishell.h
+/Users/wspectra/Desktop/minishell/includes/minishell.h
 
