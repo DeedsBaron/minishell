@@ -95,7 +95,7 @@ int single_quote(char *str, int *j)
 	return (0);
 }
 
-int double_quote(char **str, int *j)
+int  double_quote(char **str, int *j)
 {
 	int i;
 	int k;
@@ -155,32 +155,35 @@ int	check_tokens(char **mas)
 	i = 0;
 	while(mas[i] != NULL)
 	{
-		//printf("ols str = |%s|\n", mas[i]);
 		j = 0;
-		while(mas[i][j] != '\0')
+		if(ft_strcmp(mas[i], "\">\"") == 0 ||
+			ft_strcmp(mas[i], "\">>\"") == 0 || ft_strcmp(mas[i], "\"<\"") == 0
+			|| ft_strcmp(mas[i], "\"<<\"")== 0 ||
+			ft_strcmp(mas[i], "\'>\'") == 0 ||ft_strcmp(mas[i], "\'>>\'") == 0
+			|| ft_strcmp(mas[i], "\'<\'") == 0 ||ft_strcmp(mas[i], "\'<<\'") == 0)
+			i++;
+		else
 		{
-			if(mas[i][j] == '\'')
+			while (mas[i][j] != '\0')
 			{
-				if (single_quote(mas[i], &j) == -1)
-					return (-1);
-				j--;
-			}
-			else if(mas[i][j] == '\"')
-			{
-				if (double_quote(&mas[i], &j) == -1)
-					return (-1);
+				if (mas[i][j] == '\'')
+				{
+					if (single_quote(mas[i], &j) == -1)
+						return (-1);
+					j--;
+				} else if (mas[i][j] == '\"')
+				{
+					if (double_quote(&mas[i], &j) == -1)
+						return (-1);
 
+				} else if (mas[i][j] == '$')
+				{
+					mas[i] = dollar(mas[i], &j);
+				} else
+					j++;
 			}
-			else if(mas[i][j] == '$')
-			{
-				mas[i] = dollar(mas[i], &j);
-			}
-			else
-				j++;
+			i++;
 		}
-
-		//printf("new str = |%s|\n", mas[i]);
-		i++;
 	}
 	return (1);
 }

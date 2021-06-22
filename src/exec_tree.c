@@ -62,6 +62,10 @@ int 	if_builtin(t_tree *root)
 		return (1);
 	else if (ft_strcmp(root->command, "cd") == 0)
 		return (1);
+	else if (ft_strcmp(root->command, "export") == 0)
+		return (1);
+	else if (ft_strcmp(root->command, "exit") == 0)
+		return (1);
 	else
 		return (0);
 }
@@ -76,6 +80,10 @@ void 	exec_builtin(t_tree *root, char *envp[])
 		exec_pwd();
 	else if (ft_strcmp(root->command, "cd") == 0)
 		exec_cd(root);
+	else if (ft_strcmp(root->command, "export") == 0)
+		exec_export(envp, root);
+	else if (ft_strcmp(root->command, "exit") == 0)
+		exec_exit();
 }
 
 void 	exec_bin(t_tree *root, char *envp[])
@@ -101,6 +109,13 @@ void 	exec_bin(t_tree *root, char *envp[])
 			//	while(waitpid(pid, NULL, 0) <= 0);
 			waitpid(pid, NULL, 0);
 			free(bin);
+		}
+		else
+		{
+			write(1, "minishell: ", 11);
+			write(1, root->command, ft_strlen(root->command));
+			write(1,": ", 2);
+			write(1, COM_NF, ft_strlen(COM_NF));
 		}
 		free_mas(folders);
 	}
@@ -128,19 +143,53 @@ void 	redirect_out(t_tree *root)
 	close(fd);
 }
 
+int 	here_doc(char *name)
+{
+	int fd[2];
+	char *str;
+	int i;
+	char *tmp;
+	pid_t pid;
+	pipe(fd);
+	pid = fork();
+	wait(NULL);
+	if (pid == 0)
+	{
+		close(fd[0]);
+		while ((str = readline("> ")) && ft_strcmp(str, name) != 0)
+		{
+			i = 0;
+			while (str[i] != '\0')
+			{
+				if (str[i] == '$')
+					str = dollar(str, &i);
+				else
+					i++;
+			}
+			write(fd[1], str, ft_strlen(str));
+			write(fd[1], "\n", 1);
+			free(str);
+		}
+		exit(EXIT_SUCCESS);
+	}
+	close(fd[1]);
+	return (fd[0]);
+
+}
+
 void 	redirect_in(t_tree *root)
 {
 	int fd;
 	char *name;
 
-	if (root->right->type == '<' || root->right->type == 'r')
+	if (root->right->type == '<' || root->right->type == 'l')
 		name = root->right->left->command;
 	else
 		name = root->right->command;
 	if (root->type == '<')
 		fd = open(name, O_RDONLY, 0644);
 	else
-		fd = open(name, O_WRONLY | O_CREAT | O_APPEND, 0644);
+		fd = here_doc(name);
 	dup2(fd, 0);
 	close(fd);
 }
@@ -188,7 +237,8 @@ void 	exec_tree(t_tree *root, char *envp[])
 		close(fd[0]);
 
 	}
-	if (root->type == '>' || root->type == 'r' || root->type == '<')
+	if (root->type == '>' || root->type == 'r' || root->type == '<' ||
+	root->type == 'l')
 	{
 		redirect(root);
 		if(root->right)

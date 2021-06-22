@@ -61,8 +61,8 @@ int		main(int argc, char *argv[], char *envp[])
 		write(1, ARGS, ft_strlen(ARGS));
 		return (1);
 	}
-//	int fd = open("/Users/dbaron/CLionProjects/minishell/1.txt", O_RDONLY);
 	while ((str = readline("minishell$ ")))
+	//while(write(1, "mi% ", 4) && (get_next_line(0, &str) == 1))
 	{
 		add_history(str);
 		mas = NULL;

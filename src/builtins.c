@@ -31,23 +31,36 @@ void	exec_echo(t_tree *root)
 	}
 	if (ft_strcmp("-n", root->f_arg[1]) != 0)
 		write(1, "\n", 1);
-//		write(1, root->arguments, ft_strlen(root->arguments));
-//	else
-//	{
-//		write(1, root->flags, ft_strlen(root->flags));
-//		write(1, root->arguments, ft_strlen(root->arguments));
-//		write(1, "\n", 1);
-//	}
 }
 
 void 	exec_cd(t_tree *root)
 {
+	char *res;
+
 	if (root->f_arg[1] == NULL || (ft_strcmp("~", root->f_arg[1]) == 0))
 		chdir(getenv("HOME"));
+	else if (root->f_arg[1] != NULL && root->f_arg[1][0] == '~')
+	{
+		res = ft_strjoin(getenv("HOME"), root->f_arg[1] + 1);
+		if (chdir(res) != 0)
+			print_error(root->command, root->f_arg[1]);
+		free(res);
+	}
 	else if (chdir(root->f_arg[1]) != 0)
 		print_error(root->command, root->f_arg[1]);
 }
 
+
+void	exec_export(char *envp[], t_tree *root)
+{
+//	if (root->f_arg[1] == NULL)
+
+}
+
+void	exec_exit()
+{
+	exit(EXIT_SUCCESS);
+}
 void	exec_env(char *envp[])
 {
 	printmas(envp, 0);

@@ -16,8 +16,6 @@ FLAGS =  -MMD
 
 LIBFT = ./libs/libft/
 
-READLINE_FLAGS := -lreadline -L/Users/$(USER)/.brew/Cellar/readline/8.1/lib/ -I/Users/$(USER)/.brew/Cellar/readline/8.1/include -lreadline
-
 LIB = ./libs/libft/libft.a
 
 DIR_S = ./src
@@ -36,19 +34,21 @@ all: dir lib $(NAME)
 
 dir: 
 	@echo "\033[0;32m"
+	#brew install readline
 	mkdir -p obj
-
 lib:
 	@echo "\033[0;32m"
+
 	make -C $(LIBFT)
 	@echo "\033[0;36m"
 
 $(DIR_O)/%.o: $(DIR_S)/%.c
-	$(CC) $(FLAGS) $(READLINE_FLAGS) -c $< -o $@ -g
+	$(CC) $(FLAGS) -c $< -o $@ -g -I/Users/$(USER)/.brew/Cellar/readline/8.1/include  -g
 
 $(NAME): $(OBJS)
 	@echo "\033[0;35m"
-	$(CC) $(FLAGS) $(READLINE_FLAGS) $^ -o $@ $(LIB) -g
+	$(CC) $(FLAGS) $^ -o $@ $(LIB) -I/Users/$(USER)/.brew/Cellar/readline/8.1/include -L/Users/$(USER)/.brew/Cellar/readline/8.1/lib/ -lreadline -g
+
 	chmod 777 $(NAME)
 norm:
 	@echo "\033[0;32mnorminette $(DIR_S)/*.c\033[0m"

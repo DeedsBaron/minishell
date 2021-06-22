@@ -44,6 +44,7 @@ void 		free_tree(t_tree *node);
 void		print_error(char *command, char *argument);
 //check_tokens
 int	check_tokens(char **mas);
+char	*dollar(char *str, int *dolla);
 //tree
 void *make_tree(char **mas);
 //main
@@ -55,5 +56,6 @@ void	exec_env(char *envp[]);
 void	exec_echo(t_tree *root);
 void	exec_pwd(void);
 void 	exec_cd(t_tree *root);
-
+void	exec_export(char *envp[], t_tree *root);
+void	exec_exit();
 #endif
