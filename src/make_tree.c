@@ -53,7 +53,7 @@ char	**find_str(char **mas, char *str)
 	i = 0;
 	while (mas[i])
 	{
-		if (ft_strncmp(mas[i], str, ft_strlen(mas[i])) == 0)
+		if (ft_strcmp(mas[i], str) == 0)
 			return ((char **)&mas[i]);
 		i++;
 	}

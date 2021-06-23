@@ -43,11 +43,13 @@ void 		free_tree(t_tree *node);
 void		print_env(char **mas);
 void		print_export(char **mas);
 char 		**make_envp_copy(char **envp);
+char  *my_get_env(char **envp, char *str);
+
 //error
 void		print_error(char *command, char *argument, char* str);
 //check_tokens
-int	check_tokens(char **mas);
-char	*dollar(char *str, int *dolla);
+int	check_tokens(char **mas, char **envp);
+char	*dollar(char *str, int *dolla, char **envp);
 //tree
 void *make_tree(char **mas);
 int	mas_len(char **mas);
@@ -63,5 +65,7 @@ void 	exec_cd(t_tree *root);
 void	exec_export(char **envp[], t_tree *root);
 void	exec_unset(char **envp[], t_tree *root);
 void	exec_exit();
+int		find_equal_arg(const char *s1, const char *s2);
+
 
 #endif

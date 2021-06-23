@@ -145,7 +145,7 @@ void	redirect_out(t_tree *root)
 	close(fd);
 }
 
-int	here_doc(char *name)
+int	here_doc(char *name, char **envp)
 {
 	int		fd[2];
 	char	*str;
@@ -165,7 +165,7 @@ int	here_doc(char *name)
 			while (str[i] != '\0')
 			{
 				if (str[i] == '$')
-					str = dollar(str, &i);
+					str = dollar(str, &i, envp);
 				else
 					i++;
 			}
@@ -179,7 +179,7 @@ int	here_doc(char *name)
 	return (fd[0]);
 }
 
-void	redirect_in(t_tree *root)
+void	redirect_in(t_tree *root, char **envp)
 {
 	int		fd;
 	char	*name;
@@ -191,17 +191,17 @@ void	redirect_in(t_tree *root)
 	if (root->type == '<')
 		fd = open(name, O_RDONLY, 0644);
 	else
-		fd = here_doc(name);
+		fd = here_doc(name, envp);
 	dup2(fd, 0);
 	close(fd);
 }
 
-void	redirect(t_tree *root)
+void	redirect(t_tree *root, char **envp)
 {
 	if (root->type == '>' || root->type == 'r')
 		redirect_out(root);
 	else if (root->type == '<' || root->type == 'l')
-		redirect_in(root);
+		redirect_in(root, envp);
 }
 
 void	exec_tree(t_tree *root, char **envp[])
@@ -239,7 +239,7 @@ void	exec_tree(t_tree *root, char **envp[])
 	if (root->type == '>' || root->type == 'r' || root->type == '<'
 		|| root->type == 'l')
 	{
-		redirect(root);
+		redirect(root, *envp);
 		if (root->right)
 			exec_tree(root->right, envp);
 		if (root->left)

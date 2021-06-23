@@ -12,7 +12,7 @@
 
 #include "../includes/minishell.h"
 
-char	*dollar(char *str, int *dolla)
+char	*dollar(char *str, int *dolla, char **envp)
 {
 	char	*name;
 	char	*env;
@@ -26,7 +26,8 @@ char	*dollar(char *str, int *dolla)
 		&& str[i] != ' ')
 		i++;
 	name = ft_substr(str + (*dolla), 1, i - (*dolla) - 1);
-	env = getenv(name);
+//	env = getenv(name);
+	env = my_get_env(envp, name);
 	k = *dolla;
 	if (!env)
 	{
@@ -77,7 +78,7 @@ int	single_quote(char *str, int *j)
 	return (0);
 }
 
-int	double_quote(char **str, int *j)
+int	double_quote(char **str, int *j, char **envp)
 {
 	int	i;
 	int	k;
@@ -106,7 +107,7 @@ int	double_quote(char **str, int *j)
 		if ((*str)[start] == '$')
 		{
 			old_len = (int)ft_strlen(*str);
-			*str = dollar(*str, &start);
+			*str = dollar(*str, &start, envp);
 			end = end + ((int)ft_strlen(*str) - old_len);
 		}
 		else
@@ -116,7 +117,7 @@ int	double_quote(char **str, int *j)
 	return (0);
 }
 
-int	check_tokens(char **mas)
+int	check_tokens(char **mas, char **envp)
 {
 	int	i;
 	int	j;
@@ -145,12 +146,12 @@ int	check_tokens(char **mas)
 				}
 				else if (mas[i][j] == '\"')
 				{
-					if (double_quote(&mas[i], &j) == -1)
+					if (double_quote(&mas[i], &j, envp) == -1)
 						return (-1);
 				}
 				else if (mas[i][j] == '$')
 				{
-					mas[i] = dollar(mas[i], &j);
+					mas[i] = dollar(mas[i], &j, envp);
 				}
 				else
 					j++;

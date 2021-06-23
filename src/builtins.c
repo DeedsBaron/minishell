@@ -49,18 +49,52 @@ void	exec_cd(t_tree *root)
 		print_error(root->command, root->f_arg[1], NULL);
 }
 
+int		find_equal_arg(const char *s1, const char *s2)
+{
+	int		i;
+	if (s1 == NULL || s2 == NULL)
+		return (-1);
+	i = 0;
+	while (s1[i] && s2[i] && s1[i] == s2[i] && s1[i] != '=' && s2[i] != '=')
+		i++;
+	if((s1[i] == '\0' && s2[i] == '\0') || (s1[i] == '=' && s2[i] == '\0') ||
+			(s2[i] == '=' && s1[i] == '\0') || (s1[i] == '=' && s2[i] == '='))
+		return (1);
+	else
+		return (0);
+}
+
+
+int	count_arguments(char **mas)
+{
+	int i;
+	int counter;
+
+	i = 0;
+	counter = 0;
+	while (mas[i])
+	{
+		if (ft_isalpha(mas[i][0]) == 1)
+			counter++;
+		i++;
+	}
+	return (counter);
+}
+
 void	exec_export(char **envp[], t_tree *root)
 {
 	char	**tmp;
 	int		i;
 	int		k;
+	int		m;
+	char	c;
 
 	if (root->f_arg[1] == NULL)
 		print_export((*envp));
-	else
+	else if(count_arguments(root->f_arg) != 1)
 	{
 		tmp = (char **)malloc(sizeof(char *) * (mas_len((*envp))
-					+ mas_len(root->f_arg)));
+					+ count_arguments(root->f_arg)));
 		i = 0;
 		while ((*envp)[i] != NULL)
 		{
@@ -70,12 +104,30 @@ void	exec_export(char **envp[], t_tree *root)
 		k = 1;
 		while (root->f_arg[k] != NULL)
 		{
-			if (ft_isdigit(root->f_arg[k][0]) == 0)
-				tmp[i] = ft_strdup(root->f_arg[k]);
+			if(ft_isalpha(root->f_arg[k][0]) == 1)
+			{
+				m = 0;
+				while ((*envp)[m]
+					&& find_equal_arg((*envp)[m], root->f_arg[k]) == 0)
+					m++;
+				if (!((*envp)[m]))
+					tmp[i++] = ft_strdup(root->f_arg[k++]);
+				else
+				{
+					if(ft_strchr(root->f_arg[k], '='))
+					{
+						free(tmp[m]);
+						tmp[m] = ft_strdup(root->f_arg[k]);
+					}
+					k++;
+				}
+			}
 			else
+			{
 				print_error(root->command, root->f_arg[k], COM_NVI);
-			i++;
-			k++;
+				i++;
+				k++;
+			}
 		}
 		tmp[i] = NULL;
 		free_mas(*envp);

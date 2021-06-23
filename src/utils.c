@@ -32,7 +32,9 @@ void	printmas(char **mas, int level)
 	while (mas[i] != NULL)
 	{
 		insert_tabs(level);
+		write(1, "|", 1);
 		write(1, mas[i], ft_strlen(mas[i]));
+		write(1, "|", 1);
 		write(1, "\n", 1);
 		i++;
 	}
@@ -70,29 +72,66 @@ void	print_env(char **mas)
 	}
 }
 
+void 	swap(char **s1, char **s2)
+{
+	char *tmp;
+
+	*s2 = tmp;
+	*s2 = *s1;
+	*s1 = tmp;
+}
+
+char	**sort_alp(char **mas)
+{
+	int i;
+	int j;
+	int size;
+
+	i = 0;
+	size = mas_len(mas);
+	while(i < size)
+	{
+		j = 0;
+		while(j < size - i - 1)
+		{
+			if (ft_strcmp(mas[j], mas[j + 1]) > 0)
+				swap(&mas[j], &mas[j + 1]);
+			j++;
+		}
+		i++;
+	}
+	return(mas);
+}
+
 void	print_export(char **mas)
 {
 	int	i;
+	char **mas_cpy;
 
 	i = 0;
-	while (mas[i] != NULL)
+	mas_cpy = make_envp_copy(mas);
+	mas_cpy = sort_alp(mas_cpy);
+	while (mas_cpy[i] != NULL)
 	{
 		write(1, "declare -x ", 11);
-		if (ft_strchr(mas[i], '='))
+		if (ft_strchr(mas_cpy[i], '='))
 		{
-			write(1, mas[i], (ft_strchr(mas[i], '=') - mas[i]) + 1);
+			write(1, mas_cpy[i], (ft_strchr(mas_cpy[i], '=') - mas_cpy[i]) + 1);
 			write(1, "\"", 1);
-			write(1, ft_strchr(mas[i], '=') + 1,
-				ft_strlen(mas[i]) - (ft_strchr(mas[i], '=') - mas[i] + 1));
+			write(1, ft_strchr(mas_cpy[i], '=') + 1,
+				ft_strlen(mas_cpy[i]) - (ft_strchr(mas_cpy[i], '=') -
+				mas_cpy[i] +
+				1));
 			write(1, "\"\n", 2);
 		}
 		else
 		{
-			write(1, mas[i], ft_strlen(mas[i]));
-			write(1, "\"\n", 2);
+			write(1, mas_cpy[i], ft_strlen(mas_cpy[i]));
+			write(1, "\n", 1);
 		}
 		i++;
 	}
+	free_mas(mas_cpy);
 }
 
 void	free_mas(char **mas)
@@ -140,4 +179,18 @@ void	free_tree(t_tree *node)
 			node->right = NULL;
 		}
 	}
+}
+
+char  *my_get_env(char **envp, char *str)
+{
+	int	i;
+	int k;
+	i = 0;
+	k = 0;
+	while (envp[i] && find_equal_arg(envp[i], str) == 0)
+		i++;
+	if (!(envp[i]))
+		return(NULL);
+	else
+		return(ft_strdup(ft_strchr(envp[i], '=') + 1));
 }

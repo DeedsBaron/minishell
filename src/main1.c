@@ -75,7 +75,7 @@ int	main(int argc, char *argv[], char *envp[])
 		mas = NULL;
 		tree = NULL;
 		mas = make_tokens_massive(str);
-		if (mas && (check_tokens(mas) == 1))
+		if (mas && (check_tokens(mas, envp_copy) == 1))
 		{
 			if (*mas)
 				tree = make_tree(mas);
@@ -91,6 +91,7 @@ int	main(int argc, char *argv[], char *envp[])
 		free_tree(tree);
 		free(tree);
 	}
+	free_mas(envp_copy);
 	free(str);
 	return (0);
 }
