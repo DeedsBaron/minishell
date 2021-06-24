@@ -61,11 +61,12 @@ void 	exec_tree(t_tree *root, char **envp[]);
 void	exec_env(char *envp[]);
 void	exec_echo(t_tree *root);
 void	exec_pwd(void);
-void 	exec_cd(t_tree *root);
+void 	exec_cd(t_tree *root, char **envp[]);
 void	exec_export(char **envp[], t_tree *root);
 void	exec_unset(char **envp[], t_tree *root);
 void	exec_exit();
 int		find_equal_arg(const char *s1, const char *s2);
+char	**find_str(char **mas, char *str);
 
 
 #endif

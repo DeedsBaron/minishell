@@ -81,7 +81,7 @@ void	exec_builtin(t_tree *root, char **envp[])
 	else if (ft_strcmp(root->command, "pwd") == 0)
 		exec_pwd();
 	else if (ft_strcmp(root->command, "cd") == 0)
-		exec_cd(root);
+		exec_cd(root, envp);
 	else if (ft_strcmp(root->command, "export") == 0)
 		exec_export(envp, root);
 	else if (ft_strcmp(root->command, "unset") == 0)

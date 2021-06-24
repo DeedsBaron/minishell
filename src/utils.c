@@ -40,11 +40,28 @@ void	printmas(char **mas, int level)
 	}
 }
 
+char	**delete_old_pwd(char **tmp)
+{
+	int	i;
+
+	i = 0;
+	while (tmp[i])
+	{
+		if (find_equal_arg(tmp[i], "OLDPWD") == 1)
+			tmp[i][6] = '\0';
+		i++;
+	}
+	return (tmp);
+}
+
+
 char	**make_envp_copy(char **envp)
 {
 	char	**tmp;
 	int		i;
+	static	int flag;
 
+	flag = 0;
 	tmp = (char **)malloc ((sizeof(char *) * (mas_len(envp)) + 1));
 	i = 0;
 	while (envp[i] != NULL)
@@ -53,6 +70,11 @@ char	**make_envp_copy(char **envp)
 		i++;
 	}
 	tmp[i] = NULL;
+	if (flag == 0)
+	{
+		//tmp = delete_old_pwd(tmp);
+		flag = 1;
+	}
 	return (tmp);
 }
 

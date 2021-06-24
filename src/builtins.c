@@ -32,10 +32,29 @@ void	exec_echo(t_tree *root)
 		write(1, "\n", 1);
 }
 
-void	exec_cd(t_tree *root)
+void 	set_old_pwd(char **envp[])
+{
+	int i;
+	char *oldpwd;
+
+	i = 0;
+	while (envp[0][i])
+	{
+		if (find_equal_arg(envp[0][i], "OLDPWD") == 1)
+		{
+			ft_bzero(envp[0][i], ft_strlen(envp[0][i]));
+			envp[0][i] = ft_strjoin(envp[0][i], "OLDPWD=");
+			envp[0][i] = ft_strjoin(envp[0][i], getcwd(NULL, 1));
+		}
+		i++;
+	}
+}
+
+void	exec_cd(t_tree *root, char **envp[])
 {
 	char	*res;
 
+	set_old_pwd(envp);
 	if (root->f_arg[1] == NULL || (ft_strcmp("~", root->f_arg[1]) == 0))
 		chdir(getenv("HOME"));
 	else if (root->f_arg[1] != NULL && root->f_arg[1][0] == '~')
@@ -135,38 +154,60 @@ void	exec_export(char **envp[], t_tree *root)
 	}
 }
 
+int	count_unset_arguments(char **envp, t_tree *root)
+{
+	int i;
+	int j;
+	int counter;
+
+	j = 1;
+	counter = 0;
+	while (root->f_arg[j])
+	{
+		i = 0;
+		while(envp[i])
+		{
+			if (find_equal_arg(envp[i], root->f_arg[j]))
+			{
+				counter++;
+				break;
+			}
+			i++;
+		}
+		j++;
+	}
+	return (counter);
+}
+
 void	exec_unset(char **envp[], t_tree *root)
 {
 	char	**tmp;
 	int		i;
+	int		j;
 	int		k;
-	int		m;
-	char	c;
 
 	if (root->f_arg[1] == NULL)
 		return ;
 	else
 	{
 		tmp = (char **)malloc(sizeof(char *) * (mas_len((*envp))
-					- mas_len(root->f_arg) + 2));
-		i = 0;
+					- count_unset_arguments(*envp, root) + 1));
 		k = 0;
-		while ((*envp)[k] != NULL)
+		i = 0;
+		while (i < (mas_len(*envp) - count_unset_arguments(*envp, root)))
 		{
-			m = 0;
-			while (root->f_arg[m] && ft_strcmp((*envp)[k], root->f_arg[m]) != 0)
-				m++;
-			c = (*envp)[k][ft_strlen(root->f_arg[m]) + 1];
-			if (!root->f_arg[m] && c != '=')
+			j = 1;
+			while (root->f_arg[j])
 			{
-				tmp[i] = ft_strdup((*envp)[k]);
-				i++;
-				k++;
+				if (find_equal_arg(envp[0][i], root->f_arg[j]) == 1)
+					i++;
+				j++;
 			}
-			else
-				k++;
+			tmp[k] = ft_strdup(envp[0][i]);
+			k++;
+			i++;
 		}
-		tmp[i] = NULL;
+		tmp[k] = NULL;
 		free_mas(*envp);
 		(*envp) = tmp;
 	}
