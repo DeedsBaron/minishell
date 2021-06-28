@@ -52,6 +52,11 @@ void	print_tree(t_tree *root, int level)
 	printf("right\n");
 }
 
+void handler(int num)
+{
+	write(1, "\n", 1);
+}
+
 int	main(int argc, char *argv[], char *envp[])
 {
 	char	*str;
@@ -69,7 +74,11 @@ int	main(int argc, char *argv[], char *envp[])
 		return (1);
 	}
 	envp_copy = make_envp_copy(envp);
-	while ((str = readline("minishell$ ")))
+	delete_old_pwd(&envp_copy);
+	//signal(SIGINT, handler);
+
+	str = readline("minishell$ ");
+	while(str)
 	{
 		add_history(str);
 		mas = NULL;
@@ -79,17 +88,19 @@ int	main(int argc, char *argv[], char *envp[])
 		{
 			if (*mas)
 				tree = make_tree(mas);
+			print_tree(tree, 0);
 		}
 		if (tree)
 		{
 			in = dup(0);
 			out = dup(1);
-			exec_tree(tree, &envp_copy);
+			exec_tree(tree, &envp_copy, 1);
 			dup2(in, 0);
 			dup2(out, 1);
 		}
 		free_tree(tree);
 		free(tree);
+		str = readline("minishell$ ");
 	}
 	free_mas(envp_copy);
 	free(str);

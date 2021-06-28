@@ -93,6 +93,8 @@ int	count_spaces(char *s)
 		}
 		else if (*s == ' ' && *(s + 1) != '|')
 			counter++;
+		else if (*s == '|' && *(s + 1) == '\0')
+			counter++;
 		else if (((*s == '>' && *(s + 1) == '>') || (*s == '<' && *(s + 1)
 					== '<')) && *(s + 2) != ' ')
 		{

@@ -12,7 +12,17 @@
 
 #include "libft.h"
 
-int		ft_tolower(int c)
+void	ft_tolower(char **str)
 {
-	return ((c >= 'A' && c <= 'Z') ? c + 32 : c);
+	int i;
+
+ 	if (!*str)
+ 		return ;
+	i = 0;
+	while ((*str)[i] != '\0')
+	{
+		if ((*str)[i] >= 'A' && (*str)[i] <= 'Z')
+			(*str)[i] = (*str)[i] + 32;
+		i++;
+	}
 }

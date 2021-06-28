@@ -40,26 +40,32 @@ void	printmas(char **mas, int level)
 	}
 }
 
-char	**delete_old_pwd(char **tmp)
+void	delete_old_pwd(char ***tmp)
 {
-	int	i;
+	int		i;
+	char	**mas;
 
 	i = 0;
-	while (tmp[i])
+	mas = (char **)malloc(sizeof(char *) * (mas_len(*tmp) + 2));
+	while ((*tmp)[i])
 	{
-		if (find_equal_arg(tmp[i], "OLDPWD") == 1)
-			tmp[i][6] = '\0';
+		if (find_equal_arg((*tmp)[i], "OLDPWD") == 1)
+			mas[i] = ft_strdup("OLDPWD");
+		else
+			mas[i] = ft_strdup((*tmp)[i]);
 		i++;
 	}
-	return (tmp);
+	mas[i] = ft_strdup("?=0");
+	mas[i + 1] = NULL;
+	free_mas(*tmp);
+	*tmp = mas;
 }
-
 
 char	**make_envp_copy(char **envp)
 {
-	char	**tmp;
-	int		i;
-	static	int flag;
+	char		**tmp;
+	int			i;
+	static int	flag;
 
 	flag = 0;
 	tmp = (char **)malloc ((sizeof(char *) * (mas_len(envp)) + 1));
@@ -70,11 +76,6 @@ char	**make_envp_copy(char **envp)
 		i++;
 	}
 	tmp[i] = NULL;
-	if (flag == 0)
-	{
-		//tmp = delete_old_pwd(tmp);
-		flag = 1;
-	}
 	return (tmp);
 }
 
@@ -85,7 +86,7 @@ void	print_env(char **mas)
 	i = 0;
 	while (mas[i] != NULL)
 	{
-		if (ft_strchr(mas[i], '='))
+		if (find_equal_arg(mas[i], "?") != 1 && ft_strchr(mas[i], '='))
 		{
 			write(1, mas[i], ft_strlen(mas[i]));
 			write(1, "\n", 1);
@@ -96,8 +97,9 @@ void	print_env(char **mas)
 
 void 	swap(char **s1, char **s2)
 {
-	char *tmp;
+	char	*tmp;
 
+	tmp = NULL;
 	*s2 = tmp;
 	*s2 = *s1;
 	*s1 = tmp;
@@ -105,16 +107,16 @@ void 	swap(char **s1, char **s2)
 
 char	**sort_alp(char **mas)
 {
-	int i;
-	int j;
-	int size;
+	int	i;
+	int	j;
+	int	size;
 
 	i = 0;
 	size = mas_len(mas);
-	while(i < size)
+	while (i < size)
 	{
 		j = 0;
-		while(j < size - i - 1)
+		while (j < size - i - 1)
 		{
 			if (ft_strcmp(mas[j], mas[j + 1]) > 0)
 				swap(&mas[j], &mas[j + 1]);
@@ -122,36 +124,41 @@ char	**sort_alp(char **mas)
 		}
 		i++;
 	}
-	return(mas);
+	return (mas);
 }
 
 void	print_export(char **mas)
 {
-	int	i;
-	char **mas_cpy;
+	int		i;
+	char	**mas_cpy;
 
 	i = 0;
 	mas_cpy = make_envp_copy(mas);
 	mas_cpy = sort_alp(mas_cpy);
 	while (mas_cpy[i] != NULL)
 	{
-		write(1, "declare -x ", 11);
-		if (ft_strchr(mas_cpy[i], '='))
+		if (find_equal_arg(mas_cpy[i], "?") != 1)
 		{
-			write(1, mas_cpy[i], (ft_strchr(mas_cpy[i], '=') - mas_cpy[i]) + 1);
-			write(1, "\"", 1);
-			write(1, ft_strchr(mas_cpy[i], '=') + 1,
-				ft_strlen(mas_cpy[i]) - (ft_strchr(mas_cpy[i], '=') -
-				mas_cpy[i] +
-				1));
-			write(1, "\"\n", 2);
+			write(1, "declare -x ", 11);
+			if (ft_strchr(mas_cpy[i], '='))
+			{
+				write(1, mas_cpy[i],
+					  (ft_strchr(mas_cpy[i], '=') - mas_cpy[i]) + 1);
+				write(1, "\"", 1);
+				write(1, ft_strchr(mas_cpy[i], '=') + 1,
+					ft_strlen(mas_cpy[i]) - (ft_strchr(mas_cpy[i], '=')
+						- mas_cpy[i] + 1));
+				write(1, "\"\n", 2);
+			}
+			else
+			{
+				write(1, mas_cpy[i], ft_strlen(mas_cpy[i]));
+				write(1, "\n", 1);
+			}
+			i++;
 		}
 		else
-		{
-			write(1, mas_cpy[i], ft_strlen(mas_cpy[i]));
-			write(1, "\n", 1);
-		}
-		i++;
+			i++;
 	}
 	free_mas(mas_cpy);
 }
@@ -203,16 +210,17 @@ void	free_tree(t_tree *node)
 	}
 }
 
-char  *my_get_env(char **envp, char *str)
+char	*my_get_env(char **envp, char *str)
 {
 	int	i;
-	int k;
+	int	k;
+
 	i = 0;
 	k = 0;
 	while (envp[i] && find_equal_arg(envp[i], str) == 0)
 		i++;
 	if (!(envp[i]))
-		return(NULL);
+		return (NULL);
 	else
-		return(ft_strdup(ft_strchr(envp[i], '=') + 1));
+		return (ft_strdup(ft_strchr(envp[i], '=') + 1));
 }

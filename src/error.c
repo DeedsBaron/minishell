@@ -14,7 +14,8 @@
 
 void	print_error(char *command, char *argument, char *str)
 {
-	write(1, "minishell: ", 11);
+	if (ft_strcmp("env", command) != 0)
+		write(1, "minishell: ", 11);
 	write(1, command, ft_strlen(command));
 	write(1, ": ", 2);
 	if (argument)

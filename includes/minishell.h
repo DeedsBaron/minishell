@@ -25,6 +25,7 @@
 #include <signal.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+#include <signal.h>
 typedef struct s_tree
 {
 	struct s_tree *left;
@@ -43,7 +44,8 @@ void 		free_tree(t_tree *node);
 void		print_env(char **mas);
 void		print_export(char **mas);
 char 		**make_envp_copy(char **envp);
-char  *my_get_env(char **envp, char *str);
+char  		*my_get_env(char **envp, char *str);
+void		delete_old_pwd(char ***tmp);
 
 //error
 void		print_error(char *command, char *argument, char* str);
@@ -56,9 +58,9 @@ int	mas_len(char **mas);
 //main
 void	insert_tabs(int level);
 //exec_tree
-void 	exec_tree(t_tree *root, char **envp[]);
+void 	exec_tree(t_tree *root, char **envp[], int flag);
 //builtins
-void	exec_env(char *envp[]);
+void	exec_env(t_tree *root, char **envp[]);
 void	exec_echo(t_tree *root);
 void	exec_pwd(void);
 void 	exec_cd(t_tree *root, char **envp[]);
@@ -67,6 +69,7 @@ void	exec_unset(char **envp[], t_tree *root);
 void	exec_exit();
 int		find_equal_arg(const char *s1, const char *s2);
 char	**find_str(char **mas, char *str);
+void 	set_exit_code(int code, char **envp[]);
 
 
 #endif

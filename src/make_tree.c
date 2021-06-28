@@ -80,6 +80,7 @@ void	make_com_fl_arg(char **mas, t_tree *node)
 	k = 1;
 	tmp = node->command;
 	node->command = ft_strjoin(node->command, mas[0]);
+	ft_tolower(&node->command);
 	free(tmp);
 	node->f_arg = (char **)malloc(sizeof(char *) * mas_len(mas) + 1);
 	k = 0;

@@ -22,11 +22,12 @@ char	*dollar(char *str, int *dolla, char **envp)
 
 	i = (*dolla) + 1;
 	env = NULL;
+	name = NULL;
 	while (str[i] != '\0' && str[i] != '\'' && str[i] != '\"' && str[i] != '$'
 		&& str[i] != ' ')
 		i++;
-	name = ft_substr(str + (*dolla), 1, i - (*dolla) - 1);
-//	env = getenv(name);
+	if (str[*dolla])
+		name = ft_substr(str + (*dolla), 1, i - (*dolla) - 1);
 	env = my_get_env(envp, name);
 	k = *dolla;
 	if (!env)
@@ -149,7 +150,8 @@ int	check_tokens(char **mas, char **envp)
 					if (double_quote(&mas[i], &j, envp) == -1)
 						return (-1);
 				}
-				else if (mas[i][j] == '$')
+				else if (mas[i][j] == '$' && mas[i][j + 1] != ' ' && mas[i][j
+				+ 1] != '\0')
 				{
 					mas[i] = dollar(mas[i], &j, envp);
 				}

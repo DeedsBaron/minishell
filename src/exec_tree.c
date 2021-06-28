@@ -66,7 +66,7 @@ int	if_builtin(t_tree *root)
 		return (1);
 	else if (ft_strcmp(root->command, "unset") == 0)
 		return (1);
-		else if (ft_strcmp(root->command, "exit") == 0)
+	else if (ft_strcmp(root->command, "exit") == 0)
 		return (1);
 	else
 		return (0);
@@ -77,7 +77,7 @@ void	exec_builtin(t_tree *root, char **envp[])
 	if (ft_strcmp(root->command, "echo") == 0)
 		exec_echo(root);
 	else if (ft_strcmp(root->command, "env") == 0)
-		exec_env(*envp);
+		exec_env(root, envp);
 	else if (ft_strcmp(root->command, "pwd") == 0)
 		exec_pwd();
 	else if (ft_strcmp(root->command, "cd") == 0)
@@ -106,8 +106,7 @@ void	exec_bin(t_tree *root, char *envp[])
 			pid = fork();
 			if (pid == 0)
 			{
-				if (execve(bin, root->f_arg, envp) == -1)
-					print_error(root->command, root->f_arg[1], COM_NF);
+				execve(bin, root->f_arg, envp);
 			}
 			waitpid(pid, NULL, 0);
 			free(bin);
@@ -118,6 +117,7 @@ void	exec_bin(t_tree *root, char *envp[])
 			write(1, root->command, ft_strlen(root->command));
 			write(1, ": ", 2);
 			write(1, COM_NF, ft_strlen(COM_NF));
+			set_exit_code(127, &envp);
 		}
 		free_mas(folders);
 	}
@@ -150,7 +150,6 @@ int	here_doc(char *name, char **envp)
 	int		fd[2];
 	char	*str;
 	int		i;
-	char	*tmp;
 	pid_t	pid;
 
 	pipe(fd);
@@ -204,49 +203,89 @@ void	redirect(t_tree *root, char **envp)
 		redirect_in(root, envp);
 }
 
-void	exec_tree(t_tree *root, char **envp[])
+void	tokenz_er(t_tree *root, char **envp[])
+{
+	write(1, "minishell: ", 11);
+	write(1, "syntax error near unexpected token `", 36);
+	if (root->type == 'l')
+		write(1, "<<", 2);
+	else if (root->type == 'r')
+		write(1, ">>", 2);
+	else
+		write(1, &root->type, 1);
+	write(1, "\'\n", 2);
+	set_exit_code(258, envp);
+}
+
+void	exec_tree(t_tree *root, char **envp[], int flag)
 {
 	int		fd[2];
 	pid_t	pid;
 
 	if (root->type == '|')
 	{
-		pipe (fd);
-		pid = fork();
-		if (pid == 0)
+		if (!root->left->command)
 		{
-			close(fd[0]);
-			dup2(fd[1], 1);
-			if (root->left)
-				exec_tree(root->left, envp);
+			tokenz_er(root, envp);
+			return;
+		}
+		else if (!root->right->command)
+		{
+			write(1, MULTILINE, ft_strlen(MULTILINE));
+			set_exit_code(1, envp);
+		}
+		else
+		{
+			pipe (fd);
+			pid = fork();
+			if (pid == 0)
+			{
+				close(fd[0]);
+				dup2(fd[1], 1);
+				if (root->left)
+					exec_tree(root->left, envp, 1);
+				close(fd[1]);
+				exit(EXIT_SUCCESS);
+			}
 			close(fd[1]);
-			exit(EXIT_SUCCESS);
-		}
-		close(fd[1]);
-		waitpid(pid, NULL, 0);
-		pid = fork();
-		if (pid == 0)
-		{
-			dup2(fd[0], 0);
-			if (root->right)
-				exec_tree(root->right, envp);
+			waitpid(pid, NULL, 0);
+			pid = fork();
+			if (pid == 0)
+			{
+				dup2(fd[0], 0);
+				if (root->right)
+					exec_tree(root->right, envp, 1);
+				close(fd[0]);
+				exit(EXIT_SUCCESS);
+			}
+			waitpid(pid, NULL, 0);
 			close(fd[0]);
-			exit(EXIT_SUCCESS);
 		}
-		waitpid(pid, NULL, 0);
-		close(fd[0]);
 	}
 	if (root->type == '>' || root->type == 'r' || root->type == '<'
 		|| root->type == 'l')
 	{
-		redirect(root, *envp);
-		if (root->right)
-			exec_tree(root->right, envp);
-		if (root->left)
-			exec_tree(root->left, envp);
+		if (!root->right->command)
+		{
+			tokenz_er(root, envp);
+			return ;
+		}
+		else
+		{
+			redirect(root, *envp);
+			if (root->right && (root->right->type == '>' || root->right->type
+			== 'r' || root->right->type == '<' || root->right->type == 'l'))
+				exec_tree(root->right, envp, 0);
+			if (root->left  && flag == 1)
+			{
+				flag = 0;
+				exec_tree(root->left, envp, flag);
+			}
+		}
 	}
 	if (root->type == 'c')
 	{
+		set_exit_code(0, envp);
 		if (if_builtin(root) == 1)
 		{
 			exec_builtin(root, envp);
