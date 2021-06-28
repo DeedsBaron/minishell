@@ -94,7 +94,7 @@ int	main(int argc, char *argv[], char *envp[])
 		{
 			in = dup(0);
 			out = dup(1);
-			exec_tree(tree, &envp_copy, 1);
+			exec_tree(tree, &envp_copy, 1, NULL);
 			dup2(in, 0);
 			dup2(out, 1);
 		}

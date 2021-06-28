@@ -123,26 +123,28 @@ void	exec_bin(t_tree *root, char *envp[])
 	}
 }
 
-void	redirect_out(t_tree *root)
+char 	*redirect_out(t_tree *root, int *flag)
 {
 	int		fd;
 	char	*name;
 
-	if (root->right->type == '>' || root->right->type == 'r')
+	if (root->right->type == '>' || root->right->type == 'r' ||
+	root->right->type == '<' || root->right->type == 'l')
 		name = root->right->left->command;
 	else
 		name = root->right->command;
 	if (root->type == '>')
-		fd = open(name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		fd = open(name, O_WRONLY | O_CREAT | O_TRUNC);
 	else
-		fd = open(name, O_WRONLY | O_CREAT | O_APPEND, 0644);
+		fd = open(name, O_WRONLY | O_CREAT | O_APPEND);
 	if (fd < 0)
 	{
-		write(1, strerror(errno), ft_strlen(strerror(errno)));
-		write(1, "\n", 1);
+		*flag = -2;
+		return (name);
 	}
 	dup2(fd, 1);
 	close(fd);
+	return (NULL);
 }
 
 int	here_doc(char *name, char **envp)
@@ -178,29 +180,36 @@ int	here_doc(char *name, char **envp)
 	return (fd[0]);
 }
 
-void	redirect_in(t_tree *root, char **envp)
+char	*redirect_in(t_tree *root, char **envp, int *flag)
 {
 	int		fd;
 	char	*name;
 
-	if (root->right->type == '<' || root->right->type == 'l')
+	if (root->right->type == '<' || root->right->type == 'l'
+		|| root->right->type == '>' || root->right->type == 'r')
 		name = root->right->left->command;
 	else
 		name = root->right->command;
 	if (root->type == '<')
+	{
 		fd = open(name, O_RDONLY, 0644);
+		if (fd < 0)
+			return (name);
+	}
 	else
 		fd = here_doc(name, envp);
 	dup2(fd, 0);
 	close(fd);
+	return (NULL);
 }
 
-void	redirect(t_tree *root, char **envp)
+char	*redirect(t_tree *root, char **envp, int *flag)
 {
 	if (root->type == '>' || root->type == 'r')
-		redirect_out(root);
+		return (redirect_out(root, flag));
 	else if (root->type == '<' || root->type == 'l')
-		redirect_in(root, envp);
+		return (redirect_in(root, envp, flag));
+	return (NULL);
 }
 
 void	tokenz_er(t_tree *root, char **envp[])
@@ -217,7 +226,7 @@ void	tokenz_er(t_tree *root, char **envp[])
 	set_exit_code(258, envp);
 }
 
-void	exec_tree(t_tree *root, char **envp[], int flag)
+void	exec_tree(t_tree *root, char **envp[], int flag, char *filename)
 {
 	int		fd[2];
 	pid_t	pid;
@@ -243,7 +252,7 @@ void	exec_tree(t_tree *root, char **envp[], int flag)
 				close(fd[0]);
 				dup2(fd[1], 1);
 				if (root->left)
-					exec_tree(root->left, envp, 1);
+					exec_tree(root->left, envp, 1, filename);
 				close(fd[1]);
 				exit(EXIT_SUCCESS);
 			}
@@ -254,7 +263,7 @@ void	exec_tree(t_tree *root, char **envp[], int flag)
 			{
 				dup2(fd[0], 0);
 				if (root->right)
-					exec_tree(root->right, envp, 1);
+					exec_tree(root->right, envp, 1, filename);
 				close(fd[0]);
 				exit(EXIT_SUCCESS);
 			}
@@ -272,19 +281,34 @@ void	exec_tree(t_tree *root, char **envp[], int flag)
 		}
 		else
 		{
-			redirect(root, *envp);
+			if (!filename)
+				filename = redirect(root, *envp, &flag);
 			if (root->right && (root->right->type == '>' || root->right->type
 			== 'r' || root->right->type == '<' || root->right->type == 'l'))
-				exec_tree(root->right, envp, 0);
-			if (root->left  && flag == 1)
+				exec_tree(root->right, envp, 0, filename);
+			if (root->left  && (flag == 1 || flag == -2))
 			{
+				exec_tree(root->left, envp, flag, filename);
 				flag = 0;
-				exec_tree(root->left, envp, flag);
 			}
 		}
 	}
 	if (root->type == 'c')
 	{
+		if (flag == -2)
+		{
+			write(1, "minishel: ", 10);
+			write(1, filename, ft_strlen(filename));
+			write(1, ": ", 2);
+			write(1, strerror(errno), ft_strlen(strerror(errno)));
+			write(1, "\n", 1);
+			return ;
+		}
+		if (filename)
+		{
+			print_error(root->command, filename, NO_FILE);
+			return ;
+		}
 		set_exit_code(0, envp);
 		if (if_builtin(root) == 1)
 		{

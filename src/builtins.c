@@ -81,11 +81,12 @@ void	exec_cd(t_tree *root, char **envp[])
 	int		exit;
 
 	set_old_pwd(envp);
+
 	if (root->f_arg[1] == NULL || (ft_strcmp("~", root->f_arg[1]) == 0))
-		chdir(getenv("HOME"));
+		chdir(my_get_env(*envp, "HOME"));
 	else if (root->f_arg[1] != NULL && root->f_arg[1][0] == '~')
 	{
-		res = ft_strjoin(getenv("HOME"), root->f_arg[1] + 1);
+		res = ft_strjoin(my_get_env(*envp, "HOME"), root->f_arg[1] + 1);
 		exit = chdir(res);
 		if (exit != 0)
 		{

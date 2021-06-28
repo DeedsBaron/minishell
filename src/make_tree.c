@@ -193,7 +193,7 @@ void	*make_tree(char **mas)
 		{
 			start = find_start(mas);
 			end = find_end(start, mas);
-			root->left = make_tree(submas(mas, start, end - start + 1));
+			root->left = make_tree(submas(mas, start, end - start));
 			root->right = make_tree(new_mas(mas, start, end));
 		}
 		else

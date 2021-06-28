@@ -58,7 +58,7 @@ int	mas_len(char **mas);
 //main
 void	insert_tabs(int level);
 //exec_tree
-void 	exec_tree(t_tree *root, char **envp[], int flag);
+void 	exec_tree(t_tree *root, char **envp[], int flag, char *filename);
 //builtins
 void	exec_env(t_tree *root, char **envp[]);
 void	exec_echo(t_tree *root);

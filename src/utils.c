@@ -95,14 +95,14 @@ void	print_env(char **mas)
 	}
 }
 
-void 	swap(char **s1, char **s2)
+void 	swap(char *s1, char *s2)
 {
 	char	*tmp;
 
 	tmp = NULL;
-	*s2 = tmp;
-	*s2 = *s1;
-	*s1 = tmp;
+	s2 = tmp;
+	s2 = s1;
+	s1 = tmp;
 }
 
 char	**sort_alp(char **mas)
@@ -119,7 +119,7 @@ char	**sort_alp(char **mas)
 		while (j < size - i - 1)
 		{
 			if (ft_strcmp(mas[j], mas[j + 1]) > 0)
-				swap(&mas[j], &mas[j + 1]);
+				swap(mas[j], mas[j + 1]);
 			j++;
 		}
 		i++;
