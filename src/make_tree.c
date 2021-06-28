@@ -101,9 +101,60 @@ void	make_com_fl_arg(char **mas, t_tree *node)
 	node->f_arg[k] = NULL;
 }
 
+int 	find_start(char **mas)
+{
+	int i;
+
+	i = 0;
+	while (mas[i] != NULL && (ft_strcmp(mas[i], ">") == 0 || ft_strcmp(mas[i],
+			">>") == 0 || ft_strcmp(mas[i], "<") == 0
+			|| ft_strcmp(mas[i], "<<") == 0))
+	{
+		if (mas[i + 1] && ft_strcmp(mas[i + 1], ">") != 0 && ft_strcmp
+			(mas[i +1], ">>") !=0 && ft_strcmp(mas[i + 1], "<") != 0 &&
+				ft_strcmp(mas[i + 1], "<<") != 0)
+			i = i + 2;
+		else
+			i++;
+	}
+	return (i);
+}
+
+int find_end(int start, char **mas)
+{
+	int i;
+
+	i = start;
+	while(mas[i] != NULL && ft_strcmp(mas[i], ">") != 0 && ft_strcmp(mas[i],
+			">>") != 0 && ft_strcmp(mas[i], "<") != 0
+		  && ft_strcmp(mas[i], "<<") != 0)
+		i++;
+
+	return (i);
+}
+
+char **new_mas(char **mas, int start, int end)
+{
+	char **tmp;
+	int i;
+	int k;
+	tmp = (char **)malloc(sizeof(char *) * (mas_len(mas) - (end - start)));
+	i = 1;
+	k = 0;
+	while (i < start)
+		tmp[k++] = ft_strdup(mas[i++]);
+	i = end;
+	while (mas[i] != NULL)
+		tmp[k++] = ft_strdup(mas[i++]);
+	tmp[k] = NULL;
+	return (tmp);
+}
+
 void	*make_tree(char **mas)
 {
 	int		i;
+	int start;
+	int end;
 	t_tree	*root;
 
 	root = (t_tree *)malloc(sizeof(t_tree));
@@ -113,6 +164,8 @@ void	*make_tree(char **mas)
 	root->command = (char *)malloc(sizeof(char) * 1);
 	root->command[0] = '\0';
 	root->f_arg = NULL;
+	start = 0;
+	end = 0;
 	if (find_str(mas, "|"))
 	{
 		root->type = '|';
@@ -138,8 +191,10 @@ void	*make_tree(char **mas)
 			root->type = 'l';
 		if (i == 0)
 		{
-			root->right = make_tree(submas(mas, 1, 1));
-			root->left = make_tree(submas(mas, 2, mas_len(mas) - 2 ));
+			start = find_start(mas);
+			end = find_end(start, mas);
+			root->left = make_tree(submas(mas, start, end - start + 1));
+			root->right = make_tree(new_mas(mas, start, end));
 		}
 		else
 		{
