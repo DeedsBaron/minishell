@@ -79,14 +79,23 @@ void	exec_cd(t_tree *root, char **envp[])
 {
 	char	*res;
 	int		exit;
+	char 	*tmp;
 
 	set_old_pwd(envp);
 
-	if (root->f_arg[1] == NULL || (ft_strcmp("~", root->f_arg[1]) == 0))
+	if (root->f_arg[1] == NULL)
+	{
+		if (my_get_env(*envp, "HOME") == NULL)
+		{
+			print_error(root->command, NULL, "HOME not set\n");
+			set_exit_code(1, envp);
+			return ;
+		}
 		chdir(my_get_env(*envp, "HOME"));
+	}
 	else if (root->f_arg[1] != NULL && root->f_arg[1][0] == '~')
 	{
-		res = ft_strjoin(my_get_env(*envp, "HOME"), root->f_arg[1] + 1);
+		res = ft_strjoin(my_get_env(*envp, "~"), root->f_arg[1] + 1);
 		exit = chdir(res);
 		if (exit != 0)
 		{
@@ -229,18 +238,21 @@ void	exec_unset(char **envp[], t_tree *root)
 					- count_unset_arguments(*envp, root) + 1));
 		k = 0;
 		i = 0;
-		while (i < (mas_len(*envp) - count_unset_arguments(*envp, root)))
+//		while (i < (mas_len(*envp) - count_unset_arguments(*envp, root)))
+		while ((*envp)[i])
 		{
 			j = 1;
-			while (root->f_arg[j])
-			{
-				if (find_equal_arg(envp[0][i], root->f_arg[j]) == 1)
-					i++;
+			while (root->f_arg[j] && find_equal_arg((*envp)[i],
+				root->f_arg[j]) != 1)
 				j++;
+			if (find_equal_arg((*envp)[i], root->f_arg[j]) == 1)
+				i++;
+			else
+			{
+				tmp[k] = ft_strdup(envp[0][i]);
+				k++;
+				i++;
 			}
-			tmp[k] = ft_strdup(envp[0][i]);
-			k++;
-			i++;
 		}
 		tmp[k] = NULL;
 		free_mas(*envp);
@@ -248,9 +260,42 @@ void	exec_unset(char **envp[], t_tree *root)
 	}
 }
 
-void	exec_exit(void)
+int 	check_dig_str(char *str)
 {
-	exit(EXIT_SUCCESS);
+	int i;
+
+	i = 0;
+	while (str[i] != '\0')
+	{
+		if (ft_isdigit(str[i]) == 0)
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+void	exec_exit(t_tree *root, char **envp[])
+{
+	if (mas_len(root->f_arg) > 2)
+	{
+		print_error(root->command, NULL, "too many arguments\n");
+		set_exit_code(1, envp);
+		exit(ft_atoi(my_get_env(*envp, "?")));
+	}
+	if (mas_len(root->f_arg) == 2)
+	{
+		if (check_dig_str(root->f_arg[1]) == 0)
+		{
+			print_error(root->command, root->f_arg[1],
+						"numeric argument required\n");
+			set_exit_code(1, envp);
+			exit(ft_atoi(my_get_env(*envp, "?")));
+		}
+		set_exit_code(ft_atoi(root->f_arg[1]), envp);
+		exit(ft_atoi(my_get_env(*envp, "?")));
+	}
+	else
+		exit(ft_atoi(my_get_env(*envp, "?")));
 }
 
 void	exec_env(t_tree *root, char **envp[])

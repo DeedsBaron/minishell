@@ -118,6 +118,26 @@ int	double_quote(char **str, int *j, char **envp)
 	return (0);
 }
 
+char	**delete_empty(char **mas)
+{
+	int i;
+	int k;
+
+	i = 0;
+	k = 0;
+	while (mas[i] != NULL)
+	{
+		if (mas[i][0] == '\0')
+		{
+			i++;
+		}
+		else
+			mas[k++] = mas[i++];
+	}
+	mas[k] = NULL;
+	return (mas);
+}
+
 int	check_tokens(char **mas, char **envp)
 {
 	int	i;
@@ -161,5 +181,6 @@ int	check_tokens(char **mas, char **envp)
 			i++;
 		}
 	}
+	mas = delete_empty(mas);
 	return (1);
 }

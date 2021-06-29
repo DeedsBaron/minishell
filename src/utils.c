@@ -44,9 +44,10 @@ void	delete_old_pwd(char ***tmp)
 {
 	int		i;
 	char	**mas;
+	char	*buf;
 
 	i = 0;
-	mas = (char **)malloc(sizeof(char *) * (mas_len(*tmp) + 2));
+	mas = (char **)malloc(sizeof(char *) * (mas_len(*tmp) + 3));
 	while ((*tmp)[i])
 	{
 		if (find_equal_arg((*tmp)[i], "OLDPWD") == 1)
@@ -56,8 +57,11 @@ void	delete_old_pwd(char ***tmp)
 		i++;
 	}
 	mas[i] = ft_strdup("?=0");
-	mas[i + 1] = NULL;
+	buf = my_get_env(*tmp, "HOME");
+	mas[i + 1]= ft_strjoin("~=", buf);
+	mas[i + 2] = NULL;
 	free_mas(*tmp);
+	free(buf);
 	*tmp = mas;
 }
 
@@ -86,7 +90,8 @@ void	print_env(char **mas)
 	i = 0;
 	while (mas[i] != NULL)
 	{
-		if (find_equal_arg(mas[i], "?") != 1 && ft_strchr(mas[i], '='))
+		if (find_equal_arg(mas[i], "?") != 1 && find_equal_arg(mas[i], "~")
+		!= 1 && ft_strchr(mas[i], '='))
 		{
 			write(1, mas[i], ft_strlen(mas[i]));
 			write(1, "\n", 1);
@@ -95,14 +100,13 @@ void	print_env(char **mas)
 	}
 }
 
-void 	swap(char *s1, char *s2)
+void 	swap(char **s1, char **s2)
 {
 	char	*tmp;
 
-	tmp = NULL;
-	s2 = tmp;
-	s2 = s1;
-	s1 = tmp;
+	tmp = *s1;
+	*s1 = *s2;
+	*s2 = tmp;
 }
 
 char	**sort_alp(char **mas)
@@ -110,6 +114,7 @@ char	**sort_alp(char **mas)
 	int	i;
 	int	j;
 	int	size;
+	char *tmp;
 
 	i = 0;
 	size = mas_len(mas);
@@ -119,7 +124,7 @@ char	**sort_alp(char **mas)
 		while (j < size - i - 1)
 		{
 			if (ft_strcmp(mas[j], mas[j + 1]) > 0)
-				swap(mas[j], mas[j + 1]);
+				swap(&mas[j], &mas[j + 1]);
 			j++;
 		}
 		i++;
@@ -137,7 +142,8 @@ void	print_export(char **mas)
 	mas_cpy = sort_alp(mas_cpy);
 	while (mas_cpy[i] != NULL)
 	{
-		if (find_equal_arg(mas_cpy[i], "?") != 1)
+		if (find_equal_arg(mas_cpy[i], "?") != 1 && find_equal_arg
+		(mas_cpy[i], "~" ) != 1)
 		{
 			write(1, "declare -x ", 11);
 			if (ft_strchr(mas_cpy[i], '='))

@@ -68,6 +68,8 @@ int	if_builtin(t_tree *root)
 		return (1);
 	else if (ft_strcmp(root->command, "exit") == 0)
 		return (1);
+//	else if (ft_strcmp(root->command, "./minishell") == 0)
+//		return (1);
 	else
 		return (0);
 }
@@ -87,64 +89,47 @@ void	exec_builtin(t_tree *root, char **envp[])
 	else if (ft_strcmp(root->command, "unset") == 0)
 		exec_unset(envp, root);
 	else if (ft_strcmp(root->command, "exit") == 0)
-		exec_exit();
+		exec_exit(root, envp);
+//	else if (ft_strcmp(root->command, "./minishell") == 0)
+//		return ;
 }
 
-void	exec_bin(t_tree *root, char *envp[])
+void	exec_bin(t_tree *root, char **envp[])
 {
 	char	**folders;
 	char	*bin;
 	pid_t	pid;
+	int 	status;
 
 	bin = NULL;
 	if (if_builtin(root) == 0)
 	{
 		folders = make_bin_folders();
 		bin = bin_in_folder(folders, root->command);
-		if (bin)
+		if (bin || ft_strcmp(root->command, "./minishell") == 0)
 		{
 			pid = fork();
 			if (pid == 0)
 			{
-				execve(bin, root->f_arg, envp);
+				execve(bin, root->f_arg, *envp);
 			}
-			waitpid(pid, NULL, 0);
+			waitpid(pid, &status, 0);
+			set_exit_code(status - 255, envp);
 			free(bin);
 		}
 		else
 		{
-			write(1, "minishell: ", 11);
-			write(1, root->command, ft_strlen(root->command));
-			write(1, ": ", 2);
-			write(1, COM_NF, ft_strlen(COM_NF));
-			set_exit_code(127, &envp);
+			if (root->command)
+			{
+				write(1, "minishell: ", 11);
+				write(1, root->command, ft_strlen(root->command));
+				write(1, ": ", 2);
+				write(1, COM_NF, ft_strlen(COM_NF));
+				set_exit_code(127, envp);
+			}
 		}
 		free_mas(folders);
 	}
-}
-
-char 	*redirect_out(t_tree *root, int *flag)
-{
-	int		fd;
-	char	*name;
-
-	if (root->right->type == '>' || root->right->type == 'r' ||
-	root->right->type == '<' || root->right->type == 'l')
-		name = root->right->left->command;
-	else
-		name = root->right->command;
-	if (root->type == '>')
-		fd = open(name, O_WRONLY | O_CREAT | O_TRUNC);
-	else
-		fd = open(name, O_WRONLY | O_CREAT | O_APPEND);
-	if (fd < 0)
-	{
-		*flag = -2;
-		return (name);
-	}
-	dup2(fd, 1);
-	close(fd);
-	return (NULL);
 }
 
 int	here_doc(char *name, char **envp)
@@ -180,6 +165,30 @@ int	here_doc(char *name, char **envp)
 	return (fd[0]);
 }
 
+char 	*redirect_out(t_tree *root, int *flag)
+{
+	int		fd;
+	char	*name;
+
+	if (root->right->type == '>' || root->right->type == 'r' ||
+		root->right->type == '<' || root->right->type == 'l')
+		name = root->right->left->command;
+	else
+		name = root->right->command;
+	if (root->type == '>')
+		fd = open(name, O_WRONLY | O_CREAT | O_TRUNC);
+	else
+		fd = open(name, O_WRONLY | O_CREAT | O_APPEND);
+	if (fd < 0)
+	{
+		*flag = -2;
+		return (name);
+	}
+	dup2(fd, 1);
+	close(fd);
+	return (NULL);
+}
+
 char	*redirect_in(t_tree *root, char **envp, int *flag)
 {
 	int		fd;
@@ -191,13 +200,14 @@ char	*redirect_in(t_tree *root, char **envp, int *flag)
 	else
 		name = root->right->command;
 	if (root->type == '<')
-	{
 		fd = open(name, O_RDONLY, 0644);
-		if (fd < 0)
-			return (name);
-	}
 	else
 		fd = here_doc(name, envp);
+	if (fd < 0)
+	{
+		*flag = -1;
+		return (name);
+	}
 	dup2(fd, 0);
 	close(fd);
 	return (NULL);
@@ -286,7 +296,7 @@ void	exec_tree(t_tree *root, char **envp[], int flag, char *filename)
 			if (root->right && (root->right->type == '>' || root->right->type
 			== 'r' || root->right->type == '<' || root->right->type == 'l'))
 				exec_tree(root->right, envp, 0, filename);
-			if (root->left  && (flag == 1 || flag == -2))
+			if (root->left  && (flag == 1 || flag == -2 || flag == -1))
 			{
 				exec_tree(root->left, envp, flag, filename);
 				flag = 0;
@@ -295,7 +305,7 @@ void	exec_tree(t_tree *root, char **envp[], int flag, char *filename)
 	}
 	if (root->type == 'c')
 	{
-		if (flag == -2)
+		if (flag == -2 || flag == -1)
 		{
 			write(1, "minishel: ", 10);
 			write(1, filename, ft_strlen(filename));
@@ -309,14 +319,15 @@ void	exec_tree(t_tree *root, char **envp[], int flag, char *filename)
 			print_error(root->command, filename, NO_FILE);
 			return ;
 		}
-		set_exit_code(0, envp);
+		if (ft_strcmp(root->command, "exit") != 0)
+			set_exit_code(0, envp);
 		if (if_builtin(root) == 1)
 		{
 			exec_builtin(root, envp);
 		}
 		else if (if_builtin(root) == 0)
 		{
-			exec_bin(root, *envp);
+			exec_bin(root, envp);
 		}
 	}
 }

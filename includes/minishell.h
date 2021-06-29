@@ -66,7 +66,7 @@ void	exec_pwd(void);
 void 	exec_cd(t_tree *root, char **envp[]);
 void	exec_export(char **envp[], t_tree *root);
 void	exec_unset(char **envp[], t_tree *root);
-void	exec_exit();
+void	exec_exit(t_tree *root, char **envp[]);
 int		find_equal_arg(const char *s1, const char *s2);
 char	**find_str(char **mas, char *str);
 void 	set_exit_code(int code, char **envp[]);
