@@ -43,12 +43,11 @@ lib:
 	@echo "\033[0;36m"
 
 $(DIR_O)/%.o: $(DIR_S)/%.c
-	$(CC) $(FLAGS) -c $< -o $@ -g -I/Users/$(USER)/.brew/Cellar/readline/8.1/include  -g
+	$(CC) $(FLAGS) -c $< -o $@ -g
 
 $(NAME): $(OBJS)
 	@echo "\033[0;35m"
-	$(CC) $(FLAGS) $^ -o $@ $(LIB) -I/Users/$(USER)/.brew/Cellar/readline/8.1/include -L/Users/$(USER)/.brew/Cellar/readline/8.1/lib/ -lreadline -g
-
+	$(CC) $(FLAGS) $^ -o $@ $(LIB) libs/readline/libhistory.a libs/readline/libreadline.a -ltermcap
 	chmod 777 $(NAME)
 norm:
 	@echo "\033[0;32mnorminette $(DIR_S)/*.c\033[0m"

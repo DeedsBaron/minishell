@@ -54,11 +54,10 @@ void	print_tree(t_tree *root, int level)
 
 void handler(int dummy)
 {
-
-	//write(1, "\x0D", 1);
-	//rl_on_new_line();
-//	rl_redisplay();
-	//exit(0);
+	printf("\n");
+	rl_replace_line("", 0);
+	rl_on_new_line();
+	rl_redisplay();
 }
 
 int	main(int argc, char *argv[], char *envp[])
@@ -81,7 +80,6 @@ int	main(int argc, char *argv[], char *envp[])
 	delete_old_pwd(&envp_copy);
 	signal(SIGINT, &handler);
 	str = readline("minishell$ ");
-
 	while(str != NULL)
 	{
 
@@ -108,8 +106,8 @@ int	main(int argc, char *argv[], char *envp[])
 		str = readline("minishell$ ");
 
 	}
-	rl_on_new_line();
-	write(1, "exit\n", 6);
+	printf("           ");
+	printf("\033[Aexit\n");
 	free_mas(envp_copy);
 	free(str);
 	return (0);

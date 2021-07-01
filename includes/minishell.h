@@ -22,9 +22,8 @@
 #include <string.h>
 #include <errno.h>
 #include <fcntl.h>
-#include <signal.h>
-#include <readline/readline.h>
-#include <readline/history.h>
+#include "../libs/readline/readline.h"
+#include "../libs/readline/history.h"
 #include <signal.h>
 typedef struct s_tree
 {

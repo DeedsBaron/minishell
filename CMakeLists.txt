@@ -2,7 +2,8 @@ cmake_minimum_required(VERSION 3.19)
 project(minishell C)
 
 set(CMAKE_C_STANDARD 99)
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -L/Users/$(USER)/.brew/Cellar/readline/8.1/lib/ -lreadline")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -ltermcap")
+link_directories(${CMAKE_SOURCE_DIR}/libs/readline)
 add_executable(minishell
         src/utils.c
         src/make_tokens.c
@@ -23,3 +24,4 @@ add_executable(minishell
         ./libs/libft/ft_lstadd_back.c ./libs/libft/ft_lstdelone.c ./libs/libft/ft_lstclear.c ./libs/libft/ft_lstiter.c
         ./libs/libft/ft_lstmap.c  ./libs/libft/get_next_line.c ./libs/libft/ft_strcmp.c
         )
+target_link_libraries(minishell libreadline.a libhistory.a)
