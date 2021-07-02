@@ -77,11 +77,17 @@ void handler_int_child(int sig)
 void handler_int(int sig)
 {
 	set_exit_code(1, get_envp());
-	write(1, "                               ", 31);
-	write(1, "\r", 1);
-	write(1, "minishell$ ", 11);
-	printf("\n");
+//	write(1, "                               ", 31);
+//	write(1, "\r", 1);
+//	write(1, "minishell$ ", 11);
+//	printf("\n");
+//	rl_on_new_line();
+//	rl_redisplay();
 	rl_on_new_line();
+	rl_redisplay();
+	write(1, "  \b\b\n", 5);
+	rl_on_new_line();
+	rl_replace_line("", 1);
 	rl_redisplay();
 }
 
@@ -102,7 +108,9 @@ void handler_quit(int sig)
 //	write(1, "\r", 1);
 //	write(1, "minishell$ ", 11);
 //	write(1, *get_str(), ft_strlen(*get_str()));
-	write(1, "\b\bHERE\a\\", 7);
+	rl_on_new_line();
+	rl_redisplay();
+	write(1, "  \b\b", 4);
 }
 int	main(int argc, char *argv[], char *envp[])
 {
@@ -148,8 +156,15 @@ int	main(int argc, char *argv[], char *envp[])
 		free(tree);
 		*get_str() = readline("minishell$ ");
 	}
-	printf("           ");
-	printf("\033[Aexit\n");
+	//printf("           ");
+//	printf("\033[A");
+//
+//	rl_redisplay();
+	//rl_on_new_line();
+//	rl_replace_line("", 1);
+//	rl_redisplay();
+	printf("exit\n");
+//	printf("\033[Aexit\n");
 	free_mas(*get_envp());
 	free(*get_str());
 	return (0);
