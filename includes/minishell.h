@@ -34,7 +34,8 @@ typedef struct s_tree
 	char    type;
 }				t_tree;
 //parser
-char		**make_tokens_massive(char *s);
+char		**make_tokens_massive(char *s, char **envp
+);
 void		deletespaces(char *src);
 //utils
 void		printmas(char **mas, int level);
@@ -69,6 +70,8 @@ void	exec_exit(t_tree *root, char **envp[]);
 int		find_equal_arg(const char *s1, const char *s2);
 char	**find_str(char **mas, char *str);
 void 	set_exit_code(int code, char **envp[]);
-
-
+//sig_handle
+void handler_int(int sig);
+void handler_quit(int sig);
+void handler_int_child(int sig);
 #endif

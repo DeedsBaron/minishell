@@ -163,7 +163,7 @@ void	exec_export(char **envp[], t_tree *root)
 	else if (count_arguments(root->f_arg, root, 0, envp) != 1)
 	{
 		tmp = (char **)malloc(sizeof(char *) * (mas_len((*envp))
-					+ count_arguments(root->f_arg, root, 0, envp)));
+					+ count_arguments(root->f_arg, root, 1, envp)));
 		i = 0;
 		while ((*envp)[i] != NULL)
 		{
@@ -191,6 +191,7 @@ void	exec_export(char **envp[], t_tree *root)
 					k++;
 				}
 			}
+			k++;
 		}
 		tmp[i] = NULL;
 		free_mas(*envp);

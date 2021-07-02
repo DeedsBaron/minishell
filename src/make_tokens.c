@@ -211,7 +211,30 @@ char	*make_token(char **s)
 	return (token);
 }
 
-char	**make_tokens_massive(char *s)
+char	*str_dollar(char *str, char **envp)
+{
+	int i;
+	int k;
+
+	k = 0;
+	i = 0;
+	while (str[i] != '\0')
+	{
+		if (str[i] == '\'')
+		{
+			i++;
+			while (str[i] != '\'' && str[i] != '\0')
+				i++;
+		}
+		if (str[i] == '$' && str[i + 1] != ' ' && str[i + 1] != '\0')
+			str = dollar(str, &i, envp);
+		else if(str[i] != '\0')
+			i++;
+	}
+	return (str);
+}
+
+char	**make_tokens_massive(char *s, char **envp)
 {
 	char	**mas;
 	int		i;
@@ -219,6 +242,7 @@ char	**make_tokens_massive(char *s)
 
 	i = 0;
 	deletespaces(s);
+	s = str_dollar(s, envp);
 	c_str = count_spaces(s);
 	if (*s == '\0')
 	{

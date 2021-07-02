@@ -90,8 +90,29 @@ void	exec_builtin(t_tree *root, char **envp[])
 		exec_unset(envp, root);
 	else if (ft_strcmp(root->command, "exit") == 0)
 		exec_exit(root, envp);
-//	else if (ft_strcmp(root->command, "./minishell") == 0)
-//		return ;
+}
+
+int 	status_return(int status)
+{
+	int b;
+	if (WIFSIGNALED(status))
+	{
+		if (WTERMSIG(status) == 2)
+		{
+			write(1, "\n", 1);
+			return (130);
+		}
+		if (WTERMSIG(status) == 3)
+		{
+			write(1, "Quit: 3\n", 9);
+			return (131);
+		}
+	}
+	b = status - 255;
+	if (b <= 0)
+		return (0);
+	else
+		return (b);
 }
 
 void	exec_bin(t_tree *root, char **envp[])
@@ -108,13 +129,19 @@ void	exec_bin(t_tree *root, char **envp[])
 		bin = bin_in_folder(folders, root->command);
 		if (bin || ft_strcmp(root->command, "./minishell") == 0)
 		{
+			signal(SIGINT, SIG_IGN);
+			signal(SIGQUIT, SIG_IGN);
 			pid = fork();
 			if (pid == 0)
 			{
+				signal(SIGINT, SIG_DFL);
+				signal(SIGQUIT, SIG_DFL);
 				execve(bin, root->f_arg, *envp);
 			}
 			waitpid(pid, &status, 0);
-			set_exit_code(status - 255, envp);
+			signal(SIGINT, &handler_int);
+			signal(SIGQUIT, &handler_quit);
+			set_exit_code(status_return(status), envp);
 			free(bin);
 		}
 		else

@@ -170,11 +170,11 @@ int	check_tokens(char **mas, char **envp)
 					if (double_quote(&mas[i], &j, envp) == -1)
 						return (-1);
 				}
-				else if (mas[i][j] == '$' && mas[i][j + 1] != ' ' && mas[i][j
-				+ 1] != '\0')
-				{
-					mas[i] = dollar(mas[i], &j, envp);
-				}
+//				else if (mas[i][j] == '$' && mas[i][j + 1] != ' ' && mas[i][j
+//				+ 1] != '\0')
+//				{
+//					mas[i] = dollar(mas[i], &j, envp);
+//				}
 				else
 					j++;
 			}
