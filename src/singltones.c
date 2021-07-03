@@ -1,14 +1,28 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   singltones.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dbaron <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/07/03 19:45:24 by dbaron            #+#    #+#             */
+/*   Updated: 2021/07/03 19:45:26 by dbaron           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 
-char ***get_envp()
+char	***get_envp(void)
 {
-	static 	char	**envp_copy;
+	static char	**envp_copy;
+
 	return (&envp_copy);
 }
 
-char	**get_str()
+char	**get_str(void)
 {
-	static char *str;
+	static char	*str;
+
 	return (&str);
 }
 

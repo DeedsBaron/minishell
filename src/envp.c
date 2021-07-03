@@ -1,11 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   envp.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dbaron <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/07/03 19:31:51 by dbaron            #+#    #+#             */
+/*   Updated: 2021/07/03 19:31:52 by dbaron           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 
 void 	inc_shlvl(char **envp[], int incdecr)
 {
-	int	i;
-	int level;
-	char *tmp;
-	char *buf;
+	int		i;
+	int		level;
+	char	*tmp;
+	char	*buf;
 
 	i = 0;
 	buf = my_get_env(*envp, "SHLVL");
@@ -42,7 +54,7 @@ void	delete_old_pwd(char ***tmp)
 	}
 	mas[i] = ft_strdup("?=0");
 	buf = my_get_env(*tmp, "HOME");
-	mas[i + 1]= ft_strjoin("~=", buf);
+	mas[i + 1] = ft_strjoin("~=", buf);
 	mas[i + 2] = NULL;
 	inc_shlvl(&mas, 1);
 	free_mas(*tmp);

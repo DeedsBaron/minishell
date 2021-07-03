@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   2d_array_utilc.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dbaron <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/07/03 19:19:09 by dbaron            #+#    #+#             */
+/*   Updated: 2021/07/03 19:19:11 by dbaron           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 
 int	mas_len(char **mas)
@@ -48,11 +60,12 @@ char	**find_str(char **mas, char *str)
 	return (NULL);
 }
 
-char **new_mas(char **mas, int start, int end)
+char	**new_mas(char **mas, int start, int end)
 {
-	char **tmp;
-	int i;
-	int k;
+	char	**tmp;
+	int		i;
+	int		k;
+
 	tmp = (char **)malloc(sizeof(char *) * (mas_len(mas) - (end - start)));
 	i = 1;
 	k = 0;

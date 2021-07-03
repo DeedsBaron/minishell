@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtins_utils.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dbaron <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/07/03 19:29:54 by dbaron            #+#    #+#             */
+/*   Updated: 2021/07/03 19:29:56 by dbaron           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 
 void 	set_old_pwd(char **envp[])
@@ -9,8 +21,8 @@ void 	set_old_pwd(char **envp[])
 	i = 0;
 	while ((*envp)[i])
 	{
-		if (find_equal_arg(envp[0][i], "OLDPWD") == 1 || ft_strcmp
-																 ((*envp)[i], "OLDPWD") == 0)
+		if (find_equal_arg(envp[0][i], "OLDPWD") == 1
+			|| ft_strcmp((*envp)[i], "OLDPWD") == 0)
 		{
 			free((*envp)[i]);
 			(*envp)[i] = ft_strjoin("", "OLDPWD=");
@@ -79,7 +91,7 @@ void	print_env(char **mas)
 	while (mas[i] != NULL)
 	{
 		if (find_equal_arg(mas[i], "?") != 1 && find_equal_arg(mas[i], "~")
-												!= 1 && ft_strchr(mas[i], '='))
+			!= 1 && ft_strchr(mas[i], '='))
 		{
 			write(1, mas[i], ft_strlen(mas[i]));
 			write(1, "\n", 1);
@@ -98,8 +110,8 @@ void	print_export(char **mas)
 	mas_cpy = sort_alp(mas_cpy);
 	while (mas_cpy[i] != NULL)
 	{
-		if (find_equal_arg(mas_cpy[i], "?") != 1 && find_equal_arg
-															(mas_cpy[i], "~" ) != 1)
+		if (find_equal_arg(mas_cpy[i], "?") != 1
+			&& find_equal_arg(mas_cpy[i], "~" ) != 1)
 		{
 			write(1, "declare -x ", 11);
 			if (ft_strchr(mas_cpy[i], '='))
@@ -109,7 +121,7 @@ void	print_export(char **mas)
 				write(1, "\"", 1);
 				write(1, ft_strchr(mas_cpy[i], '=') + 1,
 					  ft_strlen(mas_cpy[i]) - (ft_strchr(mas_cpy[i], '=')
-											   - mas_cpy[i] + 1));
+						- mas_cpy[i] + 1));
 				write(1, "\"\n", 2);
 			}
 			else

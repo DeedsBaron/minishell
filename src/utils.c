@@ -23,10 +23,10 @@ void 	swap(char **s1, char **s2)
 
 char	**sort_alp(char **mas)
 {
-	int	i;
-	int	j;
-	int	size;
-	char *tmp;
+	int		i;
+	int		j;
+	int		size;
+	char	*tmp;
 
 	i = 0;
 	size = mas_len(mas);
@@ -46,7 +46,7 @@ char	**sort_alp(char **mas)
 
 int 	check_dig_str(char *str)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (str[i] != '\0')

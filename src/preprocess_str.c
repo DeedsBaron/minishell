@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   preprocess_str.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dbaron <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/07/03 19:41:05 by dbaron            #+#    #+#             */
+/*   Updated: 2021/07/03 19:41:06 by dbaron           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 
 int	count_spaces(char *s)
@@ -29,14 +41,14 @@ int	count_spaces(char *s)
 			counter++;
 		else if (*s == '|' && *(s + 1) == '\0')
 			counter++;
-		else if (((*s == '>' && *(s + 1) == '>') || (*s == '<' && *(s + 1)
-																  == '<')) && *(s + 2) != ' ')
+		else if (((*s == '>' && *(s + 1) == '>')
+				|| (*s == '<' && *(s + 1) == '<')) && *(s + 2) != ' ')
 		{
 			counter++;
 			s++;
 		}
-		else if ((*s == '<' || *s == '>') && (*(s + 1) != ' ') && (*(s + 1)
-																   != '<' && *(s + 1) != '>'))
+		else if ((*s == '<' || *s == '>') && (*(s + 1) != ' ')
+			&& (*(s + 1) != '<' && *(s + 1) != '>'))
 			counter++;
 		s++;
 	}
@@ -85,7 +97,7 @@ void	deletespaces(char *src)
 			i++;
 		}
 		else if ((src[i] == ' ' && src[i + 1] == ' ')
-				 || (src[i] == ' ' && src[i + 1] == '\0'))
+			|| (src[i] == ' ' && src[i + 1] == '\0'))
 			i++;
 		else
 		{
@@ -99,8 +111,8 @@ void	deletespaces(char *src)
 
 char	*str_dollar(char *str, char **envp)
 {
-	int i;
-	int k;
+	int	i;
+	int	k;
 
 	k = 0;
 	i = 0;
@@ -112,9 +124,10 @@ char	*str_dollar(char *str, char **envp)
 			while (str[i] != '\'' && str[i] != '\0')
 				i++;
 		}
-		if (str[i] == '$' && str[i + 1] != ' ' && str[i + 1] != '\0' && str[i + 1] != '\"')
+		if (str[i] == '$' && str[i + 1] != ' '
+			&& str[i + 1] != '\0' && str[i + 1] != '\"')
 			str = dollar(str, &i, envp);
-		else if(str[i] != '\0')
+		else if (str[i] != '\0')
 			i++;
 	}
 	return (str);

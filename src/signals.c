@@ -1,13 +1,25 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   signals.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dbaron <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/07/03 19:44:05 by dbaron            #+#    #+#             */
+/*   Updated: 2021/07/03 19:44:08 by dbaron           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 
-void handler_quit(int sig)
+void	handler_quit(int sig)
 {
 	rl_on_new_line();
 	rl_redisplay();
 	write(1, "  \b\b", 4);
 }
 
-void handler_int(int sig)
+void	handler_int(int sig)
 {
 	set_exit_code(1, get_envp());
 	rl_on_new_line();
@@ -20,7 +32,8 @@ void handler_int(int sig)
 
 int 	status_return(int status)
 {
-	int b;
+	int	b;
+
 	if (WIFSIGNALED(status))
 	{
 		if (WTERMSIG(status) == 2)

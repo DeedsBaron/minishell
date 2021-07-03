@@ -31,7 +31,7 @@ int	main(int argc, char *argv[], char *envp[])
 	signal(SIGINT, &handler_int);
 	signal(SIGQUIT, &handler_quit);
 	*get_str() = readline("minishell$ ");
-	while(*get_str() != NULL)
+	while (*get_str() != NULL)
 	{
 		add_history(*get_str());
 		mas = NULL;

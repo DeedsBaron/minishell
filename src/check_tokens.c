@@ -109,8 +109,8 @@ int	double_quote(char **str, int *j, char **envp)
 
 char	**delete_empty(char **mas)
 {
-	int i;
-	int k;
+	int	i;
+	int	k;
 
 	i = 0;
 	k = 0;

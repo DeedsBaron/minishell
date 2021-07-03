@@ -51,7 +51,10 @@ void	exec_builtin(t_tree *root, char **envp[])
 	else if (ft_strcmp(root->command, "exit") == 0)
 		exec_exit(root, envp);
 	else if (ft_strcmp(root->command, ".") == 0)
-		write(2, "bash: .: filename argument required\n.: usage: . filename [arguments]\n", 69);
+	{
+		write(2, "bash: .: filename argument required\n", 36);
+		write(1, ".: usage: . filename [arguments]\n", 33);
+	}
 }
 
 void	exec_bin(t_tree *root, char **envp[])
@@ -59,7 +62,7 @@ void	exec_bin(t_tree *root, char **envp[])
 	char	**folders;
 	char	*bin;
 	pid_t	pid;
-	int 	status;
+	int		status;
 
 	bin = NULL;
 	if (if_builtin(root) == 0)
@@ -110,7 +113,7 @@ void	exec_tree(t_tree *root, char **envp[], int flag, char *filename)
 		if (!root->left->command)
 		{
 			tokenz_er(root, envp);
-			return;
+			return ;
 		}
 		else if (!root->right->command)
 		{
@@ -157,10 +160,11 @@ void	exec_tree(t_tree *root, char **envp[], int flag, char *filename)
 		{
 			if (!filename)
 				filename = redirect(root, *envp, &flag);
-			if (root->right && (root->right->type == '>' || root->right->type
-			== 'r' || root->right->type == '<' || root->right->type == 'l'))
+			if (root->right && (root->right->type == '>'
+					|| root->right->type == 'r' || root->right->type == '<'
+					|| root->right->type == 'l'))
 				exec_tree(root->right, envp, 0, filename);
-			if (root->left  && (flag == 1 || flag == -2 || flag == -1))
+			if (root->left && (flag == 1 || flag == -2 || flag == -1))
 			{
 				exec_tree(root->left, envp, flag, filename);
 				flag = 0;

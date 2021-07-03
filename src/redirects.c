@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   redirects.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dbaron <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/07/03 19:43:16 by dbaron            #+#    #+#             */
+/*   Updated: 2021/07/03 19:43:17 by dbaron           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 
 char 	*redirect_out(t_tree *root, int *flag)
@@ -5,8 +17,8 @@ char 	*redirect_out(t_tree *root, int *flag)
 	int		fd;
 	char	*name;
 
-	if (root->right->type == '>' || root->right->type == 'r' ||
-		root->right->type == '<' || root->right->type == 'l')
+	if (root->right->type == '>' || root->right->type == 'r'
+		|| root->right->type == '<' || root->right->type == 'l')
 		name = root->right->left->command;
 	else
 		name = root->right->command;

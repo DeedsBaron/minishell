@@ -46,7 +46,7 @@ void	make_com_fl_arg(char **mas, t_tree *node)
 		node->command = ft_strjoin(node->command, mas[0]);
 	ft_tolower(&node->command);
 	if (ft_strcmp(mas[k], "\"\"") == 0 || ft_strcmp(mas[k], "\'\'") == 0)
-	free(tmp);
+		free(tmp);
 	node->f_arg = (char **)malloc(sizeof(char *) * mas_len(mas) + 1);
 	k = 0;
 	while (mas[k])
@@ -71,16 +71,17 @@ void	make_com_fl_arg(char **mas, t_tree *node)
 
 int 	find_start(char **mas)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	while (mas[i] != NULL && (ft_strcmp(mas[i], ">") == 0 || ft_strcmp(mas[i],
-			">>") == 0 || ft_strcmp(mas[i], "<") == 0
-			|| ft_strcmp(mas[i], "<<") == 0))
+	while (mas[i] != NULL && (ft_strcmp(mas[i], ">") == 0
+			|| ft_strcmp(mas[i], ">>") == 0
+			|| ft_strcmp(mas[i], "<") == 0 || ft_strcmp(mas[i], "<<") == 0))
 	{
-		if (mas[i + 1] && ft_strcmp(mas[i + 1], ">") != 0 && ft_strcmp
-			(mas[i +1], ">>") !=0 && ft_strcmp(mas[i + 1], "<") != 0 &&
-				ft_strcmp(mas[i + 1], "<<") != 0)
+		if (mas[i + 1] && ft_strcmp(mas[i + 1], ">") != 0
+			&& ft_strcmp(mas[i + 1], ">>") != 0
+			&& ft_strcmp(mas[i + 1], "<") != 0
+			&& ft_strcmp(mas[i + 1], "<<") != 0)
 			i = i + 2;
 		else
 			i++;
@@ -88,24 +89,23 @@ int 	find_start(char **mas)
 	return (i);
 }
 
-int find_end(int start, char **mas)
+int	find_end(int start, char **mas)
 {
-	int i;
+	int	i;
 
 	i = start;
-	while(mas[i] != NULL && ft_strcmp(mas[i], ">") != 0 && ft_strcmp(mas[i],
+	while (mas[i] != NULL && ft_strcmp(mas[i], ">") != 0 && ft_strcmp(mas[i],
 			">>") != 0 && ft_strcmp(mas[i], "<") != 0
 		  && ft_strcmp(mas[i], "<<") != 0)
 		i++;
-
 	return (i);
 }
 
 void	*make_tree(char **mas)
 {
 	int		i;
-	int start;
-	int end;
+	int		start;
+	int		end;
 	t_tree	*root;
 
 	root = (t_tree *)malloc(sizeof(t_tree));

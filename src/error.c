@@ -37,8 +37,8 @@ void	print_error(char *command, char *argument, char *str)
 
 void 	set_exit_code(int code, char **envp[])
 {
-	int	i;
-	char *tmp;
+	int		i;
+	char	*tmp;
 
 	i = 0;
 	while ((*envp)[i])
