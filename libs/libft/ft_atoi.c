@@ -14,6 +14,8 @@
 
 static char		*count_sp_signs(const char *str, int *sign, int *count)
 {
+	if (str == NULL)
+		return (NULL);
 	while (*str == ' ' || *str == '\t' || *str == '\r'
 		|| *str == '\v' || *str == '\n' || *str == '\f'
 		|| *str == '-' || *str == '+')

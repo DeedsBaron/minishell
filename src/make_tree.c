@@ -12,54 +12,6 @@
 
 #include "../includes/minishell.h"
 
-int	mas_len(char **mas)
-{
-	int	i;
-
-	i = 0;
-	while (mas[i])
-		i++;
-	return (i);
-}
-
-char	**submas(char **mas, long int start, long int len)
-{
-	int		i;
-	char	**new_mas;
-
-	i = 0;
-	if (!mas)
-		return (NULL);
-	if (mas_len(mas) - start < len)
-		len = mas_len(mas) - start;
-	if (start > mas_len(mas))
-		len = 0;
-	new_mas = (char **)malloc(sizeof(char *) * (len + 1));
-	if (!new_mas)
-		return (NULL);
-	while (i < len)
-	{
-		new_mas[i] = ft_strdup(mas[start + i]);
-		i++;
-	}
-	new_mas[i] = NULL;
-	return (new_mas);
-}
-
-char	**find_str(char **mas, char *str)
-{
-	long int	i;
-
-	i = 0;
-	while (mas[i])
-	{
-		if (ft_strcmp(mas[i], str) == 0)
-			return ((char **)&mas[i]);
-		i++;
-	}
-	return (NULL);
-}
-
 void	remove_quotes(char **str)
 {
 	int	i;
@@ -79,8 +31,21 @@ void	make_com_fl_arg(char **mas, t_tree *node)
 
 	k = 1;
 	tmp = node->command;
-	node->command = ft_strjoin(node->command, mas[0]);
+	if (ft_strcmp(mas[0], "\">\"") == 0
+		|| ft_strcmp(mas[0], "\">>\"") == 0
+		|| ft_strcmp(mas[0], "\"<\"") == 0
+		|| ft_strcmp(mas[0], "\"<<\"") == 0
+		|| ft_strcmp(mas[0], "\'>\'") == 0
+		|| ft_strcmp(mas[0], "\'>>\'") == 0
+		|| ft_strcmp(mas[0], "\'<\'") == 0
+		|| ft_strcmp(mas[0], "\'<<\'") == 0)
+		remove_quotes(&mas[0]);
+	if (ft_strcmp(mas[0], "\"\"") == 0 || ft_strcmp(mas[0], "\'\'") == 0)
+		node->command = ft_strdup("");
+	else
+		node->command = ft_strjoin(node->command, mas[0]);
 	ft_tolower(&node->command);
+	if (ft_strcmp(mas[k], "\"\"") == 0 || ft_strcmp(mas[k], "\'\'") == 0)
 	free(tmp);
 	node->f_arg = (char **)malloc(sizeof(char *) * mas_len(mas) + 1);
 	k = 0;
@@ -95,7 +60,10 @@ void	make_com_fl_arg(char **mas, t_tree *node)
 			|| ft_strcmp(mas[k], "\'<\'") == 0
 			|| ft_strcmp(mas[k], "\'<<\'") == 0)
 			remove_quotes(&mas[k]);
-		node->f_arg[k] = ft_strdup(mas[k]);
+		if (ft_strcmp(mas[k], "\"\"") == 0 || ft_strcmp(mas[k], "\'\'") == 0)
+			node->f_arg[k] = ft_strdup("");
+		else
+			node->f_arg[k] = ft_strdup(mas[k]);
 		k++;
 	}
 	node->f_arg[k] = NULL;
@@ -131,23 +99,6 @@ int find_end(int start, char **mas)
 		i++;
 
 	return (i);
-}
-
-char **new_mas(char **mas, int start, int end)
-{
-	char **tmp;
-	int i;
-	int k;
-	tmp = (char **)malloc(sizeof(char *) * (mas_len(mas) - (end - start)));
-	i = 1;
-	k = 0;
-	while (i < start)
-		tmp[k++] = ft_strdup(mas[i++]);
-	i = end;
-	while (mas[i] != NULL)
-		tmp[k++] = ft_strdup(mas[i++]);
-	tmp[k] = NULL;
-	return (tmp);
 }
 
 void	*make_tree(char **mas)

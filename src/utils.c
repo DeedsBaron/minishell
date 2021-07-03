@@ -12,94 +12,6 @@
 
 #include "../includes/minishell.h"
 
-void	insert_tabs(int level)
-{
-	int	i;
-
-	i = 0;
-	while (i < level)
-	{
-		write(1, "\t", 1);
-		i++;
-	}
-}
-
-void	printmas(char **mas, int level)
-{
-	int	i;
-
-	i = 0;
-	while (mas[i] != NULL)
-	{
-		insert_tabs(level);
-		write(1, "|", 1);
-		write(1, mas[i], ft_strlen(mas[i]));
-		write(1, "|", 1);
-		write(1, "\n", 1);
-		i++;
-	}
-}
-
-void	delete_old_pwd(char ***tmp)
-{
-	int		i;
-	char	**mas;
-	char	*buf;
-
-	i = 0;
-	mas = (char **)malloc(sizeof(char *) * (mas_len(*tmp) + 3));
-	while ((*tmp)[i])
-	{
-		if (find_equal_arg((*tmp)[i], "OLDPWD") == 1)
-			mas[i] = ft_strdup("OLDPWD");
-		else
-			mas[i] = ft_strdup((*tmp)[i]);
-		i++;
-	}
-	mas[i] = ft_strdup("?=0");
-	buf = my_get_env(*tmp, "HOME");
-	mas[i + 1]= ft_strjoin("~=", buf);
-	mas[i + 2] = NULL;
-	free_mas(*tmp);
-	free(buf);
-	*tmp = mas;
-}
-
-char	**make_envp_copy(char **envp)
-{
-	char		**tmp;
-	int			i;
-	static int	flag;
-
-	flag = 0;
-	tmp = (char **)malloc ((sizeof(char *) * (mas_len(envp)) + 1));
-	i = 0;
-	while (envp[i] != NULL)
-	{
-		tmp[i] = ft_strdup(envp[i]);
-		i++;
-	}
-	tmp[i] = NULL;
-	return (tmp);
-}
-
-void	print_env(char **mas)
-{
-	int	i;
-
-	i = 0;
-	while (mas[i] != NULL)
-	{
-		if (find_equal_arg(mas[i], "?") != 1 && find_equal_arg(mas[i], "~")
-		!= 1 && ft_strchr(mas[i], '='))
-		{
-			write(1, mas[i], ft_strlen(mas[i]));
-			write(1, "\n", 1);
-		}
-		i++;
-	}
-}
-
 void 	swap(char **s1, char **s2)
 {
 	char	*tmp;
@@ -132,101 +44,32 @@ char	**sort_alp(char **mas)
 	return (mas);
 }
 
-void	print_export(char **mas)
+int 	check_dig_str(char *str)
+{
+	int i;
+
+	i = 0;
+	while (str[i] != '\0')
+	{
+		if (ft_isdigit(str[i]) == 0)
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+int	find_equal_arg(const char *s1, const char *s2)
 {
 	int		i;
-	char	**mas_cpy;
 
+	if (s1 == NULL || s2 == NULL)
+		return (-1);
 	i = 0;
-	mas_cpy = make_envp_copy(mas);
-	mas_cpy = sort_alp(mas_cpy);
-	while (mas_cpy[i] != NULL)
-	{
-		if (find_equal_arg(mas_cpy[i], "?") != 1 && find_equal_arg
-		(mas_cpy[i], "~" ) != 1)
-		{
-			write(1, "declare -x ", 11);
-			if (ft_strchr(mas_cpy[i], '='))
-			{
-				write(1, mas_cpy[i],
-					  (ft_strchr(mas_cpy[i], '=') - mas_cpy[i]) + 1);
-				write(1, "\"", 1);
-				write(1, ft_strchr(mas_cpy[i], '=') + 1,
-					ft_strlen(mas_cpy[i]) - (ft_strchr(mas_cpy[i], '=')
-						- mas_cpy[i] + 1));
-				write(1, "\"\n", 2);
-			}
-			else
-			{
-				write(1, mas_cpy[i], ft_strlen(mas_cpy[i]));
-				write(1, "\n", 1);
-			}
-			i++;
-		}
-		else
-			i++;
-	}
-	free_mas(mas_cpy);
-}
-
-void	free_mas(char **mas)
-{
-	int	i;
-
-	i = 0;
-	if (mas)
-	{
-		while (mas[i])
-		{
-			free(mas[i]);
-			mas[i] = NULL;
-			i++;
-		}
-		free(mas);
-		mas = NULL;
-	}
-}
-
-void	free_tree(t_tree *node)
-{
-	if (node)
-	{
-		if (node->command)
-		{
-			free(node->command);
-			node->command = NULL;
-		}
-		if (node->f_arg)
-		{
-			free_mas(node->f_arg);
-			node->f_arg = NULL;
-		}
-		if (node->left)
-		{
-			free_tree(node->left);
-			free(node->left);
-			node->left = NULL;
-		}
-		if (node->right)
-		{
-			free_tree(node->right);
-			free(node->right);
-			node->right = NULL;
-		}
-	}
-}
-
-char	*my_get_env(char **envp, char *str)
-{
-	int	i;
-	int	k;
-
-	i = 0;
-	k = 0;
-	while (envp[i] && find_equal_arg(envp[i], str) == 0)
+	while (s1[i] && s2[i] && s1[i] == s2[i] && s1[i] != '=' && s2[i] != '=')
 		i++;
-	if (!(envp[i]))
-		return (NULL);
+	if ((s1[i] == '\0' && s2[i] == '\0') || (s1[i] == '=' && s2[i] == '\0')
+		|| (s2[i] == '=' && s1[i] == '\0') || (s1[i] == '=' && s2[i] == '='))
+		return (1);
 	else
-		return (ft_strdup(ft_strchr(envp[i], '=') + 1));
+		return (0);
 }

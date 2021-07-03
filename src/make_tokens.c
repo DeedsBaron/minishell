@@ -12,103 +12,6 @@
 
 #include "../includes/minishell.h"
 
-void	deletespaces(char *src)
-{
-	int	i;
-	int	k;
-
-	i = 0;
-	k = 0;
-	while (src[i] == ' ')
-		i++;
-	while (src[i] != '\0')
-	{
-		if (src[i] == '\'')
-		{
-			src[k] = src[i];
-			k++;
-			i++;
-			while (src[i] != '\'' && src[i] != '\0')
-			{
-				src[k] = src[i];
-				k++;
-				i++;
-			}
-			src[k] = src[i];
-			k++;
-			i++;
-		}
-		else if (src[i] == '\"')
-		{
-			src[k] = src[i];
-			k++;
-			i++;
-			while (src[i] != '\"' && src[i] != '\0')
-			{
-				src[k] = src[i];
-				k++;
-				i++;
-			}
-			src[k] = src[i];
-			k++;
-			i++;
-		}
-		else if ((src[i] == ' ' && src[i + 1] == ' ')
-			|| (src[i] == ' ' && src[i + 1] == '\0'))
-			i++;
-		else
-		{
-			src[k] = src[i];
-			k++;
-			i++;
-		}
-	}
-	src[k] = '\0';
-}
-
-int	count_spaces(char *s)
-{
-	int	counter;
-
-	counter = 0;
-	while (*(s))
-	{
-		if ((*s) == '\'')
-		{
-			s++;
-			while ((*s) != '\'' && (*s) != '\0')
-				s++;
-		}
-		if ((*s) == '\"')
-		{
-			s++;
-			while ((*s) != '\"' && (*s) != '\0')
-				s++;
-		}
-		if (*s == '|' && *(s + 1) != '\0')
-		{
-			counter++;
-			if (*(s + 1) != ' ' && *(s + 1) != '\0' && (*(s + 1) != '|'))
-				counter++;
-		}
-		else if (*s == ' ' && *(s + 1) != '|')
-			counter++;
-		else if (*s == '|' && *(s + 1) == '\0')
-			counter++;
-		else if (((*s == '>' && *(s + 1) == '>') || (*s == '<' && *(s + 1)
-					== '<')) && *(s + 2) != ' ')
-		{
-			counter++;
-			s++;
-		}
-		else if ((*s == '<' || *s == '>') && (*(s + 1) != ' ') && (*(s + 1)
-				!= '<' && *(s + 1) != '>'))
-			counter++;
-		s++;
-	}
-	return (counter);
-}
-
 char	*sq_case(char **s, char *sq_p)
 {
 	int		end;
@@ -209,29 +112,6 @@ char	*make_token(char **s)
 		(*s) = tmp;
 	}
 	return (token);
-}
-
-char	*str_dollar(char *str, char **envp)
-{
-	int i;
-	int k;
-
-	k = 0;
-	i = 0;
-	while (str[i] != '\0')
-	{
-		if (str[i] == '\'')
-		{
-			i++;
-			while (str[i] != '\'' && str[i] != '\0')
-				i++;
-		}
-		if (str[i] == '$' && str[i + 1] != ' ' && str[i + 1] != '\0')
-			str = dollar(str, &i, envp);
-		else if(str[i] != '\0')
-			i++;
-	}
-	return (str);
 }
 
 char	**make_tokens_massive(char *s, char **envp)

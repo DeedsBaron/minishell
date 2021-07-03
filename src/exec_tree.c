@@ -12,46 +12,6 @@
 
 #include "../includes/minishell.h"
 
-char	**make_bin_folders(void)
-{
-	char	*str;
-	char	**mas;
-
-	str = getenv("PATH");
-	mas = ft_split(str, ':');
-	return (mas);
-}
-
-char	*bin_in_folder(char **folder, char *command)
-{
-	int				i;
-	DIR				*p_fold;
-	char			*res;
-	struct dirent	*entry;
-	char			*tmp;
-
-	i = 0;
-	while (folder[i])
-	{
-		p_fold = opendir(folder[i]);
-		while ((entry = readdir(p_fold)) != NULL)
-		{
-			if (ft_strcmp(command, entry->d_name) == 0)
-			{
-				res = ft_strjoin(folder[i], "/");
-				tmp = ft_strjoin(res, command);
-				free(res);
-				res = tmp;
-				closedir(p_fold);
-				return (res);
-			}
-		}
-		closedir(p_fold);
-		i++;
-	}
-	return (NULL);
-}
-
 int	if_builtin(t_tree *root)
 {
 	if (ft_strcmp(root->command, "echo") == 0)
@@ -68,8 +28,8 @@ int	if_builtin(t_tree *root)
 		return (1);
 	else if (ft_strcmp(root->command, "exit") == 0)
 		return (1);
-//	else if (ft_strcmp(root->command, "./minishell") == 0)
-//		return (1);
+	else if (ft_strcmp(root->command, ".") == 0)
+		return (1);
 	else
 		return (0);
 }
@@ -77,7 +37,7 @@ int	if_builtin(t_tree *root)
 void	exec_builtin(t_tree *root, char **envp[])
 {
 	if (ft_strcmp(root->command, "echo") == 0)
-		exec_echo(root);
+		exec_echo(root, *envp);
 	else if (ft_strcmp(root->command, "env") == 0)
 		exec_env(root, envp);
 	else if (ft_strcmp(root->command, "pwd") == 0)
@@ -90,29 +50,8 @@ void	exec_builtin(t_tree *root, char **envp[])
 		exec_unset(envp, root);
 	else if (ft_strcmp(root->command, "exit") == 0)
 		exec_exit(root, envp);
-}
-
-int 	status_return(int status)
-{
-	int b;
-	if (WIFSIGNALED(status))
-	{
-		if (WTERMSIG(status) == 2)
-		{
-			write(1, "\n", 1);
-			return (130);
-		}
-		if (WTERMSIG(status) == 3)
-		{
-			write(1, "Quit: 3\n", 9);
-			return (131);
-		}
-	}
-	b = status - 255;
-	if (b <= 0)
-		return (0);
-	else
-		return (b);
+	else if (ft_strcmp(root->command, ".") == 0)
+		write(2, "bash: .: filename argument required\n.: usage: . filename [arguments]\n", 69);
 }
 
 void	exec_bin(t_tree *root, char **envp[])
@@ -134,6 +73,8 @@ void	exec_bin(t_tree *root, char **envp[])
 			pid = fork();
 			if (pid == 0)
 			{
+				if (ft_strcmp(root->command, "./minishell") == 0)
+					inc_shlvl(envp, 1);
 				signal(SIGINT, SIG_DFL);
 				signal(SIGQUIT, SIG_DFL);
 				execve(bin, root->f_arg, *envp);
@@ -157,110 +98,6 @@ void	exec_bin(t_tree *root, char **envp[])
 		}
 		free_mas(folders);
 	}
-}
-
-int	here_doc(char *name, char **envp)
-{
-	int		fd[2];
-	char	*str;
-	int		i;
-	pid_t	pid;
-
-	pipe(fd);
-	pid = fork();
-	wait(NULL);
-	if (pid == 0)
-	{
-		close(fd[0]);
-		while ((str = readline("> ")) && ft_strcmp(str, name) != 0)
-		{
-			i = 0;
-			while (str[i] != '\0')
-			{
-				if (str[i] == '$')
-					str = dollar(str, &i, envp);
-				else
-					i++;
-			}
-			write(fd[1], str, ft_strlen(str));
-			write(fd[1], "\n", 1);
-			free(str);
-		}
-		exit(EXIT_SUCCESS);
-	}
-	close(fd[1]);
-	return (fd[0]);
-}
-
-char 	*redirect_out(t_tree *root, int *flag)
-{
-	int		fd;
-	char	*name;
-
-	if (root->right->type == '>' || root->right->type == 'r' ||
-		root->right->type == '<' || root->right->type == 'l')
-		name = root->right->left->command;
-	else
-		name = root->right->command;
-	if (root->type == '>')
-		fd = open(name, O_WRONLY | O_CREAT | O_TRUNC);
-	else
-		fd = open(name, O_WRONLY | O_CREAT | O_APPEND);
-	if (fd < 0)
-	{
-		*flag = -2;
-		return (name);
-	}
-	dup2(fd, 1);
-	close(fd);
-	return (NULL);
-}
-
-char	*redirect_in(t_tree *root, char **envp, int *flag)
-{
-	int		fd;
-	char	*name;
-
-	if (root->right->type == '<' || root->right->type == 'l'
-		|| root->right->type == '>' || root->right->type == 'r')
-		name = root->right->left->command;
-	else
-		name = root->right->command;
-	if (root->type == '<')
-		fd = open(name, O_RDONLY, 0644);
-	else
-		fd = here_doc(name, envp);
-	if (fd < 0)
-	{
-		*flag = -1;
-		return (name);
-	}
-	dup2(fd, 0);
-	close(fd);
-	return (NULL);
-}
-
-char	*redirect(t_tree *root, char **envp, int *flag)
-{
-	if (root->type == '>' || root->type == 'r')
-		return (redirect_out(root, flag));
-	else if (root->type == '<' || root->type == 'l')
-		return (redirect_in(root, envp, flag));
-	return (NULL);
-}
-
-void	tokenz_er(t_tree *root, char **envp[])
-{
-	write(1, "minishell: ", 11);
-	write(1, "syntax error near unexpected token `", 36);
-	if (root->type == 'l')
-		write(1, "<<", 2);
-	else if (root->type == 'r')
-		write(1, ">>", 2);
-	else
-		write(1, &root->type, 1);
-	write(1, "\'\n", 2);
-	set_exit_code(258, envp);
 }
 
 void	exec_tree(t_tree *root, char **envp[], int flag, char *filename)

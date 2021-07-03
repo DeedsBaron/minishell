@@ -103,17 +103,6 @@ int	double_quote(char **str, int *j, char **envp)
 	while ((*str)[i] != '\0')
 		(*str)[k++] = (*str)[i++];
 	(*str)[k] = '\0';
-	while (start < end)
-	{
-		if ((*str)[start] == '$')
-		{
-			old_len = (int)ft_strlen(*str);
-			*str = dollar(*str, &start, envp);
-			end = end + ((int)ft_strlen(*str) - old_len);
-		}
-		else
-			start++;
-	}
 	*j = end - 1;
 	return (0);
 }
@@ -155,6 +144,8 @@ int	check_tokens(char **mas, char **envp)
 			|| ft_strcmp(mas[i], "\'<\'") == 0
 			||ft_strcmp(mas[i], "\'<<\'") == 0)
 			i++;
+		else if (ft_strcmp(mas[i], "\"\"") == 0 || ft_strcmp(mas[i], "\'\'") == 0)
+			i++;
 		else
 		{
 			while (mas[i][j] != '\0')
@@ -170,11 +161,6 @@ int	check_tokens(char **mas, char **envp)
 					if (double_quote(&mas[i], &j, envp) == -1)
 						return (-1);
 				}
-//				else if (mas[i][j] == '$' && mas[i][j + 1] != ' ' && mas[i][j
-//				+ 1] != '\0')
-//				{
-//					mas[i] = dollar(mas[i], &j, envp);
-//				}
 				else
 					j++;
 			}

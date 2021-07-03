@@ -5,15 +5,26 @@ set(CMAKE_C_STANDARD 99)
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -ltermcap")
 link_directories(${CMAKE_SOURCE_DIR}/libs/readline)
 add_executable(minishell
-        src/utils.c
-        src/make_tokens.c
-        src/main1.c
-        src/error.c
-        src/make_tree.c
-        src/exec_tree.c
-        src/check_tokens.c
+        src/2d_array_utilc.c
         src/builtins.c
-        ./libs/libft/ft_memset.c ./libs/libft/ft_bzero.c ./libs/libft/ft_memcpy.c ./libs/libft/ft_memccpy.c ./libs/libft/ft_memmove.c
+        src/builtins_utils.c
+        src/envp.c
+        src/exec_tree.c
+        src/make_tokens.c
+        src/minishell.c
+        src/print.c
+        src/signals.c
+        src/utils.c
+        src/bin_folders.c
+        src/builtins2.c
+        src/check_tokens.c
+        src/error.c
+        src/free.c
+        src/make_tree.c
+        src/preprocess_str.c
+        src/redirects.c
+        src/singltones.c
+      ./libs/libft/ft_memset.c ./libs/libft/ft_bzero.c ./libs/libft/ft_memcpy.c ./libs/libft/ft_memccpy.c ./libs/libft/ft_memmove.c
         ./libs/libft/ft_strlen.c ./libs/libft/ft_strlcpy.c ./libs/libft/ft_atoi.c ./libs/libft/ft_isalpha.c ./libs/libft/ft_isdigit.c
         ./libs/libft/ft_isalnum.c ./libs/libft/ft_isascii.c ./libs/libft/ft_isprint.c ./libs/libft/ft_toupper.c ./libs/libft/ft_tolower.c
         ./libs/libft/ft_memchr.c ./libs/libft/ft_memcmp.c ./libs/libft/ft_strlcat.c ./libs/libft/ft_strrchr.c ./libs/libft/ft_strnstr.c
