@@ -23,13 +23,24 @@ char	**make_bin_folders(char **envp)
 	return (mas);
 }
 
+char	*make_command_path(char *folder, char *command, DIR *p_fold)
+{
+	char			*tmp;
+	char			*res;
+
+	res = ft_strjoin(folder, "/");
+	tmp = ft_strjoin(res, command);
+	free(res);
+	res = tmp;
+	closedir(p_fold);
+	return (res);
+}
+
 char	*bin_in_folder(char **folder, char *command)
 {
-	int i;
-	DIR *p_fold;
-	char *res;
-	struct dirent *entry;
-	char *tmp;
+	int				i;
+	DIR				*p_fold;
+	struct dirent	*entry;
 
 	i = 0;
 	while (folder[i])
@@ -37,17 +48,12 @@ char	*bin_in_folder(char **folder, char *command)
 		p_fold = opendir(folder[i]);
 		if (p_fold)
 		{
-			while ((entry = readdir(p_fold)) != NULL)
+			entry = readdir(p_fold);
+			while (entry != NULL)
 			{
 				if (ft_strcmp(command, entry->d_name) == 0)
-				{
-					res = ft_strjoin(folder[i], "/");
-					tmp = ft_strjoin(res, command);
-					free(res);
-					res = tmp;
-					closedir(p_fold);
-					return (res);
-				}
+					return (make_command_path(folder[i], command, p_fold));
+				entry = readdir(p_fold);
 			}
 			closedir(p_fold);
 		}

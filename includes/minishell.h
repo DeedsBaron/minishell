@@ -72,6 +72,12 @@ char	**make_envp_copy(char **envp);
 void	print_error(char *command, char *argument, char *str);
 void	set_exit_code(int code, char **envp[]);
 void	tokenz_er(t_tree *root, char **envp[]);
+//exec_bin
+int		if_builtin(t_tree *root);
+void	exec_builtin(t_tree *root, char **envp[]);
+void	set_sig_n_fork(t_tree *root, char **envp[], char *bin);
+void	exec_bin(t_tree *root, char **envp[]);
+
 //exec_tree
 int		if_builtin(t_tree *root);
 void	exec_builtin(t_tree *root, char **envp[]);
@@ -85,6 +91,12 @@ void 	free_norminette(t_tree *tree);
 char	*sq_case(char **s, char *sq_p);
 char	*make_token(char **s);
 char	**make_tokens_massive(char *s, char **envp);
+//make_tokens_i
+char 	*make_token3(char **s, int i, char *token);
+char 	*make_token4(char **s, int i, char *token);
+char 	*make_token5(char **s, int i, char *token);
+char 	*make_token6(char **s, int i, char *token);
+void 	*make_token7(char **s, int i, char *token);
 //make_tree
 void	make_com_fl_arg(char **mas, t_tree *node);
 int		find_start(char **mas);
@@ -125,5 +137,6 @@ int		find_equal_arg(const char *s1, const char *s2);
 void 	export_write(char **mas_cpy, int i);
 void 	check_sq(char *src, int *i, int *k);
 void	tree_init(t_tree *root);
+void 	close_n_wait(int fd, int pid);
 
 #endif

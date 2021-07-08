@@ -14,8 +14,8 @@
 
 void 	export_while(t_tree *root, int *i, char **envp[], char ***tmp)
 {
-	int	m;
 	int	k;
+	int	m;
 
 	k = 1;
 	while (root->f_arg[k] != NULL)
@@ -45,8 +45,6 @@ void	exec_export(char **envp[], t_tree *root)
 {
 	char	**tmp;
 	int		i;
-	int		k;
-	int		m;
 
 	if (root->f_arg[1] == NULL)
 	{
@@ -62,28 +60,7 @@ void	exec_export(char **envp[], t_tree *root)
 			tmp[i] = ft_strdup((*envp)[i]);
 			i++;
 		}
-		k = 1;
-		while (root->f_arg[k] != NULL)
-		{
-			if (ft_isalpha(root->f_arg[k][0]) == 1)
-			{
-				m = 0;
-				while ((*envp)[m]
-					   && find_equal_arg((*envp)[m], root->f_arg[k]) == 0)
-					m++;
-				if (!((*envp)[m]))
-					tmp[i++] = ft_strdup(root->f_arg[k]);
-				else
-				{
-					if (ft_strchr(root->f_arg[k], '='))
-					{
-						free(tmp[m]);
-						tmp[m] = ft_strdup(root->f_arg[k]);
-					}
-				}
-			}
-			k++;
-		}
+		export_while(root, &i, envp, &tmp);
 		tmp[i] = NULL;
 		free_mas(*envp);
 		(*envp) = tmp;

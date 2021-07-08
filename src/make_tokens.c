@@ -12,6 +12,23 @@
 
 #include "../includes/minishell.h"
 
+void 	sq_case_while(char **s, int *end)
+{
+	if ((*s)[(*end)] == '\'')
+	{
+		(*end)++;
+		while ((*s)[(*end)] != '\'' && (*s)[(*end)] != '\0')
+			(*end)++;
+	}
+	else if ((*s)[(*end)] == '\"')
+	{
+		(*end)++;
+		while ((*s)[(*end)] != '\"' && (*s)[(*end)] != '\0')
+			(*end)++;
+	}
+	(*end)++;
+}
+
 char	*sq_case(char **s, char *sq_p)
 {
 	int		end;
@@ -20,21 +37,7 @@ char	*sq_case(char **s, char *sq_p)
 
 	end = sq_p - *s + 1;
 	while ((*s)[end] != ' ' && (*s)[end] != '\0')
-	{
-		if ((*s)[end] == '\'')
-		{
-			end++;
-			while ((*s)[end] != '\'' && (*s)[end] != '\0')
-				end++;
-		}
-		else if ((*s)[end] == '\"')
-		{
-			end++;
-			while ((*s)[end] != '\"' && (*s)[end] != '\0')
-				end++;
-		}
-		end++;
-	}
+		sq_case_while(s, &end);
 	token = ft_substr(*s, 0, end);
 	if ((*s)[end] != '\0')
 	{
@@ -45,72 +48,43 @@ char	*sq_case(char **s, char *sq_p)
 	return (token);
 }
 
+char 	*make_token2(char **s, int i, char *token)
+{
+	char	*tmp;
+
+	token = ft_substr((*s), 0, i);
+	tmp = ft_substr((*s), i + 1, ft_strlen(*s) - i);
+	free(*s);
+	(*s) = tmp;
+	return (token);
+}
+
 char	*make_token(char **s)
 {
 	int		i;
 	char	*token;
-	char	*tmp;
-	char	*sq_p;
 
-	i = 0;
-	sq_p = NULL;
+	i = -1;
 	token = NULL;
-	while ((*s)[i] != '\0')
+	while ((*s)[++i] != '\0')
 	{
 		if (((*s)[i] == '\'' && ft_strchr(*s + 1 + i, '\'')) || ((*s)[i] ==
 		'\"' && ft_strchr(*s + 1 + i, '\"')))
 			return (sq_case(s, ft_strchr(*s + 1 + i, (*s)[i])));
 		if ((*s)[i] == ' ')
-		{
-			token = ft_substr((*s), 0, i);
-			tmp = ft_substr((*s), i + 1, ft_strlen(*s) - i);
-			free(*s);
-			(*s) = tmp;
-			return (token);
-		}
+			return (make_token2(s, i, token));
 		if (((*s)[i] == '|') && i != 0)
-		{
-			token = ft_substr((*s), 0, i);
-			tmp = ft_substr((*s), i, ft_strlen(*s) - i + 1);
-			free(*s);
-			(*s) = tmp;
-			return (token);
-		}
+			return (make_token3(s, i, token));
 		if (((*s)[i] == '|' || (*s)[i] == ';') && i == 0 && (*s)[i + 1] != ' ')
-		{
-			token = ft_substr((*s), 0, i + 1);
-			tmp = ft_substr((*s), i + 1, ft_strlen(*s) - i);
-			free(*s);
-			(*s) = tmp;
-			return (token);
-		}
+			return (make_token4(s, i, token));
 		if ((((*s)[i] == '>' && (*s)[i + 1] == '>') || ((*s)[i] == '<' &&
 		(*s)[i + 1] == '<')) && (*s)[i + 2] != ' ')
-		{
-			token = ft_substr((*s), 0, i + 2);
-			tmp = ft_substr((*s), i + 2, ft_strlen(*s) - i - 1);
-			free(*s);
-			(*s) = tmp;
-			return (token);
-		}
+			return (make_token5(s, i, token));
 		if (((*s)[i] == '<' || (*s)[i] == '>') && (*s)[i + 1] != ' ' && (*s)
 		[i + 1] != '>' && (*s)[i + 1] != '<')
-		{
-			token = ft_substr((*s), 0, i + 1);
-			tmp = ft_substr((*s), i + 1, ft_strlen(*s) - i);
-			free(*s);
-			(*s) = tmp;
-			return (token);
-		}
-		i++;
+			return (make_token6(s, i, token));
 	}
-	if ((*s)[0] != '\0')
-	{
-		token = ft_substr((*s), 0, i);
-		tmp = ft_substr((*s), i + 1, ft_strlen(*s) - i);
-		free(*s);
-		(*s) = tmp;
-	}
+	token = make_token7(s, i, token);
 	return (token);
 }
 

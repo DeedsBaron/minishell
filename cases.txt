@@ -1,2 +1,2 @@
-mkdir a; mkdir a/b; cd a/b; rm -r ../../a; cd ..
-export a= qwe
+export a+
+export "suqa    "

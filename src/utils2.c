@@ -49,3 +49,9 @@ void	tree_init(t_tree *root)
 	root->command[0] = '\0';
 	root->f_arg = NULL;
 }
+
+void 	close_n_wait(int fd, int pid)
+{
+	close(fd);
+	waitpid(pid, NULL, 0);
+}
