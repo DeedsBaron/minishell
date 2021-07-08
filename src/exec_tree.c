@@ -67,7 +67,7 @@ void	exec_bin(t_tree *root, char **envp[])
 	bin = NULL;
 	if (if_builtin(root) == 0)
 	{
-		folders = make_bin_folders();
+		folders = make_bin_folders(*envp);
 		bin = bin_in_folder(folders, root->command);
 		if (bin || ft_strcmp(root->command, "./minishell") == 0)
 		{
@@ -83,8 +83,8 @@ void	exec_bin(t_tree *root, char **envp[])
 				execve(bin, root->f_arg, *envp);
 			}
 			waitpid(pid, &status, 0);
-			signal(SIGINT, &handler_int);
-			signal(SIGQUIT, &handler_quit);
+			signal(SIGINT, &handler);
+			signal(SIGQUIT, &handler);
 			set_exit_code(status_return(status), envp);
 			free(bin);
 		}
@@ -92,10 +92,10 @@ void	exec_bin(t_tree *root, char **envp[])
 		{
 			if (root->command)
 			{
-				write(1, "minishell: ", 11);
-				write(1, root->command, ft_strlen(root->command));
-				write(1, ": ", 2);
-				write(1, COM_NF, ft_strlen(COM_NF));
+				write(2, "minishell: ", 11);
+				write(2, root->command, ft_strlen(root->command));
+				write(2, ": ", 2);
+				write(2, COM_NF, ft_strlen(COM_NF));
 				set_exit_code(127, envp);
 			}
 		}

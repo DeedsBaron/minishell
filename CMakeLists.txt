@@ -24,6 +24,7 @@ add_executable(minishell
         src/preprocess_str.c
         src/redirects.c
         src/singltones.c
+        src/utils2.c
       ./libs/libft/ft_memset.c ./libs/libft/ft_bzero.c ./libs/libft/ft_memcpy.c ./libs/libft/ft_memccpy.c ./libs/libft/ft_memmove.c
         ./libs/libft/ft_strlen.c ./libs/libft/ft_strlcpy.c ./libs/libft/ft_atoi.c ./libs/libft/ft_isalpha.c ./libs/libft/ft_isdigit.c
         ./libs/libft/ft_isalnum.c ./libs/libft/ft_isascii.c ./libs/libft/ft_isprint.c ./libs/libft/ft_toupper.c ./libs/libft/ft_tolower.c

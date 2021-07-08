@@ -12,44 +12,55 @@
 
 #include "../includes/minishell.h"
 
+void	count_while_2(char **s, int *counter)
+{
+	if (**s == ' ' && **(s + 1) != '|')
+		(*counter)++;
+	else if (**s == '|' && **(s + 1) == '\0')
+		(*counter)++;
+	else if (((**s == '>' && **(s + 1) == '>')
+			  || (**s == '<' && **(s + 1) == '<')) && **(s + 2) != ' ')
+	{
+		(*counter)++;
+		(*s)++;
+	}
+	else if ((**s == '<' || **s == '>') && (**(s + 1) != ' ')
+		&& (**(s + 1) != '<' && **(s + 1) != '>'))
+		(*counter)++;
+}
+
+void	count_while(char **s, int *counter)
+{
+	if ((**s) == '\'')
+	{
+		(*s)++;
+		while ((**s) != '\'' && (**s) != '\0')
+			(*s)++;
+	}
+	if ((**s) == '\"')
+	{
+		(*s)++;
+		while ((**s) != '\"' && (**s) != '\0')
+			(*s)++;
+	}
+	if (**s == '|' && **(s + 1) != '\0')
+	{
+		(*counter)++;
+		if (**(s + 1) != ' ' && **(s + 1) != '\0' && (**(s + 1) != '|'))
+			(*counter)++;
+	}
+	else
+		count_while_2(s, counter);
+}
+
 int	count_spaces(char *s)
 {
 	int	counter;
 
 	counter = 0;
-	while (*(s))
+	while (*(s) != '\0')
 	{
-		if ((*s) == '\'')
-		{
-			s++;
-			while ((*s) != '\'' && (*s) != '\0')
-				s++;
-		}
-		if ((*s) == '\"')
-		{
-			s++;
-			while ((*s) != '\"' && (*s) != '\0')
-				s++;
-		}
-		if (*s == '|' && *(s + 1) != '\0')
-		{
-			counter++;
-			if (*(s + 1) != ' ' && *(s + 1) != '\0' && (*(s + 1) != '|'))
-				counter++;
-		}
-		else if (*s == ' ' && *(s + 1) != '|')
-			counter++;
-		else if (*s == '|' && *(s + 1) == '\0')
-			counter++;
-		else if (((*s == '>' && *(s + 1) == '>')
-				|| (*s == '<' && *(s + 1) == '<')) && *(s + 2) != ' ')
-		{
-			counter++;
-			s++;
-		}
-		else if ((*s == '<' || *s == '>') && (*(s + 1) != ' ')
-			&& (*(s + 1) != '<' && *(s + 1) != '>'))
-			counter++;
+		count_while(&s, &counter);
 		s++;
 	}
 	return (counter);
@@ -67,44 +78,19 @@ void	deletespaces(char *src)
 	while (src[i] != '\0')
 	{
 		if (src[i] == '\'')
-		{
-			src[k] = src[i];
-			k++;
-			i++;
-			while (src[i] != '\'' && src[i] != '\0')
-			{
-				src[k] = src[i];
-				k++;
-				i++;
-			}
-			src[k] = src[i];
-			k++;
-			i++;
-		}
+			check_sq(src, &i, &k);
 		else if (src[i] == '\"')
 		{
-			src[k] = src[i];
-			k++;
-			i++;
+			src[k++] = src[i++];
 			while (src[i] != '\"' && src[i] != '\0')
-			{
-				src[k] = src[i];
-				k++;
-				i++;
-			}
-			src[k] = src[i];
-			k++;
-			i++;
+				src[k++] = src[i++];
+			src[k++] = src[i++];
 		}
 		else if ((src[i] == ' ' && src[i + 1] == ' ')
 			|| (src[i] == ' ' && src[i + 1] == '\0'))
 			i++;
 		else
-		{
-			src[k] = src[i];
-			k++;
-			i++;
-		}
+			src[k++] = src[i++];
 	}
 	src[k] = '\0';
 }

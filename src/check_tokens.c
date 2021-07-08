@@ -53,6 +53,7 @@ char	*dollar(char *str, int *dolla, char **envp)
 		free(str);
 		str = res;
 	}
+	(*dolla) = i;
 	free(name);
 	return (str);
 }
@@ -79,13 +80,12 @@ int	single_quote(char *str, int *j)
 	return (0);
 }
 
-int	double_quote(char **str, int *j, char **envp)
+int	double_quote(char **str, int *j)
 {
 	int	i;
 	int	k;
 	int	start;
 	int	end;
-	int	old_len;
 
 	i = *j + 1;
 	k = *j;
@@ -127,7 +127,7 @@ char	**delete_empty(char **mas)
 	return (mas);
 }
 
-int	check_tokens(char **mas, char **envp)
+int	check_tokens(char **mas)
 {
 	int	i;
 	int	j;
@@ -158,7 +158,7 @@ int	check_tokens(char **mas, char **envp)
 				}
 				else if (mas[i][j] == '\"')
 				{
-					if (double_quote(&mas[i], &j, envp) == -1)
+					if (double_quote(&mas[i], &j) == -1)
 						return (-1);
 				}
 				else

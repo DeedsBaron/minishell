@@ -12,47 +12,45 @@
 
 #include "../includes/minishell.h"
 
-char	**make_bin_folders(void)
+char	**make_bin_folders(char **envp)
 {
 	char	*str;
 	char	**mas;
 
-	str = getenv("PATH");
+	str = my_get_env(envp, "PATH");
+	free(str);
 	mas = ft_split(str, ':');
 	return (mas);
 }
 
-char	*make_res(char *folder, char *res, DIR *p_fold, char *command)
-{
-	char	*tmp;
-
-	res = ft_strjoin(folder, "/");
-	tmp = ft_strjoin(res, command);
-	free(res);
-	res = tmp;
-	closedir(p_fold);
-	return (res);
-}
-
 char	*bin_in_folder(char **folder, char *command)
 {
-	int				i;
-	DIR				*p_fold;
-	char			*res;
-	struct dirent	*entry;
+	int i;
+	DIR *p_fold;
+	char *res;
+	struct dirent *entry;
+	char *tmp;
 
 	i = 0;
 	while (folder[i])
 	{
 		p_fold = opendir(folder[i]);
-		entry = readdir(p_fold);
-		while (entry != NULL)
+		if (p_fold)
 		{
-			if (ft_strcmp(command, entry->d_name) == 0)
-				return (make_res(folder[i], res, p_fold, command));
-			entry = readdir(p_fold);
+			while ((entry = readdir(p_fold)) != NULL)
+			{
+				if (ft_strcmp(command, entry->d_name) == 0)
+				{
+					res = ft_strjoin(folder[i], "/");
+					tmp = ft_strjoin(res, command);
+					free(res);
+					res = tmp;
+					closedir(p_fold);
+					return (res);
+				}
+			}
+			closedir(p_fold);
 		}
-		closedir(p_fold);
 		i++;
 	}
 	return (NULL);

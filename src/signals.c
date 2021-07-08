@@ -12,22 +12,24 @@
 
 #include "../includes/minishell.h"
 
-void	handler_quit(int sig)
+void	handler(int sig)
 {
-	rl_on_new_line();
-	rl_redisplay();
-	write(1, "  \b\b", 4);
-}
-
-void	handler_int(int sig)
-{
-	set_exit_code(1, get_envp());
-	rl_on_new_line();
-	rl_redisplay();
-	write(1, "  \b\b\n", 5);
-	rl_on_new_line();
-	rl_replace_line("", 1);
-	rl_redisplay();
+	if (sig == SIGINT)
+	{
+		set_exit_code(1, get_envp());
+		rl_on_new_line();
+		rl_redisplay();
+		write(1, "  \b\b\n", 5);
+		rl_on_new_line();
+		rl_replace_line("", 1);
+		rl_redisplay();
+	}
+	if (sig == SIGQUIT)
+	{
+		rl_on_new_line();
+		rl_redisplay();
+		write(1, "  \b\b", 4);
+	}
 }
 
 int 	status_return(int status)

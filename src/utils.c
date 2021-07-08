@@ -26,7 +26,6 @@ char	**sort_alp(char **mas)
 	int		i;
 	int		j;
 	int		size;
-	char	*tmp;
 
 	i = 0;
 	size = mas_len(mas);

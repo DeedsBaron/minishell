@@ -47,6 +47,7 @@ void	exec_cd(t_tree *root, char **envp[])
 
 	set_old_pwd(envp);
 	exit = 0;
+	res = NULL;
 	if (root->f_arg[1] == NULL)
 	{
 		if (my_get_env(*envp, "HOME") == NULL)

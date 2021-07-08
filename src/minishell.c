@@ -12,14 +12,9 @@
 
 #include "../includes/minishell.h"
 
-int	main(int argc, char *argv[], char *envp[])
+int	init_minishell(int argc, char *argv[], char *envp[])
 {
-	char	**mas;
-	t_tree	*tree;
-	int		in;
-	int		out;
-
-	argv[0] = NULL;
+	argv[0] = argv[0];
 	set_str(NULL);
 	if (argc != 1)
 	{
@@ -28,30 +23,49 @@ int	main(int argc, char *argv[], char *envp[])
 	}
 	*get_envp() = make_envp_copy(envp);
 	delete_old_pwd(get_envp());
-	signal(SIGINT, &handler_int);
-	signal(SIGQUIT, &handler_quit);
+	signal(SIGINT, &handler);
+	signal(SIGQUIT, &handler);
+	return (0);
+}
+
+void	tree_call(t_tree *tree)
+{
+	int	old_fd[2];
+
+	old_fd[0] = dup(0);
+	old_fd[1] = dup(1);
+	exec_tree(tree, get_envp(), 1, NULL);
+	dup2(old_fd[0], 0);
+	dup2(old_fd[1], 1);
+}
+
+void	set_to_null(char ***mas, t_tree **tree)
+{
+	(*mas) = NULL;
+	(*tree) = NULL;
+}
+
+int	main(int argc, char *argv[], char *envp[])
+{
+	char	**mas;
+	t_tree	*tree;
+
+	if (init_minishell(argc, argv, envp) == 1)
+		return (1);
 	*get_str() = readline("minishell$ ");
 	while (*get_str() != NULL)
 	{
 		add_history(*get_str());
-		mas = NULL;
-		tree = NULL;
+		set_to_null(&mas, &tree);
 		mas = make_tokens_massive(*get_str(), *(get_envp()));
-		if (mas && (check_tokens(mas, *get_envp()) == 1))
+		if (mas && (check_tokens(mas) == 1))
 		{
 			if (*mas)
 				tree = make_tree(mas);
 		}
 		if (tree)
-		{
-			in = dup(0);
-			out = dup(1);
-			exec_tree(tree, get_envp(), 1, NULL);
-			dup2(in, 0);
-			dup2(out, 1);
-		}
-		free_tree(tree);
-		free(tree);
+			tree_call(tree);
+		free_norminette(tree);
 		*get_str() = readline("minishell$ ");
 	}
 	printf("exit\n");

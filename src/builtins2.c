@@ -27,7 +27,7 @@ void 	export_while(t_tree *root, int *i, char **envp[], char ***tmp)
 				   && find_equal_arg((*envp)[m], root->f_arg[k]) == 0)
 				m++;
 			if (!((*envp)[m]))
-				(*tmp)[(*i)++] = ft_strdup(root->f_arg[k++]);
+				(*tmp)[(*i)++] = ft_strdup(root->f_arg[k]);
 			else
 			{
 				if (ft_strchr(root->f_arg[k], '='))
@@ -35,7 +35,6 @@ void 	export_while(t_tree *root, int *i, char **envp[], char ***tmp)
 					free((*tmp)[m]);
 					(*tmp)[m] = ft_strdup(root->f_arg[k]);
 				}
-				k++;
 			}
 		}
 		k++;
@@ -56,7 +55,7 @@ void	exec_export(char **envp[], t_tree *root)
 	else if (count_arguments(root->f_arg, root, 0, envp) != 1)
 	{
 		tmp = (char **)malloc(sizeof(char *) * (mas_len((*envp))
-												+ count_arguments(root->f_arg, root, 1, envp)));
+					+ count_arguments(root->f_arg, root, 1, envp)));
 		i = 0;
 		while ((*envp)[i] != NULL)
 		{
@@ -73,7 +72,7 @@ void	exec_export(char **envp[], t_tree *root)
 					   && find_equal_arg((*envp)[m], root->f_arg[k]) == 0)
 					m++;
 				if (!((*envp)[m]))
-					tmp[i++] = ft_strdup(root->f_arg[k++]);
+					tmp[i++] = ft_strdup(root->f_arg[k]);
 				else
 				{
 					if (ft_strchr(root->f_arg[k], '='))
@@ -81,7 +80,6 @@ void	exec_export(char **envp[], t_tree *root)
 						free(tmp[m]);
 						tmp[m] = ft_strdup(root->f_arg[k]);
 					}
-					k++;
 				}
 			}
 			k++;
@@ -95,7 +93,7 @@ void	exec_export(char **envp[], t_tree *root)
 void 	unset_while(t_tree *root, char **envp[], char ***tmp)
 {
 	int	i;
-	int k;
+	int	k;
 	int	j;
 
 	k = 0;
@@ -104,7 +102,7 @@ void 	unset_while(t_tree *root, char **envp[], char ***tmp)
 	{
 		j = 1;
 		while (root->f_arg[j] && find_equal_arg((*envp)[i],
-												root->f_arg[j]) != 1)
+			root->f_arg[j]) != 1)
 			j++;
 		if (find_equal_arg((*envp)[i], root->f_arg[j]) == 1)
 			i++;
@@ -121,18 +119,13 @@ void 	unset_while(t_tree *root, char **envp[], char ***tmp)
 void	exec_unset(char **envp[], t_tree *root)
 {
 	char	**tmp;
-	int		i;
-	int		j;
-	int		k;
 
 	if (root->f_arg[1] == NULL)
 		return ;
 	else
 	{
 		tmp = (char **)malloc(sizeof(char *) * (mas_len((*envp))
-												- count_unset_arguments(*envp, root) + 1));
-		k = 0;
-		i = 0;
+					- count_unset_arguments(*envp, root) + 1));
 		unset_while(root, envp, &tmp);
 		free_mas(*envp);
 		(*envp) = tmp;

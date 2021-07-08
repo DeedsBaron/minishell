@@ -12,17 +12,11 @@
 
 #include "../includes/minishell.h"
 
-void	print_tree(t_tree *root, int level)
+void 	print_tree2(t_tree *root, int level)
 {
 	int	i;
 
 	i = 0;
-	if (root == NULL)
-	{
-		insert_tabs(level);
-		printf("---<empty>---");
-		return ;
-	}
 	if (root->command != NULL)
 	{
 		insert_tabs(level);
@@ -44,6 +38,17 @@ void	print_tree(t_tree *root, int level)
 		insert_tabs(level);
 		printf("type = %c\n", root->type);
 	}
+}
+
+void	print_tree(t_tree *root, int level)
+{
+	if (root == NULL)
+	{
+		insert_tabs(level);
+		printf("---<empty>---");
+		return ;
+	}
+	print_tree2(root, level);
 	print_tree(root->left, level + 1);
 	insert_tabs(level);
 	printf("left\n");

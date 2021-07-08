@@ -30,6 +30,12 @@ void	free_mas(char **mas)
 	}
 }
 
+void 	free_norminette(t_tree *tree)
+{
+	free_tree(tree);
+	free(tree);
+}
+
 void	free_tree(t_tree *node)
 {
 	if (node)

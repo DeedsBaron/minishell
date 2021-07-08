@@ -113,22 +113,7 @@ void	print_export(char **mas)
 		if (find_equal_arg(mas_cpy[i], "?") != 1
 			&& find_equal_arg(mas_cpy[i], "~" ) != 1)
 		{
-			write(1, "declare -x ", 11);
-			if (ft_strchr(mas_cpy[i], '='))
-			{
-				write(1, mas_cpy[i],
-					  (ft_strchr(mas_cpy[i], '=') - mas_cpy[i]) + 1);
-				write(1, "\"", 1);
-				write(1, ft_strchr(mas_cpy[i], '=') + 1,
-					  ft_strlen(mas_cpy[i]) - (ft_strchr(mas_cpy[i], '=')
-						- mas_cpy[i] + 1));
-				write(1, "\"\n", 2);
-			}
-			else
-			{
-				write(1, mas_cpy[i], ft_strlen(mas_cpy[i]));
-				write(1, "\n", 1);
-			}
+			export_write(mas_cpy, i);
 			i++;
 		}
 		else

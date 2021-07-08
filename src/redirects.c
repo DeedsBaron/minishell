@@ -23,9 +23,9 @@ char 	*redirect_out(t_tree *root, int *flag)
 	else
 		name = root->right->command;
 	if (root->type == '>')
-		fd = open(name, O_WRONLY | O_CREAT | O_TRUNC);
+		fd = open(name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	else
-		fd = open(name, O_WRONLY | O_CREAT | O_APPEND);
+		fd = open(name, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd < 0)
 	{
 		*flag = -2;
@@ -69,35 +69,47 @@ char	*redirect(t_tree *root, char **envp, int *flag)
 	return (NULL);
 }
 
+void	here_doc_while(int *fd, char *name, char **envp)
+{
+	char	*str;
+	int		i;
+
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
+	close(fd[0]);
+	str = readline("> ");
+	while ((str != NULL) && ft_strcmp(str, name) != 0)
+	{
+		i = 0;
+		while (str[i] != '\0')
+		{
+			if (str[i] == '$')
+				str = dollar(str, &i, envp);
+			else
+				i++;
+		}
+		write(fd[1], str, ft_strlen(str));
+		write(fd[1], "\n", 1);
+		free(str);
+		str = readline("> ");
+	}
+	exit(EXIT_SUCCESS);
+}
+
 int	here_doc(char *name, char **envp)
 {
 	int		fd[2];
-	char	*str;
-	int		i;
 	pid_t	pid;
 
 	pipe(fd);
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
 	pid = fork();
-	wait(NULL);
 	if (pid == 0)
-	{
-		close(fd[0]);
-		while ((str = readline("> ")) && ft_strcmp(str, name) != 0)
-		{
-			i = 0;
-			while (str[i] != '\0')
-			{
-				if (str[i] == '$')
-					str = dollar(str, &i, envp);
-				else
-					i++;
-			}
-			write(fd[1], str, ft_strlen(str));
-			write(fd[1], "\n", 1);
-			free(str);
-		}
-		exit(EXIT_SUCCESS);
-	}
+		here_doc_while(fd, name, envp);
+	wait(NULL);
+	signal(SIGINT, &handler);
+	signal(SIGQUIT, &handler);
 	close(fd[1]);
 	return (fd[0]);
 }

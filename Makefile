@@ -12,7 +12,7 @@
 
 NAME = minishell
 #-Wall -Wextra -Werror
-FLAGS =  -MMD
+FLAGS =  -MMD -Wall -Wextra -Werror
 
 LIBFT = ./libs/libft/
 
@@ -26,7 +26,7 @@ CC = gcc
 SOURCES = 2d_array_utilc.c builtins.c builtins_utils.c envp.c exec_tree.c \
 			make_tokens.c minishell.c print.c signals.c utils.c bin_folders.c \
 			builtins2.c check_tokens.c error.c free.c make_tree.c preprocess_str.c \
-			redirects.c singltones.c
+			redirects.c singltones.c utils2.c make_tree_utils.c
 
 SRCS = $(addprefix $(DIR_S)/,${SOURCES})
 
@@ -36,7 +36,6 @@ all: dir lib $(NAME)
 
 dir: 
 	@echo "\033[0;32m"
-	#brew install readline
 	mkdir -p obj
 lib:
 	@echo "\033[0;32m"
