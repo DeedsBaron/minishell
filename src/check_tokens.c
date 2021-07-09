@@ -16,7 +16,6 @@ char	*dollar(char *str, int *dolla, char **envp)
 {
 	char	*name;
 	char	*env;
-	char	*res;
 	int		i;
 	int		k;
 
@@ -37,23 +36,7 @@ char	*dollar(char *str, int *dolla, char **envp)
 		str[k] = '\0';
 	}
 	else
-	{
-		res = (char *)malloc(sizeof(char) * (ft_strlen(str) - ft_strlen(name)
-					+ ft_strlen(env)));
-		i = -1;
-		while (++i < (*dolla))
-			res[i] = str[i];
-		k = 0;
-		while (i < (int)(ft_strlen(env) + (*dolla)))
-			res[i++] = env[k++];
-		k = *dolla + ft_strlen(name) + 1;
-		while (str[k] != '\0')
-			res[i++] = str[k++];
-		res[i] = '\0';
-		free(str);
-		str = res;
-	}
-	(*dolla) = i;
+		dollar_2(&str, dolla, env, name);
 	free(name);
 	return (str);
 }
@@ -130,40 +113,17 @@ char	**delete_empty(char **mas)
 int	check_tokens(char **mas)
 {
 	int	i;
-	int	j;
 
 	i = 0;
 	while (mas[i] != NULL)
 	{
-		j = 0;
-		if (ft_strcmp(mas[i], "\">\"") == 0 ||ft_strcmp(mas[i], "\">>\"") == 0
-			|| ft_strcmp(mas[i], "\"<\"") == 0
-			|| ft_strcmp(mas[i], "\"<<\"") == 0
-			|| ft_strcmp(mas[i], "\'>\'") == 0
-			||ft_strcmp(mas[i], "\'>>\'") == 0
-			|| ft_strcmp(mas[i], "\'<\'") == 0
-			||ft_strcmp(mas[i], "\'<<\'") == 0)
-			i++;
-		else if (ft_strcmp(mas[i], "\"\"") == 0 || ft_strcmp(mas[i], "\'\'") == 0)
+		if (check_quotes_case(mas[i]) || ft_strcmp(mas[i], "\"\"") == 0
+			|| ft_strcmp(mas[i], "\'\'") == 0)
 			i++;
 		else
 		{
-			while (mas[i][j] != '\0')
-			{
-				if (mas[i][j] == '\'')
-				{
-					if (single_quote(mas[i], &j) == -1)
-						return (-1);
-					j--;
-				}
-				else if (mas[i][j] == '\"')
-				{
-					if (double_quote(&mas[i], &j) == -1)
-						return (-1);
-				}
-				else
-					j++;
-			}
+			if (check_tokens_while(&mas[i]) == -1)
+				return (-1);
 			i++;
 		}
 	}

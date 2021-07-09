@@ -18,6 +18,7 @@ add_executable(minishell
         src/bin_folders.c
         src/builtins2.c
         src/check_tokens.c
+        src/check_tokens_utils.c
         src/error.c
         src/free.c
         src/make_tree.c
@@ -25,7 +26,11 @@ add_executable(minishell
         src/redirects.c
         src/singltones.c
         src/utils2.c
-      ./libs/libft/ft_memset.c ./libs/libft/ft_bzero.c ./libs/libft/ft_memcpy.c ./libs/libft/ft_memccpy.c ./libs/libft/ft_memmove.c
+        src/make_tree_utils.c
+        src/make_tokens_i.c
+        src/exec_bin.c
+
+        ./libs/libft/ft_memset.c ./libs/libft/ft_bzero.c ./libs/libft/ft_memcpy.c ./libs/libft/ft_memccpy.c ./libs/libft/ft_memmove.c
         ./libs/libft/ft_strlen.c ./libs/libft/ft_strlcpy.c ./libs/libft/ft_atoi.c ./libs/libft/ft_isalpha.c ./libs/libft/ft_isdigit.c
         ./libs/libft/ft_isalnum.c ./libs/libft/ft_isascii.c ./libs/libft/ft_isprint.c ./libs/libft/ft_toupper.c ./libs/libft/ft_tolower.c
         ./libs/libft/ft_memchr.c ./libs/libft/ft_memcmp.c ./libs/libft/ft_strlcat.c ./libs/libft/ft_strrchr.c ./libs/libft/ft_strnstr.c

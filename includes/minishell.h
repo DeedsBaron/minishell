@@ -64,6 +64,9 @@ int		single_quote(char *str, int *j);
 int		double_quote(char **str, int *j);
 char	**delete_empty(char **mas);
 int		check_tokens(char **mas);
+//check_tokens_utils
+void	dollar_2(char **str, int *dolla, char *env, char *name);
+int		check_tokens_while(char **str);
 //envp
 void	inc_shlvl(char **envp[], int incdecr);
 void	delete_old_pwd(char ***tmp);
@@ -77,7 +80,6 @@ int		if_builtin(t_tree *root);
 void	exec_builtin(t_tree *root, char **envp[]);
 void	set_sig_n_fork(t_tree *root, char **envp[], char *bin);
 void	exec_bin(t_tree *root, char **envp[]);
-
 //exec_tree
 int		if_builtin(t_tree *root);
 void	exec_builtin(t_tree *root, char **envp[]);
@@ -86,17 +88,17 @@ void	exec_tree(t_tree *root, char **envp[], int flag, char *filename);
 //free
 void	free_mas(char **mas);
 void	free_tree(t_tree *node);
-void 	free_norminette(t_tree *tree);
+void	free_norminette(t_tree *tree);
 //make_tokens
 char	*sq_case(char **s, char *sq_p);
 char	*make_token(char **s);
 char	**make_tokens_massive(char *s, char **envp);
 //make_tokens_i
-char 	*make_token3(char **s, int i, char *token);
-char 	*make_token4(char **s, int i, char *token);
-char 	*make_token5(char **s, int i, char *token);
-char 	*make_token6(char **s, int i, char *token);
-void 	*make_token7(char **s, int i, char *token);
+char	*make_token3(char **s, int i, char *token);
+char	*make_token4(char **s, int i, char *token);
+char	*make_token5(char **s, int i, char *token);
+char	*make_token6(char **s, int i, char *token);
+void	*make_token7(char **s, int i, char *token);
 //make_tree
 void	make_com_fl_arg(char **mas, t_tree *node);
 int		find_start(char **mas);
@@ -105,7 +107,7 @@ void	*make_tree(char **mas);
 //make_tree_utils
 void	root_type(char *str, t_tree *root);
 void	remove_quotes(char **str);
-int 	check_quotes_case(char *str);
+int		check_quotes_case(char *str);
 void	make_com_fl_arg_2(char **mas, t_tree *node, int k);
 //preprocess_str
 int		count_spaces(char *s);
@@ -134,9 +136,9 @@ char	**sort_alp(char **mas);
 int		check_dig_str(char *str);
 int		find_equal_arg(const char *s1, const char *s2);
 //utils2
-void 	export_write(char **mas_cpy, int i);
-void 	check_sq(char *src, int *i, int *k);
+void	export_write(char **mas_cpy, int i);
+void	check_sq(char *src, int *i, int *k);
 void	tree_init(t_tree *root);
-void 	close_n_wait(int fd, int pid);
+void	close_n_wait(int fd, int pid);
 
 #endif
