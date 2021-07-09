@@ -16,7 +16,8 @@ void	make_com_fl_arg(char **mas, t_tree *node)
 {
 	int		k;
 
-	make_com_fl_arg_2(mas, node, 1);
+	make_com_fl_arg_2(mas, node);
+	node->f_arg = (char **)malloc(sizeof(char *) * mas_len(mas) + 1);
 	k = 0;
 	while (mas[k])
 	{

@@ -108,7 +108,7 @@ void	*make_tree(char **mas);
 void	root_type(char *str, t_tree *root);
 void	remove_quotes(char **str);
 int		check_quotes_case(char *str);
-void	make_com_fl_arg_2(char **mas, t_tree *node, int k);
+void	make_com_fl_arg_2(char **mas, t_tree *node);
 //preprocess_str
 int		count_spaces(char *s);
 void	deletespaces(char *src);

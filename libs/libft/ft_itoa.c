@@ -12,7 +12,7 @@
 
 #include "libft.h"
 
-static int			cdigits(int n)
+static int	cdigits(int n)
 {
 	int		i;
 
@@ -29,7 +29,7 @@ static int			cdigits(int n)
 	return (i);
 }
 
-static char			*fillabovezero(char *str, int i, int n)
+static char	*fillabovezero(char *str, int i, int n)
 {
 	i = cdigits(n);
 	str[i] = '\0';
@@ -41,7 +41,7 @@ static char			*fillabovezero(char *str, int i, int n)
 	return (str);
 }
 
-static char			*fillbelozero(char *str, int i, int n, long gg)
+static char	*fillbelozero(char *str, int i, int n, long gg)
 {
 	str[0] = '-';
 	i = cdigits(n);
@@ -56,7 +56,7 @@ static char			*fillbelozero(char *str, int i, int n, long gg)
 	return (str);
 }
 
-char				*ft_itoa(int n)
+char	*ft_itoa(int n)
 {
 	char			*str;
 	int				i;

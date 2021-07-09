@@ -53,6 +53,7 @@ void 	pipe_node(t_tree *root, char **envp[], char *filename)
 		else if (!root->right->command)
 		{
 			write(1, MULTILINE, ft_strlen(MULTILINE));
+			write(1, "\n", 1);
 			set_exit_code(1, envp);
 		}
 		else

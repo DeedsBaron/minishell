@@ -51,7 +51,7 @@ int 	check_quotes_case(char *str)
 		return (0);
 }
 
-void	make_com_fl_arg_2(char **mas, t_tree *node, int k)
+void	make_com_fl_arg_2(char **mas, t_tree *node)
 {
 	char	*tmp;
 
@@ -70,8 +70,4 @@ void	make_com_fl_arg_2(char **mas, t_tree *node, int k)
 	}
 	if (!ft_strchr(node->command, '$'))
 		ft_tolower(&node->command);
-	if (mas[0] && (ft_strcmp(mas[k], "\"\"") == 0
-			|| ft_strcmp(mas[k], "\'\'") == 0))
-		free(tmp);
-	node->f_arg = (char **)malloc(sizeof(char *) * mas_len(mas) + 1);
 }

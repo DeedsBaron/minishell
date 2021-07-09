@@ -12,7 +12,7 @@
 
 #include "libft.h"
 
-static char		*count_sp_signs(const char *str, int *sign, int *count)
+static char	*count_sp_signs(const char *str, int *sign, int *count)
 {
 	if (str == NULL)
 		return (NULL);
@@ -35,7 +35,7 @@ static char		*count_sp_signs(const char *str, int *sign, int *count)
 	return ((char *)str);
 }
 
-int				ft_atoi(const char *str)
+int	ft_atoi(const char *str)
 {
 	long long int		res;
 	int					sign;

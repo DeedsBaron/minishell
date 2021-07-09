@@ -12,7 +12,7 @@
 
 #include "libft.h"
 
-static int		ft_is_space(char const *s1, char const *set)
+static int	ft_is_space(char const *s1, char const *set)
 {
 	while (*s1 != '\0' && *set != '\0')
 	{
@@ -27,7 +27,7 @@ static int		ft_is_space(char const *s1, char const *set)
 	return (0);
 }
 
-char			*ft_strtrim(char const *s1, char const *set)
+char	*ft_strtrim(char const *s1, char const *set)
 {
 	char		*res;
 	char const	*start;

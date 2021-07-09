@@ -14,10 +14,10 @@
 
 void	ft_tolower(char **str)
 {
-	int i;
+	int	i;
 
- 	if (!*str)
- 		return ;
+	if (!*str)
+		return ;
 	i = 0;
 	while ((*str)[i] != '\0')
 	{

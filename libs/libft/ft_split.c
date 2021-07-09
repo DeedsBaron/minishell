@@ -12,7 +12,7 @@
 
 #include "libft.h"
 
-static	int			ccount(char const *s, char c)
+static int	ccount(char const *s, char c)
 {
 	int		i;
 	int		counter;
@@ -30,7 +30,7 @@ static	int			ccount(char const *s, char c)
 	return (counter);
 }
 
-static int			cuntilc(char const *s, char c)
+static int	cuntilc(char const *s, char c)
 {
 	int		i;
 
@@ -43,7 +43,7 @@ static int			cuntilc(char const *s, char c)
 	return (i);
 }
 
-static char			**free_ptr(char **ptr)
+static char	**free_ptr(char **ptr)
 {
 	int		i;
 
@@ -57,7 +57,7 @@ static char			**free_ptr(char **ptr)
 	return (NULL);
 }
 
-static char			**fill_w_strs(char const *s, int words, char c, char **ptr)
+static char	**fill_w_strs(char const *s, int words, char c, char **ptr)
 {
 	int		i;
 	int		j;
@@ -69,7 +69,8 @@ static char			**fill_w_strs(char const *s, int words, char c, char **ptr)
 		while (*s == c)
 			s++;
 		len = cuntilc(s, c);
-		if (!(ptr[i] = (char *)malloc((len + 1) * sizeof(char))))
+		ptr[i] = (char *)malloc((len + 1) * sizeof(char));
+		if (!ptr[i])
 			return (free_ptr(ptr));
 		j = 0;
 		while (j < len)
@@ -80,7 +81,7 @@ static char			**fill_w_strs(char const *s, int words, char c, char **ptr)
 	return (ptr);
 }
 
-char				**ft_split(char const *s, char c)
+char	**ft_split(char const *s, char c)
 {
 	char	**ptr;
 	int		words;
@@ -88,7 +89,8 @@ char				**ft_split(char const *s, char c)
 	if (s == NULL)
 		return (NULL);
 	words = ccount(s, c);
-	if (!(ptr = (char **)malloc((ccount(s, c) + 1) * sizeof(char *))))
+	ptr = (char **)malloc((ccount(s, c) + 1) * sizeof(char *));
+	if (!ptr)
 		return (NULL);
 	ptr = fill_w_strs(s, words, c, ptr);
 	return (ptr);
