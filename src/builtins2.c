@@ -20,7 +20,7 @@ void 	export_while(t_tree *root, int *i, char **envp[], char ***tmp)
 	k = 1;
 	while (root->f_arg[k] != NULL)
 	{
-		if (ft_isalpha(root->f_arg[k][0]) == 1)
+		if (check_identifier_validity(root->f_arg[k]) == 1)
 		{
 			m = 0;
 			while ((*envp)[m]

@@ -140,5 +140,6 @@ void	export_write(char **mas_cpy, int i);
 void	check_sq(char *src, int *i, int *k);
 void	tree_init(t_tree *root);
 void	close_n_wait(int fd, int pid);
+int		check_identifier_validity(char *str);
 
 #endif

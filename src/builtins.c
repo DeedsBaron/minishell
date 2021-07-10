@@ -40,6 +40,14 @@ void 	exec_cd2(t_tree *root, char **envp[], char *res, int exit)
 	}
 }
 
+void	set_new_export_pwd(char **envp[])
+{
+	int i;
+
+	i = 0;
+	while (envp)
+}
+
 void	exec_cd(t_tree *root, char **envp[])
 {
 	char	*res;
@@ -60,6 +68,7 @@ void	exec_cd(t_tree *root, char **envp[])
 	}
 	else
 		exec_cd2(root, envp, res, exit);
+	set_new_export_pwd(envp);
 }
 
 void	exec_echo(t_tree *root, char **envp)

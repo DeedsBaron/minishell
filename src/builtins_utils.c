@@ -45,7 +45,7 @@ int	count_arguments(char **mas, t_tree *root, int flag, char **envp[])
 	counter = 0;
 	while (mas[i])
 	{
-		if (ft_isalpha(mas[i][0]) == 1)
+		if (check_identifier_validity(mas[i]) == 1)
 			counter++;
 		else
 		{

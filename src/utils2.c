@@ -55,3 +55,20 @@ void 	close_n_wait(int fd, int pid)
 	close(fd);
 	waitpid(pid, NULL, 0);
 }
+
+int	check_identifier_validity(char *str)
+{
+	int	i;
+
+	if (ft_isalpha(str[0]) == 0 && str[0] != '_')
+		return (0);
+	i = 0;
+	while (str[i] != '\0' && str[i] != '=')
+	{
+		if (ft_isalpha(str[i]) == 1 || ft_isdigit(str[i]) == 1 || str[i] == '_')
+			i++;
+		else
+			return (0);
+	}
+	return (1);
+}
