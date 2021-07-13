@@ -29,6 +29,7 @@ add_executable(minishell
         src/make_tree_utils.c
         src/make_tokens_i.c
         src/exec_bin.c
+        src/pipe_n_fork.c
 
         ./libs/libft/ft_memset.c ./libs/libft/ft_bzero.c ./libs/libft/ft_memcpy.c ./libs/libft/ft_memccpy.c ./libs/libft/ft_memmove.c
         ./libs/libft/ft_strlen.c ./libs/libft/ft_strlcpy.c ./libs/libft/ft_atoi.c ./libs/libft/ft_isalpha.c ./libs/libft/ft_isdigit.c

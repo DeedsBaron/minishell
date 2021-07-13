@@ -43,7 +43,7 @@ char	**find_str(char **mas, char *str);
 char	**new_mas(char **mas, int start, int end);
 //bin_folders
 char	**make_bin_folders(char **envp);
-char	*bin_in_folder(char **folder, char *command);
+char	*bin_in_folder(char **folder, t_tree *root);
 //builtins
 void	exec_cd(t_tree *root, char **envp[]);
 void	exec_echo(t_tree *root, char **envp);

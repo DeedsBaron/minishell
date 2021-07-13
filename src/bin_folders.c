@@ -36,13 +36,41 @@ char	*make_command_path(char *folder, char *command, DIR *p_fold)
 	return (res);
 }
 
-char	*bin_in_folder(char **folder, char *command)
+void	check_absolute_path(t_tree *root)
+{
+	int		i;
+	int		j;
+	char	*buf;
+
+	i = 0;
+	while (root->command[i] != '\0')
+	{
+		if (root->command[i] == '/')
+		{
+			j = ft_strlen(root->command);
+			while (j > 0)
+			{
+				if (root->command[j] == '/')
+				{
+					buf = ft_strdup(root->command + j + 1);
+					free(root->command);
+					root->command = buf;
+				}
+				j--;
+			}
+		}
+		i++;
+	}
+}
+
+char	*bin_in_folder(char **folder, t_tree *root)
 {
 	int				i;
 	DIR				*p_fold;
 	struct dirent	*entry;
 
 	i = 0;
+	check_absolute_path(root);
 	while (folder[i])
 	{
 		p_fold = opendir(folder[i]);
@@ -51,8 +79,9 @@ char	*bin_in_folder(char **folder, char *command)
 			entry = readdir(p_fold);
 			while (entry != NULL)
 			{
-				if (ft_strcmp(command, entry->d_name) == 0)
-					return (make_command_path(folder[i], command, p_fold));
+				if (ft_strcmp(root->command, entry->d_name) == 0)
+					return (make_command_path(folder[i],
+							  root->command, p_fold));
 				entry = readdir(p_fold);
 			}
 			closedir(p_fold);

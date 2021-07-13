@@ -85,7 +85,7 @@ void	exec_bin(t_tree *root, char **envp[])
 	if (if_builtin(root) == 0)
 	{
 		folders = make_bin_folders(*envp);
-		bin = bin_in_folder(folders, root->command);
+		bin = bin_in_folder(folders, root);
 		if (bin || ft_strcmp(root->command, "./minishell") == 0)
 			set_sig_n_fork(root, envp, bin);
 		else
