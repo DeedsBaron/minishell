@@ -40,8 +40,8 @@ dir:
 	mkdir -p obj
 lib:
 	@echo "\033[0;32m"
-
-	make -C $(LIBFT) && make bonus -C $(LIBFT)
+	- make -C $(LIBFT)
+	- make bonus -C $(LIBFT)
 	@echo "\033[0;36m"
 
 $(DIR_O)/%.o: $(DIR_S)/%.c

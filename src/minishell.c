@@ -63,7 +63,10 @@ int	main(int argc, char *argv[], char *envp[])
 				tree = make_tree(mas);
 		}
 		if (tree)
+		{
 			tree_call(tree);
+			print_tree(tree,0);
+		}
 		free_norminette(tree);
 		*get_str() = readline("minishell$ ");
 	}
