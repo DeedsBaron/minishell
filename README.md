@@ -2,6 +2,12 @@
 This project is aim to understand how shell called bash works and this project is a part methodology learning students from 42 school (21 school in Moscow).  
 
 ### Implementation rests on AST(Abstract syntax tree)
+Example input ``./minishell command1 > file1 | file2 < command2``
+<div align="center">
+  <b>Example tree:</b>
+</div> 
+
+![Копия Пустой диаграммой - Страница 1](https://user-images.githubusercontent.com/80648065/155548224-6ba9947f-73fb-478e-bcf7-b73fc3878bb8.png)
 
 ### Available options
 
